@@ -17,6 +17,16 @@ public class ShapesGrid : MonoSingleton<ShapesGrid>
     //массив направлен снизу вверх.
     private Shape[,] _shapesGrid;
 
+    [HideInInspector]
+    public Connector StartConnector = null;
+
+    private List<Connector> targetConnectors = new List<Connector>();
+
+    //private List<Connector> _connectedConnectors = new List<Connector>();
+    private List<Connector> _unConnectedConnectors = new List<Connector>();
+
+    private List<Shape> _traversedShapes = new List<Shape>();
+
     private void Start()
     {
         _shapesGrid = FillNodesMatrix();
@@ -42,40 +52,22 @@ public class ShapesGrid : MonoSingleton<ShapesGrid>
             Debug.LogError("StartConnector not found");
     }
 
-    private static Shape[,] FillNodesMatrix()
+    public static Shape GetNextShape(Shape shape, Direction dir)
     {
-        var gridGraph = AstarPath.active.astarData.gridGraph;
-        var shapesGrid = new Shape[gridGraph.width,gridGraph.depth];
+        if (dir == Direction.Up && shape.Yindex + 1 <= Grid.GetUpperBound(0))
+            return Instance._shapesGrid[shape.Yindex + 1, shape.Xindex];
 
-        foreach (Transform tr in SceneContainers.Shapes)
-        {
-            if (!tr.gameObject.activeSelf)
-                continue;
-            //Debug.LogWarning( Mathf.RoundToInt(tr.position.x)+","+ Mathf.RoundToInt(tr.position.z));
-            var shape = tr.GetComponent<Shape>();
-            int x = Mathf.RoundToInt(tr.position.x);
-            int y = Mathf.RoundToInt(tr.position.z);
+        if (dir == Direction.Right && shape.Xindex + 1 <= Grid.GetUpperBound(1))
+            return Instance._shapesGrid[shape.Yindex, shape.Xindex + 1];
 
-            shapesGrid[y, x] = shape;
-            shape.Xindex = x;
-            shape.Yindex = y;
-        }
+        if (dir == Direction.Down && shape.Yindex - 1 >= 0)
+            return Instance._shapesGrid[shape.Yindex - 1, shape.Xindex];
 
-        //Debug.LogWarning("UpperBound="+shapesGrid.GetUpperBound(0));=6
-        return shapesGrid;
+        if (dir == Direction.Left && shape.Xindex - 1 >= 0)
+            return Instance._shapesGrid[shape.Yindex, shape.Xindex - 1];
+
+        return null;
     }
-
-
-
-    [HideInInspector]
-    public Connector StartConnector = null;
-
-    private List<Connector> targetConnectors = new List<Connector>();
-
-    //private List<Connector> _connectedConnectors = new List<Connector>();
-    private List<Connector> _unConnectedConnectors = new List<Connector>();
-
-    List<Shape> traversedShapes=new List<Shape>();
 
     //Потом перенести этот метод в GameSceneManager. А также ссылки на коннекторы (targetConnectors, StartConnector)
     public void CheckAllConnections()
@@ -86,7 +78,7 @@ public class ShapesGrid : MonoSingleton<ShapesGrid>
         if (StartConnector.NearestShape.HasConnection(StartConnector.CurrentDirection))
         {
             CheckConnectRecursively(StartConnector.NearestShape);
-            traversedShapes.Clear();
+            _traversedShapes.Clear();
         }
 
         foreach (var c in _unConnectedConnectors)
@@ -98,7 +90,7 @@ public class ShapesGrid : MonoSingleton<ShapesGrid>
 
     private void CheckConnectRecursively(Shape shape)
     {
-        traversedShapes.Add(shape);
+        _traversedShapes.Add(shape);
       
 
         var connector = FindConnectorWithConnection(shape);
@@ -116,26 +108,9 @@ public class ShapesGrid : MonoSingleton<ShapesGrid>
         //Debug.LogWarning(shape.Yindex + ", " + shape.Xindex + ",  neighborsCount=" + neighbors.Count());
         foreach (var neighbor in neighbors)
         {
-            if (!traversedShapes.Contains(neighbor))
+            if (!_traversedShapes.Contains(neighbor))
                 CheckConnectRecursively(neighbor);
         }
-    }
-
-    public static Shape GetNextShape(Shape shape, Direction dir)
-    {
-        if (dir == Direction.Up && shape.Yindex + 1 <= Grid.GetUpperBound(0))
-            return Instance._shapesGrid[shape.Yindex + 1, shape.Xindex];
-
-        if (dir == Direction.Right && shape.Xindex + 1 <= Grid.GetUpperBound(1))
-            return Instance._shapesGrid[shape.Yindex, shape.Xindex+1];
-
-        if (dir == Direction.Down && shape.Yindex - 1 >= 0)
-            return Instance._shapesGrid[shape.Yindex - 1, shape.Xindex];
-
-        if (dir == Direction.Left && shape.Xindex - 1 >= 0)
-            return Instance._shapesGrid[shape.Yindex, shape.Xindex - 1];
-
-        return null;
     }
 
     private List<Shape> FindConnectedNeighborShapes(Shape shape)
@@ -176,5 +151,71 @@ public class ShapesGrid : MonoSingleton<ShapesGrid>
     private Connector FindConnectorWithConnection(Shape shape)
     {
         return _unConnectedConnectors.FirstOrDefault(c => c.NearestShape == shape);
+    }
+
+    private static Shape[,] FillNodesMatrix()
+    {
+        var gridGraph = AstarPath.active.astarData.gridGraph;
+        var shapesGrid = new Shape[gridGraph.width, gridGraph.depth];
+
+        foreach (Transform tr in SceneContainers.Shapes)
+        {
+            if (!tr.gameObject.activeSelf)
+                continue;
+            //Debug.LogWarning( Mathf.RoundToInt(tr.position.x)+","+ Mathf.RoundToInt(tr.position.z));
+            var shape = tr.GetComponent<Shape>();
+            int x = Mathf.RoundToInt(tr.position.x);
+            int y = Mathf.RoundToInt(tr.position.z);
+
+            shapesGrid[y, x] = shape;
+            shape.Xindex = x;
+            shape.Yindex = y;
+        }
+
+        //Debug.LogWarning("UpperBound="+shapesGrid.GetUpperBound(0));=6
+        return shapesGrid;
+    }
+
+    private void TestOuts()
+    {
+        //int x = 2, y = 2; //Line
+        //int x = 2, y = 3; //Corner
+        int x = 6, y = 0; //Tee
+        var outDir = ShapesGrid.Grid[y, x].GetOutDirection(Direction.Up);
+        Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Up: outDir=" + outDir, ShapesGrid.Grid[y, x]);
+
+        outDir = ShapesGrid.Grid[y, x].GetOutDirection(Direction.Right);
+        Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Right: outDir=" + outDir, ShapesGrid.Grid[y, x]);
+
+        outDir = ShapesGrid.Grid[y, x].GetOutDirection(Direction.Down);
+        Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Down: outDir=" + outDir, ShapesGrid.Grid[y, x]);
+
+        outDir = ShapesGrid.Grid[y, x].GetOutDirection(Direction.Left);
+        Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Left: outDir=" + outDir, ShapesGrid.Grid[y, x]);
+    }
+    private void TestPath()
+    {
+        //int x = 2, y = 2; //Line
+        int x = 2, y = 3; //Corner
+        //int x = 6, y = 0; //Tee
+        var path = ShapesGrid.Grid[y, x].TestPath(Direction.Up);
+        foreach (var pointName in path)
+            Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Up: " + pointName, ShapesGrid.Grid[y, x]);
+        Debug.LogWarning("--------------------------------");
+
+        path = ShapesGrid.Grid[y, x].TestPath(Direction.Right);
+        foreach (var pointName in path)
+            Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Right: " + pointName, ShapesGrid.Grid[y, x]);
+        Debug.LogWarning("--------------------------------");
+
+        path = ShapesGrid.Grid[y, x].TestPath(Direction.Down);
+        foreach (var pointName in path)
+            Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Down: " + pointName, ShapesGrid.Grid[y, x]);
+        Debug.LogWarning("--------------------------------");
+
+        path = ShapesGrid.Grid[y, x].TestPath(Direction.Left);
+        foreach (var pointName in path)
+            Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Left: " + pointName, ShapesGrid.Grid[y, x]);
+        Debug.LogWarning("--------------------------------");
     }
 }

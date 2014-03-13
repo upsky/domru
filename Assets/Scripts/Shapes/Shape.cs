@@ -81,6 +81,14 @@ namespace Shapes
             }
         }
 
+        private void OnClick()
+        {
+            //Debug.LogWarning("shape");
+            RotateToLeft();
+            ShapesGrid.Instance.CheckAllConnections();
+            //CheckAllConnections - временно здесь, пока не реализованы сигналы 
+        }
+
         public void RotateToDirection(Direction direction)
         {
             StartCoroutine(RotateToDirectionCoroutine(direction));
@@ -149,14 +157,6 @@ namespace Shapes
                 _currentDirection = DirectionUtils.EulerAngleToDirection(transform.rotation.eulerAngles.y);
         }
         #endif
-
-        private void OnClick()
-        {
-            //Debug.LogWarning("shape");
-            RotateToLeft();
-            ShapesGrid.Instance.CheckAllConnections();
-            //CheckAllConnections - временно здесь, пока не реализованы сигналы 
-        }
 
         /// <summary>
         /// Проверка наличия соединения

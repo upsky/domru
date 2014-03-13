@@ -7,18 +7,21 @@ using System.Collections;
 public class Signal : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 6.1f;
+    private float _speed = 3.5f;
 
     private const float _posY = 10.32f;
 
     private Direction _prevOutDirection;
 
-   
-    private Shape _prevShape;
     private Shape _currentShape;
     private int _currentWaypointIndex = 0;
     private Vector3 _currentWaypoint;
     private List<Vector3> _path;
+
+    /// <summary>
+    /// Сигнал-предок, который клонировал текущий сигнал.
+    /// </summary>
+    private Signal _parentSignal;
 
     private bool _isClonedInCurrentShape;
 
@@ -28,6 +31,18 @@ public class Signal : MonoBehaviour
     private float NextWaypointDistance
     {
         get { return Time.fixedDeltaTime * _speed * 1.01f; }
+    }
+
+    private void Awake()
+    {
+        if (ShapesGrid.Grid == null)
+        {
+            Debug.LogError("ShapesGrid.Grid is not initialized");
+            return;
+        }
+        int x = Mathf.RoundToInt(transform.position.x);
+        int y = Mathf.RoundToInt(transform.position.z);
+        _currentShape = ShapesGrid.Grid[y, x];
     }
 
     /// <summary>
@@ -42,44 +57,9 @@ public class Signal : MonoBehaviour
         _path = _currentShape.GetPath(_prevOutDirection);
     }
 
-    private void Awake()
-    {
-        if (ShapesGrid.Grid == null)
-        {
-            Debug.LogError("ShapesGrid.Grid is not initialized");
-            return;
-        }
-        int x = Mathf.RoundToInt(transform.position.x);
-        int y = Mathf.RoundToInt(transform.position.z);
-        _currentShape = ShapesGrid.Grid[y, x];
-        //Debug.LogWarning(x+"_"+y);
-    }
-
-
-    private void TryClone()
-    {
-        TeeShape teeShape = _currentShape as TeeShape;
-        if (teeShape != null && _currentWaypointIndex == 2 && _path.Count == 3)// у клонированного сигнала путь содержит только 2 точки, поэтому он не пройдет проверку:  _path.Count == 3
-        {            
-            var signalGO = (Instantiate(MainSceneManager.Instance.SignalPrefab, _currentWaypoint, new Quaternion(0, 0, 0, 0)) as Transform);//.GetComponent<Signal>();
-            var signal = signalGO.GetComponent<Signal>();
-
-            signal._path = teeShape.GetSecondPath(_prevOutDirection);
-            var dir = teeShape.GetSecondOutDirection(_prevOutDirection);
-            
-            signal._prevOutDirection = dir;
-            signal.transform.SetY(_posY);
-            signal._isClonedInCurrentShape = true;
-        }
-    }
-
     // Update is called once per frame
     private void FixedUpdate()
     {
-        //TestOuts();
-        //TestPath();
-        //return;
-
         if (_path == null)
         {
             return;
@@ -93,29 +73,49 @@ public class Signal : MonoBehaviour
             if (!_isClonedInCurrentShape)
                 _prevOutDirection = _currentShape.GetOutDirection(_prevOutDirection);//получение направления выхода из текущей shape
 
-            _prevShape = _currentShape;
             _currentShape = ShapesGrid.GetNextShape(_currentShape, _prevOutDirection);
-
-            //if (_currentShape!=null)
-            //    Debug.LogWarning("_prevOutDirection=" + _prevOutDirection + " HasConnection=" + _currentShape.HasConnection(_prevOutDirection), _currentShape);
             if (_currentShape == null || !_currentShape.HasConnection(_prevOutDirection))
             {
-                Debug.LogWarning("DestroySignal");
-                DestroySignal();
+                DestroySelf();
                 return;
             }
+
             _path = _currentShape.GetPath(_prevOutDirection);
             _isClonedInCurrentShape = false;
+            _parentSignal = null;
         }
 
-
-        //поворот и перемещение к текущей Waypoint
         UpdateCurrentWaypoint();
         Rotate(_currentWaypoint);
         Move(_currentWaypoint);  
     }
 
+    private void OnTriggerEnter(Collider c)
+    {
+        var signal2 = c.GetComponent<Signal>();
+        if (signal2 != null && signal2._parentSignal != this && _parentSignal != signal2)
+        {
+            DestroySelf();
+        }
+    }
 
+    private void TryClone()
+    {
+        TeeShape teeShape = _currentShape as TeeShape;
+        if (teeShape != null && _currentWaypointIndex == 2 && _path.Count == 3)// у клонированного сигнала путь содержит только 2 точки, поэтому он не пройдет проверку:  _path.Count == 3
+        {
+            var signalGO = (Instantiate(MainSceneManager.Instance.SignalPrefab, _currentWaypoint, new Quaternion(0, 0, 0, 0)) as Transform);
+            var signal = signalGO.GetComponent<Signal>();
+
+            signal._path = teeShape.GetSecondPath(_prevOutDirection);
+            var dir = teeShape.GetSecondOutDirection(_prevOutDirection);
+
+            signal._prevOutDirection = dir;
+            signal.transform.SetY(_posY);
+            signal._isClonedInCurrentShape = true;
+            signal._parentSignal = this;
+        }
+    }
 
     private void UpdateCurrentWaypoint()//Action onWaypointIndexChange)
     {
@@ -151,6 +151,8 @@ public class Signal : MonoBehaviour
 
     private bool PathIsTraversed()
     {
+        if (_path.Count == 0)
+            return true;
         Vector3 endWaypoint = _path[_path.Count - 1];
         return Vector3.Distance(endWaypoint, transform.position) <= NextWaypointDistance;
     }
@@ -163,60 +165,12 @@ public class Signal : MonoBehaviour
     }
     */
 
-    private void DestroySignal()
+    private void DestroySelf()
     {
         //если уничтожение сигнала произошло в shape, на который ссылается коннектор и направление выхода сигнала совпадает с противоположным направлением коннектора, то включение коннектора.
 
         //вроде уведомлять никого не нужно при уничтожении сигнала. Хотя менеджер нужно, для проверки коннекторов или сами коннекторы
         Destroy(gameObject);
-    }
-
-
-
-
-
-
-    private void TestOuts()
-    {
-        //int x = 2, y = 2; //Line
-        //int x = 2, y = 3; //Corner
-        int x = 6, y = 0; //Tee
-        var outDir = ShapesGrid.Grid[y, x].GetOutDirection(Direction.Up);
-        Debug.LogWarning(ShapesGrid.Grid[y, x].GetType()+" InDir=Up: outDir=" + outDir, ShapesGrid.Grid[y, x]);
-
-        outDir = ShapesGrid.Grid[y, x].GetOutDirection(Direction.Right);
-        Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Right: outDir=" + outDir, ShapesGrid.Grid[y, x]);
-
-        outDir = ShapesGrid.Grid[y, x].GetOutDirection(Direction.Down);
-        Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Down: outDir=" + outDir, ShapesGrid.Grid[y, x]);
-
-        outDir = ShapesGrid.Grid[y, x].GetOutDirection(Direction.Left);
-        Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Left: outDir=" + outDir, ShapesGrid.Grid[y, x]);
-    }
-    private void TestPath()
-    {
-        //int x = 2, y = 2; //Line
-        int x = 2, y = 3; //Corner
-        //int x = 6, y = 0; //Tee
-        var path = ShapesGrid.Grid[y, x].TestPath(Direction.Up);
-        foreach (var pointName in path)
-            Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Up: " + pointName, ShapesGrid.Grid[y, x]);
-        Debug.LogWarning("--------------------------------");
-
-        path = ShapesGrid.Grid[y, x].TestPath(Direction.Right);
-        foreach (var pointName in path)
-            Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Right: " + pointName, ShapesGrid.Grid[y, x]);
-        Debug.LogWarning("--------------------------------");
-
-        path = ShapesGrid.Grid[y, x].TestPath(Direction.Down);
-        foreach (var pointName in path)
-            Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Down: " + pointName, ShapesGrid.Grid[y, x]);
-        Debug.LogWarning("--------------------------------");
-
-        path = ShapesGrid.Grid[y, x].TestPath(Direction.Left);
-        foreach (var pointName in path)
-            Debug.LogWarning(ShapesGrid.Grid[y, x].GetType() + " InDir=Left: " + pointName, ShapesGrid.Grid[y, x]);
-        Debug.LogWarning("--------------------------------");
     }
 }
 
