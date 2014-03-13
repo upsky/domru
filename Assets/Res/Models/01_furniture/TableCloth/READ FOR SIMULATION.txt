@@ -1,0 +1,2 @@
+Select the table cloth sheet over the table, then on the Modify panel select 'Simulate', this will simulate the cloth over the table.
+If simulation does not run, select 'Erase Simulation', then run Simulation.
