@@ -14,9 +14,7 @@ public class ClickHandler : MonoSingleton<ClickHandler>
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                hit.transform.SendMessage("OnClick", SendMessageOptions.DontRequireReceiver);
-                //hit.transform
-                // if(hit.collider.name == "blablabla")   
+                hit.transform.SendMessage("OnClick", SendMessageOptions.DontRequireReceiver); 
             }
         }
     }
