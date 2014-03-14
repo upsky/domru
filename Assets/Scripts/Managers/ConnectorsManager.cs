@@ -55,7 +55,7 @@ public class ConnectorsManager : MonoSingleton<ConnectorsManager>
     /// <summary>
     /// Проверяет, был ли подключен коннектор при последней проверке CheckAllConnections()
     /// </summary>
-    public static bool IsWasConnectedAtLastChecking(Connector c)
+    public static bool IsConnectedAtLastChecking(Connector c)
     {
         return !Instance._unConnectedConnectors.Contains(c);
     }

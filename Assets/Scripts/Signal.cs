@@ -48,7 +48,6 @@ public class Signal : MonoBehaviour
     /// <summary>
     /// Инициализация для использования вне скрипта.
     /// </summary>
-    /// <param name="dir"></param>
     public void Init(Direction dir)
     {
         _prevOutDirection = dir;
@@ -117,7 +116,7 @@ public class Signal : MonoBehaviour
         }
     }
 
-    private void UpdateCurrentWaypoint()//Action onWaypointIndexChange)
+    private void UpdateCurrentWaypoint()
     {
         Vector3 currentWaypoint = _path[_currentWaypointIndex];
         if (Vector3.Distance(currentWaypoint, transform.position) <= NextWaypointDistance) //проверка, разрешено ли двигаться к следущей точки пути, вместо текущей
@@ -125,7 +124,6 @@ public class Signal : MonoBehaviour
             if (_currentWaypointIndex < _path.Count - 1)
             {
                 _currentWaypointIndex++;
-                //Debug.Break();
                 TryClone();
             }
         }
@@ -157,20 +155,8 @@ public class Signal : MonoBehaviour
         return Vector3.Distance(endWaypoint, transform.position) <= NextWaypointDistance;
     }
 
-
-
-    /*void OnComeToConnector(Connector connector)
-    {
-       CheckConnection(connector)//проверка конкретного соединения
-    }
-    */
-
     public void DestroySelf()
     {
-        //если уничтожение сигнала произошло в shape, на который ссылается коннектор и направление выхода сигнала совпадает с противоположным направлением коннектора, то включение коннектора.
-
-        //вроде уведомлять никого не нужно при уничтожении сигнала. Хотя менеджер нужно, для проверки коннекторов или сами коннекторы
         Destroy(gameObject);
     }
 }
-

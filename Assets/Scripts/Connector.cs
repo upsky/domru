@@ -16,7 +16,7 @@ public class Connector : MonoBehaviour
     [HideInInspector]
     public Shape NearestShape;
 
-    private bool _isConnected;
+    public bool IsConnected { get; private set; }
 
     private void Awake()
     {
@@ -49,27 +49,27 @@ public class Connector : MonoBehaviour
             return;
 
         ConnectorsManager.CheckAllConnections();
-        if (ConnectorsManager.IsWasConnectedAtLastChecking(this))
+        if (ConnectorsManager.IsConnectedAtLastChecking(this))
             SwitchToOn();
     }
 
 
-    public void SwitchToOn()
+    private void SwitchToOn()
     {
-        if (_isConnected)
+        if (IsConnected)
             return;
         renderer.material.color = Color.green;
-        _isConnected = true;
+        IsConnected = true;
 
-        //todo: умедомление MainSceneManager-а, а в нем уже вызов проверки на победу - проверка количества подключенных коннекторов.
+        MainSceneManager.OnSwitchOn();
     }
 
     public void SwitchToOff()
     {
-        if (!_isConnected)
+        if (!IsConnected)
             return;
         renderer.material.color = Color.red;
-        _isConnected = false;
+        IsConnected = false;
     }
 
 }

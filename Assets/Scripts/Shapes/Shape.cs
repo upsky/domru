@@ -84,9 +84,17 @@ namespace Shapes
 
         private void OnClick()
         {
-            if (IsInRotateProcess)
+            if (MainSceneManager.CurrentGameMode!=MainSceneManager.GameMode.Normal || IsInRotateProcess)
                 return;
             RotateToLeft();
+            MainSceneManager.OnShapeRotateStart(this);
+        }
+
+        private void OnCatClick()
+        {
+            if (MainSceneManager.CurrentGameMode != MainSceneManager.GameMode.Normal || IsInRotateProcess)
+                return;
+            //RandomRotateToLeft();
             MainSceneManager.OnShapeRotateStart(this);
         }
 
