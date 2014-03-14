@@ -21,9 +21,9 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
 
     private void CreateSignal()
     {
-        Vector3 pos = ShapesGrid.Instance.StartConnector.transform.position;
+        Vector3 pos = ConnectorsManager.StartConnector.transform.position;
         var signalGO = (Instantiate(SignalPrefab, pos, new Quaternion(0,0,0,0)) as Transform);//.GetComponent<Signal>();
         var signal = signalGO.GetComponent<Signal>();
-        signal.Init(ShapesGrid.Instance.StartConnector.CurrentDirection);
+        signal.Init(ConnectorsManager.StartConnector.CurrentDirection);
     }
 }

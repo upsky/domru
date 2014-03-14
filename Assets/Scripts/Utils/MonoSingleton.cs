@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Версия синглтона с требованием обязательного добавления объекта на сцену при обращения к нему.
 public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
 {
     private static T _instance;
@@ -8,12 +9,12 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
     {
         get
         {
-            if (_instance == null)
-                _instance = new GameObject("InstanceOf" + typeof(T)).AddComponent<T>();
+            //if (_instance == null)
+                //_instance = new GameObject("InstanceOf" + typeof(T)).AddComponent<T>();
           
             // Problem during the creation, this should not happen
             if (_instance == null)
-                Debug.LogError("Problem during the creation of " + typeof(T));
+                Debug.LogError("Object with " + typeof(T) + " script is not added in this scene");
 
             return _instance;
         }
@@ -27,7 +28,7 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
     protected virtual void Awake()
     {
         if (_instance != null)
-            Debug.LogError("Object with " + _instance.GetType() + " script could be single only", this);
+            Debug.LogError("Object with " + typeof(T) + " script could be single only", this);
         _instance = this as T;
     }
 }

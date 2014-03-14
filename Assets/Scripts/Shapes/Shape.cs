@@ -85,7 +85,7 @@ namespace Shapes
         {
             //Debug.LogWarning("shape");
             RotateToLeft();
-            ShapesGrid.Instance.CheckAllConnections();
+            ConnectorsManager.CheckAllConnections();
             //CheckAllConnections - временно здесь, пока не реализованы сигналы 
         }
 
