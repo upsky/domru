@@ -9,7 +9,7 @@ public class Signal : MonoBehaviour
     [SerializeField]
     private float _speed = 3.5f;
 
-    private const float _posY = 10.32f;
+    public const float PosY = 10.32f;
 
     private Direction _prevOutDirection;
 
@@ -52,7 +52,7 @@ public class Signal : MonoBehaviour
     public void Init(Direction dir)
     {
         _prevOutDirection = dir;
-        transform.SetY(_posY);
+        transform.SetY(PosY);
 
         _path = _currentShape.GetPath(_prevOutDirection);
     }
@@ -111,7 +111,7 @@ public class Signal : MonoBehaviour
             var dir = teeShape.GetSecondOutDirection(_prevOutDirection);
 
             signal._prevOutDirection = dir;
-            signal.transform.SetY(_posY);
+            signal.transform.SetY(PosY);
             signal._isClonedInCurrentShape = true;
             signal._parentSignal = this;
         }
@@ -165,7 +165,7 @@ public class Signal : MonoBehaviour
     }
     */
 
-    private void DestroySelf()
+    public void DestroySelf()
     {
         //если уничтожение сигнала произошло в shape, на который ссылается коннектор и направление выхода сигнала совпадает с противоположным направлением коннектора, то включение коннектора.
 

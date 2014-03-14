@@ -8,15 +8,13 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
 
     //CurrentGameMode : normal, CallAdjuster{режим вызванного монтажника - автоустановка положений}, Win
 
-	// Use this for initialization
 	void Start ()
 	{
 	    InvokeRepeating("CreateSignal", 1f, 7f);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
+	void Update ()
+	{
 	}
 
     private void CreateSignal()
