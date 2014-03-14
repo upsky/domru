@@ -18,7 +18,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
     public static GameMode CurrentGameMode
     {
         get { return Instance._currentGameMode; }
-        private set { Instance._currentGameMode = value; }
+        set { Instance._currentGameMode = value; }
     }
 
     private GameMode _currentGameMode;

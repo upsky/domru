@@ -4,20 +4,24 @@ using UnityEngine;
 using System.Collections;
 
 
-public class ShapesSorter : MonoBehaviour
+public class ShapesSorter : MonoSingleton<ShapesSorter>
 {
     [SerializeField]
     private List<ChainItem> _chainItems;
 
-    ///<remarks> Только для редактора, т.к. некогда рефлексить</remarks>
-    public List<ChainItem> ChainItems
-    {
-        get { return _chainItems; }
-    }
+    /////<remarks> Только для редактора, т.к. некогда рефлексить</remarks>
+    //public List<ChainItem> ChainItems
+    //{
+    //    get { return _chainItems; }
+    //}
 
 	void Start ()
-	{
-        StartCoroutine(SortChainRecursively(_chainItems));
+	{ 
+	}
+    
+    public static void StartSorting()
+    {
+        Instance.StartCoroutine(Instance.SortChainRecursively(Instance._chainItems));
 	}
 
     private IEnumerator SortChainRecursively(List<ChainItem> chainItems)//string name, int level)
