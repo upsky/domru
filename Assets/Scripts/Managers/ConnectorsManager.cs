@@ -11,16 +11,16 @@ public class ConnectorsManager : MonoSingleton<ConnectorsManager>
         get { return Instance._startConnector; }
     }
 
+    /// <summary>
+    /// Все коннекторы, которые ожидают прихода сигнала
+    /// </summary>
     public static Connector[] TargetConnectors
     {
         get { return Instance._targetConnectors; }
     }
 
     private Connector _startConnector = null;
-
     private Connector[] _targetConnectors;
-
-    //private List<Connector> _connectedConnectors = new List<Connector>();
     private List<Connector> _unConnectedConnectors = new List<Connector>();
 
     private List<Shape> _traversedShapes = new List<Shape>();
@@ -28,8 +28,8 @@ public class ConnectorsManager : MonoSingleton<ConnectorsManager>
     private void Start()
     {
         //Init connectors
-        List<Connector> targetConnectors=new List<Connector>();
 
+        List<Connector> targetConnectors = new List<Connector>();
         foreach (Transform connector in SceneContainers.Connectors)
         {
             var c = connector.GetComponent<Connector>();
@@ -52,8 +52,17 @@ public class ConnectorsManager : MonoSingleton<ConnectorsManager>
             Debug.LogError("_startConnector not found");
     }
 
+    /// <summary>
+    /// Проверяет, был ли подключен коннектор при последней проверке CheckAllConnections()
+    /// </summary>
+    public static bool IsWasConnectedAtLastChecking(Connector c)
+    {
+        return !Instance._unConnectedConnectors.Contains(c);
+    }
+
     public static void CheckAllConnections()
     {
+        Instance._unConnectedConnectors.Clear();
         Instance._unConnectedConnectors.AddRange(Instance._targetConnectors);
 
         //if Has Start Connection
@@ -65,29 +74,19 @@ public class ConnectorsManager : MonoSingleton<ConnectorsManager>
 
         foreach (var c in Instance._unConnectedConnectors)
             c.SwitchToOff();
-
-        //_connectedConnectors.Clear();
-        Instance._unConnectedConnectors.Clear();
     }
 
     private void CheckConnectRecursively(Shape shape)
     {
         _traversedShapes.Add(shape);
 
-
         var connector = FindConnectorWithConnection(shape);
-        if (connector != null)
+        if (connector != null && shape.HasConnection(connector.CurrentDirection))
         {
-            if (shape.HasConnection(connector.CurrentDirection))
-            {
-                connector.SwitchToOn();//todo потом убрать включение отсюда, т.к. включать могут только сигналы при достижении коннектора 
-                _unConnectedConnectors.Remove(connector);
-                //_connectedConnectors.Add(connector);
-            }
+            _unConnectedConnectors.Remove(connector);
         }
 
         var neighbors = ShapesGrid.FindConnectedNeighborShapes(shape);
-        //Debug.LogWarning(shape.Yindex + ", " + shape.Xindex + ",  neighborsCount=" + neighbors.Count());
         foreach (var neighbor in neighbors)
         {
             if (!_traversedShapes.Contains(neighbor))

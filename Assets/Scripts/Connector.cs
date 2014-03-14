@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+
 public class Connector : MonoBehaviour
 {
     //public Device
@@ -17,10 +18,10 @@ public class Connector : MonoBehaviour
 
     private bool _isConnected;
 
-    void Awake()
+    private void Awake()
     {
         //автоустановка правильного значения CurrentDirection при старте игры
-        CurrentDirection = DirectionUtils.EulerAngleToDirection(transform.rotation.eulerAngles.y).GetNext();//.GetNext() - т.к. модель повернута не так, как нужно
+        CurrentDirection = DirectionUtils.EulerAngleToDirection(transform.rotation.eulerAngles.y).GetNext(); //.GetNext() - т.к. модель повернута не так, как нужно
     }
 
     // Use this for initialization
@@ -28,19 +29,30 @@ public class Connector : MonoBehaviour
     {
         if (!IsStartConnector)
             renderer.material.color = Color.red;
-        var node =  AstarPath.active.astarData.gridGraph.GetNearest(transform.position).node;
+        var node = AstarPath.active.astarData.gridGraph.GetNearest(transform.position).node;
 
         var colladers = Physics.OverlapSphere(node.position.ToVector3(), 0.3f);
         foreach (var collader in colladers)
         {
             NearestShape = collader.GetComponent<Shape>();
-            if (NearestShape!=null)
+            if (NearestShape != null)
                 break;
         }
-        
-        if (NearestShape==null)
+
+        if (NearestShape == null)
             Debug.LogError("Shape not found");
     }
+
+    private void OnTriggerEnter(Collider c)
+    {
+        if (IsStartConnector)
+            return;
+
+        ConnectorsManager.CheckAllConnections();
+        if (ConnectorsManager.IsWasConnectedAtLastChecking(this))
+            SwitchToOn();
+    }
+
 
     public void SwitchToOn()
     {
@@ -48,7 +60,7 @@ public class Connector : MonoBehaviour
             return;
         renderer.material.color = Color.green;
         _isConnected = true;
-        
+
         //todo: умедомление MainSceneManager-а, а в нем уже вызов проверки на победу - проверка количества подключенных коннекторов.
     }
 
@@ -56,7 +68,7 @@ public class Connector : MonoBehaviour
     {
         if (!_isConnected)
             return;
-         renderer.material.color = Color.red;
+        renderer.material.color = Color.red;
         _isConnected = false;
     }
 
