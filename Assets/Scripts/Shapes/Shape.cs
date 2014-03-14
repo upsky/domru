@@ -10,6 +10,8 @@ namespace Shapes
     {
         public readonly bool[] Sides = new bool[4];
 
+        public bool IsInRotateProcess { get; protected set; }
+
         [HideInInspector]
         public int Xindex;
 
@@ -24,7 +26,6 @@ namespace Shapes
 
         private const Direction _defaultStartDirection = Direction.Up;
 
-        protected bool _isInRotateProcess;
         private float _rotationRemain;
         
         /// <summary>
@@ -65,7 +66,7 @@ namespace Shapes
 
         private void Update()
         {
-            if (_isInRotateProcess)
+            if (IsInRotateProcess)
             {
                 var rotationDelta = _rotationSpeed * Time.deltaTime;
                 _rotationRemain -= rotationDelta;
@@ -76,17 +77,17 @@ namespace Shapes
                 else
                 {
                     transform.SetRotationEulerY(_targetRotationAngle);
-                    _isInRotateProcess = false;
+                    IsInRotateProcess = false;
                 }
             }
         }
 
         private void OnClick()
         {
-            //Debug.LogWarning("shape");
+            if (IsInRotateProcess)
+                return;
             RotateToLeft();
-            ConnectorsManager.CheckAllConnections();
-            //CheckAllConnections - временно здесь, пока не реализованы сигналы 
+            MainSceneManager.OnShapeRotateStart(this);
         }
 
         public void RotateToDirection(Direction direction)
@@ -101,21 +102,21 @@ namespace Shapes
 
         public void RotateToLeft()
         {
-            if (_isInRotateProcess)
+            if (IsInRotateProcess)
                 return;
             UpdateInnerRotateVariables();
             _rotationRemain = 90;
             _targetRotationAngle = transform.rotation.eulerAngles.y - 90;
-            _isInRotateProcess = true;
+            IsInRotateProcess = true;
         }
 
         private IEnumerator RotateToDirectionCoroutine(Direction direction)
         {
-            if (_isInRotateProcess)
+            if (IsInRotateProcess)
                 yield break;
             while (CanContinueRotating(direction))
             {
-                if (!_isInRotateProcess)
+                if (!IsInRotateProcess)
                     RotateToLeft();
                 yield return new WaitForSeconds(0.02f);
             }

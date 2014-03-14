@@ -65,6 +65,13 @@ public static class LayerMaskExt
         return string.Join(delimiter, MaskToNames(original));
     }
 
+    /// <summary>
+    /// Converts this LayerMaskBuilder\'s LayerMask to a binary number formatted as a string.
+    /// </summary>
+    public static string BinaryFormat(this LayerMask original)
+    {
+        return System.Convert.ToString(original.value, 2);
+    }
 
     #region LayerMaskExt static methods
 

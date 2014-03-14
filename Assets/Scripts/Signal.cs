@@ -74,7 +74,7 @@ public class Signal : MonoBehaviour
                 _prevOutDirection = _currentShape.GetOutDirection(_prevOutDirection);//получение направления выхода из текущей shape
 
             _currentShape = ShapesGrid.GetNextShape(_currentShape, _prevOutDirection);
-            if (_currentShape == null || !_currentShape.HasConnection(_prevOutDirection))
+            if (_currentShape == null || _currentShape.IsInRotateProcess || !_currentShape.HasConnection(_prevOutDirection))
             {
                 DestroySelf();
                 return;

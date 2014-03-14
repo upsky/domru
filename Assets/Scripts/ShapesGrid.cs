@@ -46,28 +46,28 @@ public class ShapesGrid : MonoSingleton<ShapesGrid>
         if (shape.Up && shape.Yindex + 1 <= Grid.GetUpperBound(0))
         {
             var neighborShape = Grid[shape.Yindex + 1, shape.Xindex];
-            if (neighborShape != null && neighborShape.Down)
+            if (neighborShape != null && neighborShape.Down && !neighborShape.IsInRotateProcess)
                 neighbors.Add(neighborShape);
         }
 
         if (shape.Right && shape.Xindex + 1 <= Grid.GetUpperBound(1))
         {
             var neighborShape = Grid[shape.Yindex, shape.Xindex + 1];
-            if (neighborShape != null && neighborShape.Left)
+            if (neighborShape != null && neighborShape.Left && !neighborShape.IsInRotateProcess)
                 neighbors.Add(neighborShape);
         }
 
         if (shape.Down && shape.Yindex - 1 >= 0)
         {
             var neighborShape = Grid[shape.Yindex - 1, shape.Xindex];
-            if (neighborShape != null && neighborShape.Up)
+            if (neighborShape != null && neighborShape.Up && !neighborShape.IsInRotateProcess)
                 neighbors.Add(neighborShape);
         }
 
         if (shape.Left && shape.Xindex - 1 >= 0)
         {
             var neighborShape = Grid[shape.Yindex, shape.Xindex - 1];
-            if (neighborShape != null && neighborShape.Right)
+            if (neighborShape != null && neighborShape.Right && !neighborShape.IsInRotateProcess)
                 neighbors.Add(neighborShape);
         }
 
