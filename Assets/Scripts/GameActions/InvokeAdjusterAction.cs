@@ -13,9 +13,9 @@ public class InvokeAdjusterAction : MonoBehaviour, IGameAction
         if (MainSceneManager.CurrentGameMode == MainSceneManager.GameMode.Normal)
         {
             MainSceneManager.CurrentGameMode = MainSceneManager.GameMode.InvokeAdjuster;
-            //StopCat
-            //Open door 
-            //Adjuster Animation
+            MainSceneManager.Door.OpenDoor();
+            MainSceneManager.Adjuster.StartWalk();
+            //StopCat            
             ShapesSorter.StartSorting();
         }        
     }

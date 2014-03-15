@@ -5,14 +5,35 @@ using System.Linq;
 
 public class MainSceneManager : MonoSingleton<MainSceneManager>
 {
-    [SerializeField]
-    public Transform SignalPrefab;
-
     public enum GameMode
     {
         Normal,
         InvokeAdjuster, //режим вызова монтажника
         Victory
+    }
+
+    [SerializeField]
+    private Transform _signalPrefab;
+
+    [SerializeField]
+    private AdjusterController _adjuster;
+
+    [SerializeField]
+    private DoorController _door;
+
+    public static AdjusterController Adjuster
+    {
+        get { return Instance._adjuster; }
+    }
+
+    public static DoorController Door
+    {
+        get { return Instance._door; }
+    }
+
+    public static Transform SignalPrefab
+    {
+        get { return Instance._signalPrefab; }
     }
 
     public static GameMode CurrentGameMode

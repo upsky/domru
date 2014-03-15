@@ -103,7 +103,7 @@ public class Signal : MonoBehaviour
         TeeShape teeShape = _currentShape as TeeShape;
         if (teeShape != null && _currentWaypointIndex == 2 && _path.Count == 3)// у клонированного сигнала путь содержит только 2 точки, поэтому он не пройдет проверку:  _path.Count == 3
         {
-            var signalGO = (Instantiate(MainSceneManager.Instance.SignalPrefab, _currentWaypoint, new Quaternion(0, 0, 0, 0)) as Transform);
+            var signalGO = (Instantiate(MainSceneManager.SignalPrefab, _currentWaypoint, new Quaternion(0, 0, 0, 0)) as Transform);
             var signal = signalGO.GetComponent<Signal>();
 
             signal._path = teeShape.GetSecondPath(_prevOutDirection);
@@ -133,8 +133,7 @@ public class Signal : MonoBehaviour
     ///<param name="currentWaypoint">Ближайшая точка пути, к которой движется seeker</param>
     private void Move(Vector3 currentWaypoint)
     {
-        Vector3 currentPos = transform.position;
-        Vector3 dir = (currentWaypoint - currentPos).normalized;
+        Vector3 dir = (currentWaypoint - transform.position).normalized;
         if (dir != Vector3.zero)
         {
             transform.position += (dir * Time.fixedDeltaTime * _speed);
