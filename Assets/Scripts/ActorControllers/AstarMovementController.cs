@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class PathSeeker : MonoBehaviour
+public class AstarMovementController : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 1f;
