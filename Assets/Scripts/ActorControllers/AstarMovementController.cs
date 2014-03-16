@@ -72,7 +72,7 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
 
     public void CancelMovement()
     {
-        throw new NotImplementedException();
+        _path = null;
     }
 
     private void UpdateCurrentWaypoint()
