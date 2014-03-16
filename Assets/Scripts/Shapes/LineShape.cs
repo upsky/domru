@@ -24,7 +24,7 @@ namespace Shapes
             Sides[(byte)_currentDirection.GetOpposite()] = true;
         }
 
-        protected override bool CanContinueRotating(Direction targetDirection)
+        protected override bool NeedContinueRotating(Direction targetDirection)
         {
             return _currentDirection != targetDirection && _currentDirection != targetDirection.GetOpposite();
         }

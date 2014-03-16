@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Shapes
 {
@@ -84,20 +85,22 @@ namespace Shapes
 
         private void OnClick()
         {
-            if (MainSceneManager.CurrentGameMode!=MainSceneManager.GameMode.Normal || IsInRotateProcess)
-                return;
-            RotateToLeft();
-            MainSceneManager.OnShapeRotateStart(this);
+            RotateCommand();
         }
 
-        private void OnCatClick()
+        /// <summary>
+        /// Команда вращения на 90 градусов, получаемая от другого игрового объекта или игрока. Выполняется не всегда.
+        /// </summary>
+        public void RotateCommand()
         {
             if (MainSceneManager.CurrentGameMode != MainSceneManager.GameMode.Normal || IsInRotateProcess)
                 return;
-            //RandomRotateToLeft();
-            MainSceneManager.OnShapeRotateStart(this);
+            RotateToLeft();
         }
 
+        /// <summary>
+        /// Команда вращения для установки в заданное направление. Выполняется всегда, даже если shape вращается в данный момент.
+        /// </summary>
         public void RotateToDirection(Direction direction)
         {
             StartCoroutine(RotateToDirectionCoroutine(direction));
@@ -108,7 +111,7 @@ namespace Shapes
         //transform.Rotate(0, -90, 0);
         //}
 
-        public void RotateToLeft()
+        private void RotateToLeft()
         {
             if (IsInRotateProcess)
                 return;
@@ -116,13 +119,17 @@ namespace Shapes
             _rotationRemain = 90;
             _targetRotationAngle = transform.rotation.eulerAngles.y - 90;
             IsInRotateProcess = true;
+            MainSceneManager.OnShapeRotateStart(this);
         }
 
         private IEnumerator RotateToDirectionCoroutine(Direction direction)
         {
-            if (IsInRotateProcess)
-                yield break;
-            while (CanContinueRotating(direction))
+            while (IsInRotateProcess) //если уже вращается (например, если игрок или кот вызвали вращение)
+            {
+                yield return new WaitForSeconds(0.02f);
+            }
+            
+            while (NeedContinueRotating(direction))
             {
                 if (!IsInRotateProcess)
                     RotateToLeft();
@@ -133,7 +140,7 @@ namespace Shapes
         /// <summary>
         /// Условие продолжения выполнения корутины RotateToDirectionCoroutine
         /// </summary>
-        protected virtual bool CanContinueRotating(Direction targetDirection)
+        protected virtual bool NeedContinueRotating(Direction targetDirection)
         {
             return _currentDirection != targetDirection;
         }

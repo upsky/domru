@@ -39,6 +39,7 @@ public class CatController : MonoBehaviour
             Debug.LogWarning("_pathFinderMovement=null", this);
             return;
         }
+        _pathFinderMovement.OnWaypointChange = RotateShape;
 
         _directMovement = this.GetInterfaceComponent<ISimpleMovement>();
         if (_directMovement == null)
@@ -58,7 +59,7 @@ public class CatController : MonoBehaviour
     }
 
     private void Update()
-    {
+    {        
         if (_waitTime > 0)
         {
             _waitTime -= Time.deltaTime;
@@ -120,16 +121,25 @@ public class CatController : MonoBehaviour
         StartDirectionMovement();
     }
 
+    private void RotateShape()
+    {
+        if (_isStoppedAnyActivity || _currentActivityType == ActivityType.DirectMovement || _waitTime > 0)
+            return;
+
+        int x = Mathf.RoundToInt(transform.position.x);
+        int y = Mathf.RoundToInt(transform.position.z);
+        
+        var shape=ShapesGrid.Grid[y, x];
+        if (shape != null)
+        {
+            shape.RotateCommand();
+        }
+    }
+
     private Transform SelectTarget()
     {
-        int targetIndex;
-        do
-        {
-            targetIndex = Random.Range(0, SceneContainers.SeekerTargets.childCount);
-        } while (targetIndex == _lastTargetIndex); //цикл для исключения попытки повторного перемещения к цели, где кот уже находиться.
-        
-        _lastTargetIndex = targetIndex;     
-        return SceneContainers.SeekerTargets.GetChild(targetIndex);
+        _lastTargetIndex = RandomUtils.RangeWithExclude(0, SceneContainers.SeekerTargets.childCount, _lastTargetIndex);
+        return SceneContainers.SeekerTargets.GetChild(_lastTargetIndex);
     }
 
 }

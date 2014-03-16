@@ -15,6 +15,7 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
     private Vector2 _currentWaypoint;
     private Action _onPathTraversed;
 
+    public Action OnWaypointChange { set; private get; }
     /// <summary>
     /// Максимальное расстояние от объекта до точки пути, к которой он движется, при достижении которого он может двигаться к следующей точке. Использовать только в FixedUpdate().
     /// </summary>
@@ -22,6 +23,8 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
     {
         get { return Time.fixedDeltaTime * _speed* 1.01f; }
     }
+
+
 
 
     // Use this for initialization
@@ -35,11 +38,9 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
         if (_path != null)
         {
             //проверка-достигнут ли конец пути
-            //Vector2 currentWaypoint = _path.vectorPath[_currentWaypointIndex].xz();
             Vector2 endWaypoint = _path.vectorPath[_path.vectorPath.Count - 1].xz();
-            if (Vector2.Distance(endWaypoint, transform.position.xz()) <= NextWaypointDistance)//_nextWaypointDistance)
+            if (Vector2.Distance(endWaypoint, transform.position.xz()) <= NextWaypointDistance)
             {
-                //_performer.UnitAnimation.State = UnitAnimation.States.Idle;
                 _path = null;
                 _onPathTraversed();
                 return;
@@ -50,8 +51,6 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
             Rotate(_currentWaypoint);
             Move(_currentWaypoint);            
         }
-        //else  //если пути нет
-        //    _performer.UnitAnimation.State = UnitAnimation.States.Idle;
     }
 
     public void StartMovement(Transform target, Action onMovementStart, Action onPathTraversed)
@@ -81,7 +80,9 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
         if (Vector2.Distance(currentWaypoint, transform.position.xz()) <= NextWaypointDistance) //проверка, разрешено ли двигаться к следущей точки пути, вместо текущей
         {
             if (_currentWaypointIndex < _path.vectorPath.Count - 1)
-            {
+            {                
+                if (OnWaypointChange != null)
+                    OnWaypointChange();
                 _currentWaypointIndex++;                
             }
         }
@@ -96,7 +97,6 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
         if (dir != Vector3.zero)
         {
             transform.position += (dir * Time.fixedDeltaTime * _speed);
-           // UnitAnimation.State = UnitAnimation.States.Run;
         }
     }
 
@@ -116,7 +116,6 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
         else
         {
             _path = null;
-           // CompleteTask();
         }
     }
 }

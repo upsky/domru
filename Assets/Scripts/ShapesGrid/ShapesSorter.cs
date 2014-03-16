@@ -26,6 +26,7 @@ public class ShapesSorter : MonoSingleton<ShapesSorter>
 
     private IEnumerator SortChainRecursively(List<ChainItem> chainItems)//string name, int level)
     {
+       
         foreach (var item in chainItems)
         {
             if (item.Shape != null)
@@ -38,6 +39,7 @@ public class ShapesSorter : MonoSingleton<ShapesSorter>
                     StartCoroutine(SortChainRecursively(item.childChain));
             }
         }
+        
     }
 
 }
