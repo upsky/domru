@@ -64,7 +64,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
         ConnectorsManager.CheckAllConnections();
     }
 
-    public static void OnSwitchOn()
+    public static void OnConnetorSwitchToOn()
     {
         if (CheckVictoryCondition())
             Victory();

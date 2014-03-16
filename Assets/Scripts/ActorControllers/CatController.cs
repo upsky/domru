@@ -36,7 +36,7 @@ public class CatController : MonoBehaviour
         _pathFinderMovement = this.GetInterfaceComponent<IPathFinderMovement>();
         if (_pathFinderMovement == null)
         {
-            Debug.LogWarning("_pathFinderMovement=null", this);
+            Debug.LogError("_pathFinderMovement=null", this);
             return;
         }
         _pathFinderMovement.OnWaypointChange = RotateShape;
@@ -44,14 +44,14 @@ public class CatController : MonoBehaviour
         _directMovement = this.GetInterfaceComponent<ISimpleMovement>();
         if (_directMovement == null)
         {
-            Debug.LogWarning("_directMovement=null", this);
+            Debug.LogError("_directMovement=null", this);
             return;
         }
 
         _animator = GetComponentInChildren<Animator>();
         if (_animator == null)
         {
-            Debug.LogWarning("_animator=null", this);
+            Debug.LogError("_animator=null", this);
             return;
         }
 

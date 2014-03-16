@@ -5,9 +5,10 @@ using System.Linq;
 
 public class Connector : MonoBehaviour
 {
-    //public Device
-
     public bool IsStartConnector;
+
+    [SerializeField]
+    private Device _device;
 
     [ReadOnlyInInspector]
     public Direction CurrentDirection;
@@ -61,7 +62,8 @@ public class Connector : MonoBehaviour
         renderer.material.color = Color.green;
         IsConnected = true;
 
-        MainSceneManager.OnSwitchOn();
+        _device.SwitchToOn();
+        MainSceneManager.OnConnetorSwitchToOn();
     }
 
     public void SwitchToOff()
@@ -70,6 +72,7 @@ public class Connector : MonoBehaviour
             return;
         renderer.material.color = Color.red;
         IsConnected = false;
+        _device.SwitchToOff();
     }
 
 }
