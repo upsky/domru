@@ -15,6 +15,7 @@ public class InvokeAdjusterAction : MonoBehaviour, IGameAction
             MainSceneManager.CurrentGameMode = MainSceneManager.GameMode.InvokeAdjuster;
             MainSceneManager.Door.OpenDoor();
             MainSceneManager.Adjuster.StartWalk();
+
             //StopCat            
             ShapesSorter.StartSorting();
         }        

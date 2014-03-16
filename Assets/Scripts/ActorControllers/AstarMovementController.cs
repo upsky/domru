@@ -1,17 +1,19 @@
-﻿using Pathfinding;
+﻿using System;
+using Pathfinding;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class AstarMovementController : MonoBehaviour
+public class AstarMovementController : MonoBehaviour, IPathFinderMovement
 {
     [SerializeField]
     private float _speed = 1f;
 
-    private Seeker seeker;
+    private Seeker _seeker;
     private Path _path;
     private int _currentWaypointIndex;
     private Vector2 _currentWaypoint;
+    private Action _onPathTraversed;
 
     /// <summary>
     /// Максимальное расстояние от объекта до точки пути, к которой он движется, при достижении которого он может двигаться к следующей точке. Использовать только в FixedUpdate().
@@ -23,10 +25,9 @@ public class AstarMovementController : MonoBehaviour
 
 
     // Use this for initialization
-    private void Start()
+    private void Awake()
     {
-        seeker = GetComponent<Seeker>();
-        seeker.StartPath(transform.position, SceneContainers.SeekerTargets.GetChild(0).position, OnPathComplete);//SeekerTargets.GetComponentsInChildren<Transform>().First()
+        _seeker = GetComponent<Seeker>();        
     }
 
     private void FixedUpdate()
@@ -40,6 +41,7 @@ public class AstarMovementController : MonoBehaviour
             {
                 //_performer.UnitAnimation.State = UnitAnimation.States.Idle;
                 _path = null;
+                _onPathTraversed();
                 return;
             }
 
@@ -50,6 +52,27 @@ public class AstarMovementController : MonoBehaviour
         }
         //else  //если пути нет
         //    _performer.UnitAnimation.State = UnitAnimation.States.Idle;
+    }
+
+    public void StartMovement(Transform target, Action onMovementStart, Action onPathTraversed)
+    {
+        if (target == null)
+        {
+            Debug.LogWarning("target=null", this);
+            return;
+        }
+        
+        _onPathTraversed = onPathTraversed;
+        _seeker.StartPath(transform.position, target.position, (p) =>
+            {
+                OnPathComplete(p);
+                onMovementStart();
+            });
+    }
+
+    public void CancelMovement()
+    {
+        throw new NotImplementedException();
     }
 
     private void UpdateCurrentWaypoint()
@@ -77,10 +100,6 @@ public class AstarMovementController : MonoBehaviour
         }
     }
 
-    private void DirectMove(Vector2 targetPoint)
-    {
-    }
-
     private void Rotate(Vector2 currentWaypoint)
     {
         Vector3 targetPos = currentWaypoint.ToVector3(transform.position.y);
@@ -99,10 +118,5 @@ public class AstarMovementController : MonoBehaviour
             _path = null;
            // CompleteTask();
         }
-    }
-
-    private void OnClick()
-    {
-        Debug.LogWarning("CAT");
     }
 }
