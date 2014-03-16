@@ -19,6 +19,9 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
     private AdjusterController _adjuster;
 
     [SerializeField]
+    private CatController _cat;
+
+    [SerializeField]
     private DoorController _door;
 
     public static AdjusterController Adjuster
@@ -26,10 +29,16 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
         get { return Instance._adjuster; }
     }
 
+    public static CatController Cat
+    {
+        get { return Instance._cat; }
+    }
+
     public static DoorController Door
     {
         get { return Instance._door; }
     }
+
 
     public static Transform SignalPrefab
     {
@@ -44,18 +53,10 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
 
     private GameMode _currentGameMode;
 
-    void Start ()
+    private void Start ()
 	{
 	    InvokeRepeating("CreateSignal", 1f, 7f);
 	}
-
-    private void CreateSignal()
-    {
-        Vector3 pos = ConnectorsManager.StartConnector.transform.position;
-        var signalGO = (Instantiate(SignalPrefab, pos, new Quaternion(0,0,0,0)) as Transform);
-        var signal = signalGO.GetComponent<Signal>();
-        signal.Init(ConnectorsManager.StartConnector.CurrentDirection);
-    }
 
     public static void OnShapeRotateStart(Shape shape)
     {
@@ -69,14 +70,24 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
             Victory();
     }
 
-    public static bool CheckVictoryCondition()
-    {
-        return ConnectorsManager.TargetConnectors.Length == ConnectorsManager.TargetConnectors.Count(c => c.IsConnected);
-    }
-
     public static void Victory()
     {
         Debug.LogWarning("<color=green>VICTORY</color>");
         CurrentGameMode = GameMode.Victory;
+        Cat.StopAnyActivity();
     }
+
+    private void CreateSignal()
+    {
+        Vector3 pos = ConnectorsManager.StartConnector.transform.position;
+        var signalGO = (Instantiate(SignalPrefab, pos, new Quaternion(0,0,0,0)) as Transform);
+        var signal = signalGO.GetComponent<Signal>();
+        signal.Init(ConnectorsManager.StartConnector.CurrentDirection);
+    }
+
+    private static bool CheckVictoryCondition()
+    {
+        return ConnectorsManager.TargetConnectors.Length == ConnectorsManager.TargetConnectors.Count(c => c.IsConnected);
+    }
+
 }

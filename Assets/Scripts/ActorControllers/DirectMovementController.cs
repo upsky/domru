@@ -1,8 +1,5 @@
 ﻿using System;
-using Pathfinding;
 using UnityEngine;
-using System.Collections;
-using System.Linq;
 
 public class DirectMovementController : MonoBehaviour, ISimpleMovement
 {

@@ -11,26 +11,25 @@ public class CatController : MonoBehaviour
     }
 
     [SerializeField]
-    private float _firstWalkStartInterval = 3f;
+    private float _firstWaitInterval = 3f;
     
     [SerializeField]
-    private float _walAfterWalkInterval = 3f;
+    private float _waitIntervalAfterWalk = 3f;
 
     [SerializeField]
-    private float _walkAfterClickInterval = 7f;
+    private float _waitIntervalAfterClick = 7f;
 
 
     private IPathFinderMovement _pathFinderMovement;
     private ISimpleMovement _directMovement;
 
-    //private Transform _currentTarget;
     private int _lastTargetIndex = -1;
     private Animator _animator;
 
     private ActivityType _currentActivityType;
-    private bool _isStopedAnyActivity;
+    private bool _isStoppedAnyActivity;
 
-    private float _walkInterval;
+    private float _waitTime;
 
     private void Start()
     {
@@ -55,15 +54,20 @@ public class CatController : MonoBehaviour
             return;
         }
 
-        _walkInterval = _firstWalkStartInterval;
+        _waitTime = _firstWaitInterval;
     }
 
     private void Update()
     {
-        if (!_isStopedAnyActivity && _currentActivityType == ActivityType.None)
+        if (_waitTime > 0)
         {
-            _currentActivityType = ActivityType.PathFinderMovement;
-            Invoke("StartWalk", _walkInterval);
+            _waitTime -= Time.deltaTime;
+            return;
+        }
+
+        if (!_isStoppedAnyActivity && _currentActivityType == ActivityType.None)
+        {
+            StartWalk();
         }
     }
 
@@ -72,7 +76,12 @@ public class CatController : MonoBehaviour
     /// </summary>
     public void StopAnyActivity()
     {
-        _isStopedAnyActivity = true;
+        if (!_isStoppedAnyActivity && _currentActivityType == ActivityType.PathFinderMovement)
+        {
+            _pathFinderMovement.CancelMovement();
+            StartDirectionMovement();
+        }
+        _isStoppedAnyActivity = true;
     }
 
     private void StartWalk()
@@ -86,22 +95,29 @@ public class CatController : MonoBehaviour
     {
         _animator.SetTrigger("StopWalk");
         _currentActivityType = ActivityType.None;
+        _waitTime = _waitIntervalAfterWalk;
+    }
+
+    private void StartDirectionMovement()
+    {
+        _currentActivityType = ActivityType.DirectMovement;
+        var currentTarget = SelectTarget();
+        _directMovement.StartMovement(currentTarget, () =>
+        {
+            StopWalk();
+            _waitTime = _waitIntervalAfterClick;
+        });
     }
 
     private void OnClick()
     {
-        if (_isStopedAnyActivity || _currentActivityType == ActivityType.DirectMovement)
+        if (_isStoppedAnyActivity || _currentActivityType == ActivityType.DirectMovement || _waitTime>0)
             return;
 
         if (_currentActivityType == ActivityType.PathFinderMovement)
             _pathFinderMovement.CancelMovement();
 
-        //start directionMovement
-        _currentActivityType = ActivityType.DirectMovement;
-        var currentTarget = SelectTarget();
-        _directMovement.StartMovement(currentTarget, StopWalk);
-
-        Debug.LogWarning("CAT");
+        StartDirectionMovement();
     }
 
     private Transform SelectTarget()
@@ -116,10 +132,4 @@ public class CatController : MonoBehaviour
         return SceneContainers.SeekerTargets.GetChild(targetIndex);
     }
 
-    //private ActivityType GetCurrentActivityType()
-    //{
-    //    if (_currentActivity == null)
-    //        return ActivityType.None;
-    //    return _currentActivity is IPathFinderMovement ? ActivityType.PathFinderMovement : ActivityType.DirectMovement;
-    //}
 }
