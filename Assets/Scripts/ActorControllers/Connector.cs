@@ -44,7 +44,7 @@ public class Connector : MonoBehaviour
             Debug.LogError("Shape not found");
     }
 
-    private void OnTriggerEnter(Collider c)
+    private void OnTriggerEnter(Collider c) //проверка, пришел ли сигнал
     {
         if (IsStartConnector)
             return;
@@ -62,7 +62,10 @@ public class Connector : MonoBehaviour
         renderer.material.color = Color.green;
         IsConnected = true;
 
-        _device.SwitchToOn();
+        if (_device==null)
+            Debug.LogWarning("device not found",this);
+        else
+            _device.SwitchToOn();
         MainSceneManager.OnConnetorSwitchToOn();
     }
 
@@ -72,7 +75,10 @@ public class Connector : MonoBehaviour
             return;
         renderer.material.color = Color.red;
         IsConnected = false;
-        _device.SwitchToOff();
+        if (_device == null)
+            Debug.LogWarning("device not found", this);
+        else
+            _device.SwitchToOff();
     }
 
 }

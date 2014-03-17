@@ -61,7 +61,8 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
     public static void OnShapeRotateStart(Shape shape)
     {
         SignalsUtils.DestroySignalsInCell(shape.Xindex, shape.Yindex);
-        ConnectorsManager.CheckAllConnections();
+        if (CurrentGameMode != GameMode.InvokeAdjuster)
+            ConnectorsManager.CheckAllConnections();
     }
 
     public static void OnConnetorSwitchToOn()
