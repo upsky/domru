@@ -1,48 +1,16 @@
 fileFormatVersion: 2
-guid: cb0299359b491304696f93c5ebf7d5c0
+guid: 640e1db8dbfa93243b2813139bd792e0
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
-    100000: back
-    100002: back 1
-    100004: base1
-    100006: left1
-    100008: right1
-    100010: seat
-    100012: seat 1
-    100014: //RootNode
-    400000: back
-    400002: back 1
-    400004: base1
-    400006: left1
-    400008: right1
-    400010: seat
-    400012: seat 1
-    400014: //RootNode
-    2300000: back
-    2300002: back 1
-    2300004: base1
-    2300006: left1
-    2300008: right1
-    2300010: seat
-    2300012: seat 1
-    3300000: back
-    3300002: back 1
-    3300004: base1
-    3300006: left1
-    3300008: right1
-    3300010: seat
-    3300012: seat 1
-    4300000: back
-    4300002: seat
-    4300004: left1
-    4300006: right1
-    4300008: base1
-    4300010: back
-    4300012: seat
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: sofa.1
     9500000: //RootNode
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
@@ -73,9 +41,9 @@ ModelImporter:
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
   tangentSpace:
-    normalSmoothAngle: 60
+    normalSmoothAngle: 75
     splitTangentsAcrossUV: 1
-    normalImportMode: 0
+    normalImportMode: 1
     tangentImportMode: 1
   importAnimation: 1
   copyAvatar: 0
@@ -91,6 +59,6 @@ ModelImporter:
     feetSpacing: 0
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   additionalBone: 0
   userData: 
