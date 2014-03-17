@@ -10,9 +10,10 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
     private float _speed = 1f;
 
     private Seeker _seeker;
-    private Path _path;
+    //private Path _path;
+    private Vector3[] _vectorPath;
     private int _currentWaypointIndex;
-    private Vector2 _currentWaypoint;
+    private Vector3 _currentWaypoint;
     private Action _onPathTraversed;
 
     public Action OnWaypointChange { set; private get; }
@@ -24,9 +25,6 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
         get { return Time.fixedDeltaTime * _speed* 1.01f; }
     }
 
-
-
-
     // Use this for initialization
     private void Awake()
     {
@@ -35,13 +33,12 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
 
     private void FixedUpdate()
     {
-        if (_path != null)
+        if (_vectorPath != null)
         {
             //проверка-достигнут ли конец пути
-            Vector2 endWaypoint = _path.vectorPath[_path.vectorPath.Count - 1].xz();
-            if (Vector2.Distance(endWaypoint, transform.position.xz()) <= NextWaypointDistance)
+            if (Vector3.Distance(_vectorPath.Last(), transform.position) <= NextWaypointDistance)
             {
-                _path = null;
+                _vectorPath = null;
                 _onPathTraversed();
                 return;
             }
@@ -71,51 +68,51 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
 
     public void CancelMovement()
     {
-        _path = null;
+        _vectorPath = null;
     }
 
     private void UpdateCurrentWaypoint()
     {
-        Vector2 currentWaypoint = _path.vectorPath[_currentWaypointIndex].xz();
-        if (Vector2.Distance(currentWaypoint, transform.position.xz()) <= NextWaypointDistance) //проверка, разрешено ли двигаться к следущей точки пути, вместо текущей
+        Vector3 currentWaypoint = _vectorPath[_currentWaypointIndex];
+        if (Vector3.Distance(currentWaypoint, transform.position) <= NextWaypointDistance) //проверка, разрешено ли двигаться к следущей точки пути, вместо текущей
         {
-            if (_currentWaypointIndex < _path.vectorPath.Count - 1)
+            if (_currentWaypointIndex < _vectorPath.Length - 1)
             {                
                 if (OnWaypointChange != null)
                     OnWaypointChange();
                 _currentWaypointIndex++;                
             }
         }
-        _currentWaypoint = _path.vectorPath[_currentWaypointIndex].xz();
+        _currentWaypoint = _vectorPath[_currentWaypointIndex];
     }
 
     ///<param name="currentWaypoint">Ближайшая точка пути, к которой движется seeker</param>
-    private void Move(Vector2 currentWaypoint)
+    private void Move(Vector3 currentWaypoint)
     {
-        Vector3 currentPos = transform.position;
-        Vector3 dir = (currentWaypoint.ToVector3(currentPos.y) - currentPos).normalized;
+        Vector3 dir = (currentWaypoint - transform.position).normalized;
         if (dir != Vector3.zero)
         {
             transform.position += (dir * Time.fixedDeltaTime * _speed);
         }
     }
 
-    private void Rotate(Vector2 currentWaypoint)
+    private void Rotate(Vector3 currentWaypoint)
     {
-        Vector3 targetPos = currentWaypoint.ToVector3(transform.position.y);
-        transform.LookAt(targetPos);
+        transform.LookAt(currentWaypoint);
     }
 
     private void OnPathComplete(Path p)
     {
         if (!p.error)
         {
-            _path = p;
+            //установка высоты, как у seeker-a
+            _vectorPath = p.vectorPath.Select(v => new Vector3(v.x, transform.position.y, v.z)).ToArray();
+
             _currentWaypointIndex = 1;
         }
         else
         {
-            _path = null;
+            _vectorPath = null;
         }
     }
 }

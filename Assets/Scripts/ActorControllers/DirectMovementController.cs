@@ -26,15 +26,17 @@ public class DirectMovementController : MonoBehaviour, ISimpleMovement
     {
         if (_target != null)
         {
+            Vector3 targetPos = _target.position;
+            targetPos.y = transform.position.y;
             //проверка-достигнут ли конец пути
-            if (Vector2.Distance(_target.position.xz(), transform.position.xz()) <= NextWaypointDistance)
+            if (Vector3.Distance(targetPos, transform.position) <= NextWaypointDistance)
             {
                 _target = null;
                 _onPathTraversed();
                 return;
             }
-            Rotate(_target.position.xz());
-            Move(_target.position.xz());            
+            Rotate(targetPos);
+            Move(targetPos);            
         }
     }
 
@@ -51,20 +53,18 @@ public class DirectMovementController : MonoBehaviour, ISimpleMovement
     }
 
     ///<param name="currentWaypoint">Ближайшая точка пути, к которой движется seeker</param>
-    private void Move(Vector2 currentWaypoint)
+    private void Move(Vector3 currentWaypoint)
     {
-        Vector3 currentPos = transform.position;
-        Vector3 dir = (currentWaypoint.ToVector3(currentPos.y) - currentPos).normalized;
+        Vector3 dir = (currentWaypoint - transform.position).normalized;
         if (dir != Vector3.zero)
         {
             transform.position += (dir * Time.fixedDeltaTime * _speed);
         }
     }
 
-    private void Rotate(Vector2 currentWaypoint)
+    private void Rotate(Vector3 currentWaypoint)
     {
-        Vector3 targetPos = currentWaypoint.ToVector3(transform.position.y);
-        transform.LookAt(targetPos);
+        transform.LookAt(currentWaypoint);
     }
 }
 

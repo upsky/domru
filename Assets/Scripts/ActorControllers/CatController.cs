@@ -23,7 +23,7 @@ public class CatController : MonoBehaviour
     private IPathFinderMovement _pathFinderMovement;
     private ISimpleMovement _directMovement;
 
-    private int _lastTargetIndex = -1;
+    private int _lastTargetIndex;
     private Animator _animator;
 
     private ActivityType _currentActivityType;
@@ -54,6 +54,9 @@ public class CatController : MonoBehaviour
             Debug.LogError("_animator=null", this);
             return;
         }
+
+        //установка ближашей цели в качестве стартовой позиции для исключения при следующем поиске целей 
+        _lastTargetIndex = GetNearestTargetIndex();
 
         _waitTime = _firstWaitInterval;
     }
@@ -140,6 +143,22 @@ public class CatController : MonoBehaviour
     {
         _lastTargetIndex = RandomUtils.RangeWithExclude(0, SceneContainers.SeekerTargets.childCount, _lastTargetIndex);
         return SceneContainers.SeekerTargets.GetChild(_lastTargetIndex);
+    }
+
+    private int GetNearestTargetIndex()
+    {
+        int nearestTargetIndex = 0;
+        float minDist = Vector3.Distance(transform.position, SceneContainers.SeekerTargets.GetChild(0).position);
+        for (int i = 1; i < SceneContainers.SeekerTargets.childCount; i++)
+        {
+            float dist = Vector3.Distance(transform.position, SceneContainers.SeekerTargets.GetChild(i).position);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                nearestTargetIndex = i;
+            }
+        }
+        return nearestTargetIndex;
     }
 
 }
