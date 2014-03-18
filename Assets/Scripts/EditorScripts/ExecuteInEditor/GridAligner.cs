@@ -12,7 +12,9 @@ public class GridAligner : MonoBehaviour
     //обзначения имен в этом регионе:
     //Containers - список родителей, прямые дети которых будут выравниваться.
     //Objects - спискок конкретных объектов, которые будут выравниваться.
-   
+    [SerializeField]
+    private AstarPath _astarPath;
+
     [SerializeField]
     private float _yPos=0.3f;
 
@@ -35,10 +37,10 @@ public class GridAligner : MonoBehaviour
 
     private void Update()
     {
-        if (Application.isPlaying)
+        if (Application.isPlaying || _astarPath==null)
             return;
 
-        AstarPathUtils.CreateGraphIfItNull();
+        AstarPathUtils.CreateGraphIfItNull(_astarPath);
 
         AligningPositionByXYZ(GetListForAligning(ContainersForAligningByXYZ, ObjectsForAligningByXYZ));
         AligningPositionByXZ(GetListForAligning(ContainersForAligningByXZ, ObjectsForAligningByXZ));

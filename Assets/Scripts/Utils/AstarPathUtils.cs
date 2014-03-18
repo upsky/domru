@@ -2,10 +2,20 @@
 using System.Collections;
 
 public static class AstarPathUtils
-{
-    public static void CreateGraphIfItNull()
+{ 
+    #if UNITY_EDITOR
+    /// <summary>
+    /// Editor only!!!
+    /// </summary>
+    public static void CreateGraphIfItNull(AstarPath path)
     {
-        if (AstarPath.active == null || AstarPath.active.astarData == null || AstarPath.active.astarData.gridGraph == null)
+        if (path == null)
+        {
+            Debug.LogWarning("AstarPath not found");
+            return;
+        }
+        if (path.astarData == null || path.astarData.gridGraph == null)
             AstarPath.MenuScan();
     }
+     #endif
 }

@@ -103,7 +103,7 @@ public class Signal : MonoBehaviour
         TeeShape teeShape = _currentShape as TeeShape;
         if (teeShape != null && _currentWaypointIndex == 2 && _path.Count == 3)// у клонированного сигнала путь содержит только 2 точки, поэтому он не пройдет проверку:  _path.Count == 3
         {
-            var signalGO = (Instantiate(MainSceneManager.SignalPrefab, _currentWaypoint, new Quaternion(0, 0, 0, 0)) as Transform);
+            var signalGO = (Instantiate(GlobalGameManager.SignalPrefab, _currentWaypoint, new Quaternion(0, 0, 0, 0)) as Transform);
             var signal = signalGO.GetComponent<Signal>();
 
             signal._path = teeShape.GetSecondPath(_prevOutDirection);

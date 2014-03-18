@@ -13,9 +13,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
     }
 
     [SerializeField]
-    private Transform _signalPrefab;
-
-    [SerializeField]
     private AdjusterController _adjuster;
 
     [SerializeField]
@@ -37,12 +34,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
     public static DoorController Door
     {
         get { return Instance._door; }
-    }
-
-
-    public static Transform SignalPrefab
-    {
-        get { return Instance._signalPrefab; }
     }
 
     public static GameMode CurrentGameMode
@@ -81,7 +72,7 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
     private void CreateSignal()
     {
         Vector3 pos = ConnectorsManager.StartConnector.transform.position;
-        var signalGO = (Instantiate(SignalPrefab, pos, new Quaternion(0,0,0,0)) as Transform);
+        var signalGO = (Instantiate(GlobalGameManager.SignalPrefab, pos, new Quaternion(0,0,0,0)) as Transform);
         var signal = signalGO.GetComponent<Signal>();
         signal.Init(ConnectorsManager.StartConnector.CurrentDirection);
     }
