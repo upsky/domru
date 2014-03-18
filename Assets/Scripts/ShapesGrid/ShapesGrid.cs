@@ -79,6 +79,8 @@ public class ShapesGrid : RequiredMonoSingleton<ShapesGrid>
         var gridGraph = AstarPath.active.astarData.gridGraph;
         var shapesGrid = new Shape[gridGraph.depth,gridGraph.width];
 
+        //Debug.LogWarning("y="+gridGraph.depth + ", x=" + gridGraph.width);
+
         foreach (Transform tr in SceneContainers.Shapes)
         {
             if (!tr.gameObject.activeSelf)
@@ -87,7 +89,7 @@ public class ShapesGrid : RequiredMonoSingleton<ShapesGrid>
             var shape = tr.GetComponent<Shape>();
             int x = Mathf.RoundToInt(tr.position.x);
             int y = Mathf.RoundToInt(tr.position.z);
-            Debug.LogWarning(x+","+y);
+            //Debug.LogWarning(y + "," + x, shape);
             shapesGrid[y, x] = shape;
             shape.Xindex = x;
             shape.Yindex = y;
