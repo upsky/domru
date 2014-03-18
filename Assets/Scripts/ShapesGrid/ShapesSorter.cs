@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 
 
-public class ShapesSorter : MonoSingleton<ShapesSorter>
+public class ShapesSorter : RequiredMonoSingleton<ShapesSorter>
 {
     [SerializeField]
     private List<ChainItem> _chainItems;

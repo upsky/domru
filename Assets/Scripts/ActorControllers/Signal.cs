@@ -18,6 +18,8 @@ public class Signal : MonoBehaviour
     private Vector3 _currentWaypoint;
     private List<Vector3> _path;
 
+    private GameObject _prefab;
+
     /// <summary>
     /// Сигнал-предок, который клонировал текущий сигнал.
     /// </summary>
@@ -48,10 +50,11 @@ public class Signal : MonoBehaviour
     /// <summary>
     /// Инициализация для использования вне скрипта.
     /// </summary>
-    public void Init(Direction dir)
+    public void Init(Direction dir, GameObject prefab)
     {
         _prevOutDirection = dir;
         transform.SetY(PosY);
+        _prefab = prefab;
 
         _path = _currentShape.GetPath(_prevOutDirection);
     }
@@ -103,7 +106,7 @@ public class Signal : MonoBehaviour
         TeeShape teeShape = _currentShape as TeeShape;
         if (teeShape != null && _currentWaypointIndex == 2 && _path.Count == 3)// у клонированного сигнала путь содержит только 2 точки, поэтому он не пройдет проверку:  _path.Count == 3
         {
-            var signalGO = (Instantiate(GlobalGameManager.SignalPrefab, _currentWaypoint, new Quaternion(0, 0, 0, 0)) as Transform);
+            var signalGO = (Instantiate(_prefab, _currentWaypoint, new Quaternion(0, 0, 0, 0)) as GameObject);
             var signal = signalGO.GetComponent<Signal>();
 
             signal._path = teeShape.GetSecondPath(_prevOutDirection);
@@ -113,6 +116,7 @@ public class Signal : MonoBehaviour
             signal.transform.SetY(PosY);
             signal._isClonedInCurrentShape = true;
             signal._parentSignal = this;
+            signal._prefab = _prefab;
         }
     }
 

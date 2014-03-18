@@ -68,5 +68,23 @@ namespace Shapes
                     return Direction.None;
             }
         }
+
+        public static Vector3 DirectionToVector3(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    return Vector3.forward;
+                case Direction.Right:
+                    return Vector3.right;
+                case Direction.Down:
+                    return Vector3.down;
+                case Direction.Left:
+                    return Vector3.left;
+                default:
+                    Debug.LogError("недопустимое значение угла");
+                    return Vector3.zero;
+            }
+        }
     }
 }

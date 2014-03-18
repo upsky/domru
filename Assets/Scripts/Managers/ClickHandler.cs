@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ClickHandler : MonoSingleton<ClickHandler>
+public class ClickHandler : RequiredMonoSingleton<ClickHandler>
 {
     private LayerMask _clickableMmask = int.MaxValue;
 

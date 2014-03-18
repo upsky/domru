@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class SceneContainers: MonoSingleton<SceneContainers>
+public class SceneContainers: RequiredMonoSingleton<SceneContainers>
 {
     [SerializeField]
     private Transform _roomContent;
@@ -16,7 +16,7 @@ public class SceneContainers: MonoSingleton<SceneContainers>
     private Transform _connectors;
 
     [SerializeField]
-    private Transform _signalsSpawners;
+    private Transform _signalSpawners;
     
     public static Transform RoomContent
     {
@@ -38,8 +38,8 @@ public class SceneContainers: MonoSingleton<SceneContainers>
         get { return Instance._connectors; }
     }
 
-    public static Transform SignalsSpawners
+    public static Transform SignalSpawners
     {
-        get { return Instance._signalsSpawners; }
+        get { return Instance._signalSpawners; }
     }
 }

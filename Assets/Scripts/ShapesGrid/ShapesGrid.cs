@@ -6,7 +6,7 @@ using System.Collections;
 using System.Linq;
 
 
-public class ShapesGrid : MonoSingleton<ShapesGrid>
+public class ShapesGrid : RequiredMonoSingleton<ShapesGrid>
 {
     public static Shape[,] Grid
     {
@@ -77,7 +77,7 @@ public class ShapesGrid : MonoSingleton<ShapesGrid>
     private static Shape[,] FillNodesMatrix()
     {
         var gridGraph = AstarPath.active.astarData.gridGraph;
-        var shapesGrid = new Shape[gridGraph.width,gridGraph.depth];
+        var shapesGrid = new Shape[gridGraph.depth,gridGraph.width];
 
         foreach (Transform tr in SceneContainers.Shapes)
         {
@@ -87,7 +87,7 @@ public class ShapesGrid : MonoSingleton<ShapesGrid>
             var shape = tr.GetComponent<Shape>();
             int x = Mathf.RoundToInt(tr.position.x);
             int y = Mathf.RoundToInt(tr.position.z);
-
+            Debug.LogWarning(x+","+y);
             shapesGrid[y, x] = shape;
             shape.Xindex = x;
             shape.Yindex = y;

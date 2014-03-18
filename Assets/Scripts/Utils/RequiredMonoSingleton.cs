@@ -1,9 +1,9 @@
 using UnityEngine;
 
 /// <summary>
-/// Стандартная версия синглтона, автоматически добавляемого на сцену
+/// Версия синглтона с требованием обязательного добавления объекта на сцену при обращения к нему.
 /// </summary>
-public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
+public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : RequiredMonoSingleton<T>
 {
     private static T _instance;
 
@@ -11,8 +11,8 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
     {
         get
         {
-            if (_instance == null)
-                _instance = new GameObject("InstanceOf" + typeof(T)).AddComponent<T>();
+            //if (_instance == null)
+                //_instance = new GameObject("InstanceOf" + typeof(T)).AddComponent<T>();
           
             // Problem during the creation, this should not happen
             if (_instance == null)

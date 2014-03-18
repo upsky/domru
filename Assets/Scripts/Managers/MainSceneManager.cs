@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class MainSceneManager : MonoSingleton<MainSceneManager>
+public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
 {
     public enum GameMode
     {
@@ -46,7 +46,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
 
     private void Start ()
 	{
-	    InvokeRepeating("CreateSignal", 1f, 7f);
 	}
 
     public static void OnShapeRotateStart(Shape shape)
@@ -67,14 +66,6 @@ public class MainSceneManager : MonoSingleton<MainSceneManager>
         Debug.LogWarning("<color=green>VICTORY</color>");
         CurrentGameMode = GameMode.Victory;
         Cat.StopAnyActivity();
-    }
-
-    private void CreateSignal()
-    {
-        Vector3 pos = ConnectorsManager.StartConnector.transform.position;
-        var signalGO = (Instantiate(GlobalGameManager.SignalPrefab, pos, new Quaternion(0,0,0,0)) as Transform);
-        var signal = signalGO.GetComponent<Signal>();
-        signal.Init(ConnectorsManager.StartConnector.CurrentDirection);
     }
 
     private static bool CheckVictoryCondition()

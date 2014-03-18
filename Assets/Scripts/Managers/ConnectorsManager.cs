@@ -4,7 +4,7 @@ using Shapes;
 using UnityEngine;
 using System.Collections;
 
-public class ConnectorsManager : MonoSingleton<ConnectorsManager>
+public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
 {
     public static Connector StartConnector
     {

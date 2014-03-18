@@ -32,13 +32,15 @@ public class Connector : MonoBehaviour
             renderer.material.color = Color.red;
         var node = AstarPath.active.astarData.gridGraph.GetNearest(transform.position).node;
 
-        var colladers = Physics.OverlapSphere(node.position.ToVector3(), 0.3f);
-        foreach (var collader in colladers)
-        {
-            NearestShape = collader.GetComponent<Shape>();
-            if (NearestShape != null)
-                break;
-        }
+        NearestShape = PhysicsUtils.OverlapSphere<Shape>(node.position.ToVector3(), 0.3f).FirstOrDefault();
+
+        //var colladers = Physics.OverlapSphere(node.position.ToVector3(), 0.3f);
+        //foreach (var collader in colladers)
+        //{
+        //    NearestShape = collader.GetComponent<Shape>();
+        //    if (NearestShape != null)
+        //        break;
+        //}
 
         if (NearestShape == null)
             Debug.LogError("Shape not found");
