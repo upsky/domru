@@ -16,7 +16,7 @@ public class SceneContainers: RequiredMonoSingleton<SceneContainers>
     private Transform _connectors;
 
     [SerializeField]
-    private Transform _signalSpawners;
+    private Transform _signals;
     
     public static Transform RoomContent
     {
@@ -38,8 +38,8 @@ public class SceneContainers: RequiredMonoSingleton<SceneContainers>
         get { return Instance._connectors; }
     }
 
-    public static Transform SignalSpawners
+    public static Transform Signals
     {
-        get { return Instance._signalSpawners; }
+        get { return Instance._signals; }
     }
 }

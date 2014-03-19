@@ -37,6 +37,7 @@ public class Signal : MonoBehaviour
 
     private void Awake()
     {
+        transform.parent = SceneContainers.Signals;
         if (ShapesGrid.Grid == null)
         {
             Debug.LogError("ShapesGrid.Grid is not initialized");
