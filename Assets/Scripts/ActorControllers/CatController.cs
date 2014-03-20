@@ -22,6 +22,7 @@ public class CatController : MonoBehaviour
 
     private IPathFinderMovement _pathFinderMovement;
     private ISimpleMovement _directMovement;
+    private RandomPlayAudio _rndPlayAudio;
 
     private int _lastTargetIndex;
     private Animator _animator;
@@ -52,6 +53,13 @@ public class CatController : MonoBehaviour
         if (_animator == null)
         {
             Debug.LogError("_animator=null", this);
+            return;
+        }
+
+        _rndPlayAudio = GetComponentInChildren<RandomPlayAudio>();
+        if (_animator == null)
+        {
+            Debug.LogError("_rndPlayAudio=null", this);
             return;
         }
 
@@ -104,6 +112,7 @@ public class CatController : MonoBehaviour
 
     private void StartDirectionMovement()
     {
+        _rndPlayAudio.Play();
         _currentActivityType = ActivityType.DirectMovement;
         var currentTarget = SelectTarget();
         _directMovement.StartMovement(currentTarget, () =>
@@ -120,7 +129,7 @@ public class CatController : MonoBehaviour
 
         if (_currentActivityType == ActivityType.PathFinderMovement)
             _pathFinderMovement.CancelMovement();
-
+        
         StartDirectionMovement();
     }
 

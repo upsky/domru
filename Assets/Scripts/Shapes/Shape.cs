@@ -85,6 +85,8 @@ namespace Shapes
 
         private void OnClick()
         {
+            if (audio != null && MainSceneManager.CurrentGameMode == MainSceneManager.GameMode.Normal)
+                audio.Play();
             RotateCommand();
         }
 
