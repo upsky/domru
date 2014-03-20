@@ -36,6 +36,9 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         get { return Instance._door; }
     }
 
+    [SerializeField]
+    private GameObject _victoryPanel;
+
     public static GameMode CurrentGameMode
     {
         get { return Instance._currentGameMode; }
@@ -61,9 +64,10 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
             Victory();
     }
 
-    public static void Victory()
-    {
+    private static void Victory()
+    {        
         Debug.LogWarning("<color=green>VICTORY</color>");
+        NGUITools.SetActive(Instance._victoryPanel, true);
         CurrentGameMode = GameMode.Victory;
         Cat.StopAnyActivity();
     }

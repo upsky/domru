@@ -2,10 +2,18 @@ using UnityEngine;
 
 public class TimeManagerForDebug : MonoBehaviour
 {
-    public float TimeScale = 1;
+    public float timeScale = 1;
+    public int targetFPS = 60;
+
+    private void Start()
+    {
+        Debug.LogWarning("<color=orange>QualitySettings.vSyncCount setted to 0</color>",this);
+        QualitySettings.vSyncCount = 0;
+    }
 
     private void Update()
     {
-        Time.timeScale = TimeScale;
+        Time.timeScale = timeScale;
+        Application.targetFrameRate = targetFPS;
     }
 }
