@@ -32,7 +32,7 @@ public class Signal : MonoBehaviour
     /// </summary>
     private float NextWaypointDistance
     {
-        get { return Time.fixedDeltaTime * _speed * 1.01f; }
+        get { return Time.deltaTime * _speed * 1.01f; }
     }
 
     private void Awake()
@@ -61,7 +61,7 @@ public class Signal : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void FixedUpdate()
+    private void Update()
     {
         if (_path == null)
         {
@@ -141,7 +141,7 @@ public class Signal : MonoBehaviour
         Vector3 dir = (currentWaypoint - transform.position).normalized;
         if (dir != Vector3.zero)
         {
-            transform.position += (dir * Time.fixedDeltaTime * _speed);
+            transform.position += (dir * Time.deltaTime * _speed);
         }
     }
 
