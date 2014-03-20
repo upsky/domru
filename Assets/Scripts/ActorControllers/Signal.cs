@@ -161,6 +161,18 @@ public class Signal : MonoBehaviour
 
     public void DestroySelf()
     {
+        /*//чтобы не удалялся сразу, а исчезал постепенно
+         * ParticleSystem[] psArray = GetComponentsInChildren<ParticleSystem>();
+        foreach (var ps in psArray)
+        {
+            ps.emissionRate = 0f;
+        }
+        
+        Destroy(gameObject,1f);
+        Destroy(rigidbody);
+        Destroy(collider);
+        Destroy(this);*/
+
         Destroy(gameObject);
     }
 }
