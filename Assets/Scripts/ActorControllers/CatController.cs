@@ -10,6 +10,12 @@ public class CatController : MonoBehaviour
         PathFinderMovement
     }
 
+    private enum CatAnimState
+    {
+        Sit = 0,
+        Move = 1
+    }
+
     [SerializeField]
     private float _firstWaitInterval = 3f;
     
@@ -57,11 +63,11 @@ public class CatController : MonoBehaviour
         }
 
         _rndPlayAudio = GetComponentInChildren<RandomPlayAudio>();
-        if (_animator == null)
+        if (_rndPlayAudio == null)
         {
             Debug.LogError("_rndPlayAudio=null", this);
             return;
-        }
+        }        
 
         //установка ближашей цели в качестве стартовой позиции для исключения при следующем поиске целей 
         _lastTargetIndex = GetNearestTargetIndex();
@@ -96,16 +102,31 @@ public class CatController : MonoBehaviour
         _isStoppedAnyActivity = true;
     }
 
+    private void OnClick()
+    {
+        if (_isStoppedAnyActivity || _currentActivityType == ActivityType.DirectMovement || _waitTime > 0)
+            return;
+
+        if (_currentActivityType == ActivityType.PathFinderMovement)
+            _pathFinderMovement.CancelMovement();
+
+        StartDirectionMovement();
+    }
+
     private void StartWalk()
     {
         _currentActivityType = ActivityType.PathFinderMovement;
         var currentTarget = SelectTarget();
-        _pathFinderMovement.StartMovement(currentTarget, () => _animator.SetTrigger("StartWalk"), StopWalk);
+        _pathFinderMovement.StartMovement(currentTarget, () => _animator.SetInteger("state", (int)CatAnimState.Move), StopWalk);
     }
 
     private void StopWalk()
     {
-        _animator.SetTrigger("StopWalk");
+        if (_animator.GetInteger("state") == (int)CatAnimState.Move)
+        {
+            Debug.LogWarning("CatStopWalk");
+            _animator.SetInteger("state", (int) CatAnimState.Sit);
+        }
         _currentActivityType = ActivityType.None;
         _waitTime = _waitIntervalAfterWalk;
     }
@@ -114,23 +135,14 @@ public class CatController : MonoBehaviour
     {
         _rndPlayAudio.Play();
         _currentActivityType = ActivityType.DirectMovement;
+        _animator.SetInteger("state", (int)CatAnimState.Move);
+
         var currentTarget = SelectTarget();
         _directMovement.StartMovement(currentTarget, () =>
         {
             StopWalk();
             _waitTime = _waitIntervalAfterClick;
         });
-    }
-
-    private void OnClick()
-    {
-        if (_isStoppedAnyActivity || _currentActivityType == ActivityType.DirectMovement || _waitTime>0)
-            return;
-
-        if (_currentActivityType == ActivityType.PathFinderMovement)
-            _pathFinderMovement.CancelMovement();
-        
-        StartDirectionMovement();
     }
 
     private void RotateShape()

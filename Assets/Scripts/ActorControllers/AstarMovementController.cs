@@ -10,11 +10,11 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
     private float _speed = 1f;
 
     private Seeker _seeker;
-    //private Path _path;
     private Vector3[] _vectorPath;
     private int _currentWaypointIndex;
     private Vector3 _currentWaypoint;
     private Action _onPathTraversed;
+    private Transform _target;
 
     public Action OnWaypointChange { set; private get; }
     /// <summary>
@@ -33,7 +33,7 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
 
     private void FixedUpdate()
     {
-        if (_vectorPath != null)
+        if (_vectorPath != null && _target != null)
         {
             //проверка-достигнут ли конец пути
             if (Vector3.Distance(_vectorPath.Last(), transform.position) <= NextWaypointDistance)
@@ -46,12 +46,13 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
             //поворот и перемещение к текущей Waypoint
             UpdateCurrentWaypoint();
             Rotate(_currentWaypoint);
-            Move(_currentWaypoint);            
+            Move(_currentWaypoint);
         }
     }
 
     public void StartMovement(Transform target, Action onMovementStart, Action onPathTraversed)
     {
+        _target = target;
         if (target == null)
         {
             Debug.LogWarning("target=null", this);
@@ -69,6 +70,7 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
     public void CancelMovement()
     {
         _vectorPath = null;
+        _target = null;
     }
 
     private void UpdateCurrentWaypoint()
@@ -103,6 +105,9 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
 
     private void OnPathComplete(Path p)
     {
+        if (_target==null)
+            return;
+        
         if (!p.error)
         {
             //установка высоты, как у seeker-a
