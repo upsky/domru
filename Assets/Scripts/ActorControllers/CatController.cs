@@ -124,7 +124,6 @@ public class CatController : MonoBehaviour
     {
         if (_animator.GetInteger("state") == (int)CatAnimState.Move)
         {
-            Debug.LogWarning("CatStopWalk");
             _animator.SetInteger("state", (int) CatAnimState.Sit);
         }
         _currentActivityType = ActivityType.None;
