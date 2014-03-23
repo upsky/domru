@@ -37,6 +37,7 @@ public class Signal : MonoBehaviour
 
     private void Awake()
     {
+        SignalManager.OnCreateSignal();
         transform.parent = SceneContainers.Signals;
         if (ShapesGrid.Grid == null)
         {
@@ -104,6 +105,16 @@ public class Signal : MonoBehaviour
 
     private void TryClone()
     {
+        if (!SignalManager.IsAllowedCreateSignal)
+            return;
+
+        if (SignalManager.IsRandomCloning)
+        {
+            bool doClone = Convert.ToBoolean(UnityEngine.Random.Range(0, 2));
+            if (!doClone)
+                return;
+        }
+
         TeeShape teeShape = _currentShape as TeeShape;
         if (teeShape != null && _currentWaypointIndex == 2 && _path.Count == 3)// у клонированного сигнала путь содержит только 2 точки, поэтому он не пройдет проверку:  _path.Count == 3
         {
@@ -173,6 +184,12 @@ public class Signal : MonoBehaviour
         Destroy(collider);
         Destroy(this);*/
 
+
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        SignalManager.OnDestroySignal();
     }
 }

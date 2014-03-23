@@ -25,13 +25,57 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
     [SerializeField]
     private SpawnItem[] _spawnItems;
 
-    void Start()
+    [SerializeField]
+    private bool _randomCloning = false;
+
+    [SerializeField]
+    private int _maxSignalsCount = 100;
+
+    [SerializeField, ReadOnlyInInspector]
+    private int _signalsCount = 0;
+
+    public static bool IsAllowedCreateSignal
+    {
+        get
+        {
+            if (Instance == null)
+                return false;
+            return Instance._signalsCount < Instance._maxSignalsCount;
+        }
+    }
+
+    /// <summary>
+    /// При отключенной опции, клонирование сигнала будет выполняться всегда при ветвлении провода. При влюченной - выбор клонировать или нет выполняется случайно.
+    /// </summary>
+    public static bool IsRandomCloning
+    {
+        get { return Instance._randomCloning; }
+    }
+
+
+    private void Start()
     {
         InvokeRepeating("CreateSignal", _firstSpawnTime, _repeatSpawnInerval);
     }
 
+    public static void OnCreateSignal()
+    {
+        if (Instance != null)
+            Instance._signalsCount++;
+    }
+
+    public static void OnDestroySignal()
+    {
+        if (Instance != null)
+            Instance._signalsCount--;
+    }
+
+
     private void CreateSignal()
     {
+        if (!IsAllowedCreateSignal)
+            return;
+
         int index = Random.Range(0, _spawnItems.Length);
 
         var shape = _spawnItems[index].Shape;

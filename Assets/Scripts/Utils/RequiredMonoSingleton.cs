@@ -7,6 +7,8 @@ public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : Require
 {
     private static T _instance;
 
+    private static bool _isDestroyed;
+
     public static T Instance
     {
         get
@@ -16,8 +18,12 @@ public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : Require
           
             // Problem during the creation, this should not happen
             if (_instance == null)
-                Debug.LogError("Object with " + typeof(T) + " script is not added in this scene");
-
+            {
+                if (_isDestroyed)
+                    Debug.LogWarning("Object with " + typeof(T) + " script is was destroyed");
+                else
+                    Debug.LogError("Object with " + typeof (T) + " script is not added in this scene");
+            }
             return _instance;
         }
     }
@@ -32,5 +38,10 @@ public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : Require
         if (_instance != null)
             Debug.LogError("Object with " + typeof(T) + " script could be single only", this);
         _instance = this as T;
+    }
+
+    protected virtual void OnDestroy()
+    {
+        _isDestroyed = true;
     }
 }
