@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class TimeManagerForDebug : MonoBehaviour
-{
+{ 
+    #if UNITY_EDITOR
+
     public float timeScale = 1;
     public int targetFPS = 60;
 
@@ -16,4 +18,6 @@ public class TimeManagerForDebug : MonoBehaviour
         Time.timeScale = timeScale;
         Application.targetFrameRate = targetFPS;
     }
+
+    #endif
 }

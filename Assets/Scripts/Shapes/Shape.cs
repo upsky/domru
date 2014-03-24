@@ -20,7 +20,7 @@ namespace Shapes
         public int Yindex;
 
         /// <remarks>константа, т.к. скорость общая для всех фигур</remarks>
-        private const float _rotationSpeed = 200f;
+        private const float _rotationSpeed = 400f;
 
         [SerializeField]//, HideInInspector]
         protected Direction _currentDirection = _defaultStartDirection;

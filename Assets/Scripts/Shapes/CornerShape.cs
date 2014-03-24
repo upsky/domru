@@ -37,7 +37,7 @@ namespace Shapes
             return  points.OrderBy(t => t.name).ToList();
         }
 
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()//Selected()
         {
             var points = FindPoints();
             Gizmos.color = Color.red;
@@ -47,9 +47,8 @@ namespace Shapes
                 Gizmos.DrawLine(p, points[i].position);
                 p = points[i].position;
             }
-            //foreach (var point in points)
-                //Gizmos.DrawSphere(transform.position, 0.05f);
-            //Gizmos.DrawLine();
+            foreach (var point in points)
+                Gizmos.DrawSphere(point.position, 0.01f);
         }
 
         public override Direction GetOutDirection(Direction prevOutDirection)

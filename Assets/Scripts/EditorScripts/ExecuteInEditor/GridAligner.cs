@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
@@ -8,6 +8,7 @@ using System.Linq;
 [ExecuteInEditMode]
 public class GridAligner : MonoBehaviour
 {
+#if UNITY_EDITOR
     #region Inspector variables
     //обзначения имен в этом регионе:
     //Containers - список родителей, прямые дети которых будут выравниваться.
@@ -78,5 +79,5 @@ public class GridAligner : MonoBehaviour
             tr.position = newPos;
         }
     }
-}
 #endif
+}

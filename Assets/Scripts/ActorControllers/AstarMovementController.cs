@@ -111,7 +111,7 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
         if (!p.error)
         {
             //установка высоты, как у seeker-a
-            _vectorPath = p.vectorPath.Select(v => new Vector3(v.x, transform.position.y, v.z)).ToArray();
+            _vectorPath = p.vectorPath.Select(v => new Vector3(v.x, transform.position.y, v.z)).ToArray<Vector3>();
 
             _currentWaypointIndex = 1;
         }

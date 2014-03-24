@@ -20,7 +20,11 @@ public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : Require
             if (_instance == null)
             {
                 if (_isDestroyed)
-                    Debug.LogWarning("Object with " + typeof(T) + " script is was destroyed");
+                {
+                    #if UNITY_EDITOR
+                    Debug.LogWarning("Object with " + typeof (T) + " script is was destroyed");
+                    #endif
+                }
                 else
                     Debug.LogError("Object with " + typeof (T) + " script is not added in this scene");
             }
@@ -30,6 +34,7 @@ public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : Require
 
     protected virtual void OnApplicationQuit()
     {
+        _isDestroyed = true;
         _instance = null;
     }
 

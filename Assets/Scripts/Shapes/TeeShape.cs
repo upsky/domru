@@ -125,5 +125,20 @@ namespace Shapes
             return path;
         }
 
+        private void OnDrawGizmos()//Selected()
+        {
+           List<Vector3> points=new List<Vector3> {UpSignalPoint, CenterSignalPoint, LeftSignalPoint, RightSignalPoint};
+
+            Gizmos.color = Color.red;
+            var p = points[0];
+            for (int i = 1; i < points.Count; i++)
+            {
+                Gizmos.DrawLine(p, points[i]);
+                p = points[i];
+            }
+            foreach (var point in points)
+                Gizmos.DrawSphere(point, 0.01f);
+        }
+
     }
 }

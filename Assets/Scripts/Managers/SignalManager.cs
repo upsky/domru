@@ -102,7 +102,6 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
             if (item.Shape!=null)
                 Gizmos.DrawSphere(item.Shape.transform.position, 0.3f);
         }
-
     }
 
 }
