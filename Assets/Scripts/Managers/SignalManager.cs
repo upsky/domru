@@ -8,8 +8,8 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
     [System.Serializable]
     private class SpawnItem
     {
-        public Shape Shape;
-        public Direction Side;
+        public Shape Shape =null;
+        public Direction Side = Direction.None;
     }
 
 

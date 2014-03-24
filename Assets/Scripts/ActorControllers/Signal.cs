@@ -32,7 +32,10 @@ public class Signal : MonoBehaviour
     /// </summary>
     private float NextWaypointDistance
     {
-        get { return Time.deltaTime * _speed * 1.01f; }
+        get
+        {
+            return Time.deltaTime*_speed;// *1.01f; 
+        }
     }
 
     private void Awake()
@@ -89,9 +92,17 @@ public class Signal : MonoBehaviour
             _parentSignal = null;
         }
 
-        UpdateCurrentWaypoint();
+        bool isUpdated = UpdateCurrentWaypoint();
+        Vector3 moveDirection = GetMoveDirection(_currentWaypoint);
+
+        if (isUpdated)
+        {
+            TryClone();
+            CorrectMovement(moveDirection);
+        }
+
         Rotate(_currentWaypoint);
-        Move(_currentWaypoint);  
+        Move(_currentWaypoint, moveDirection);  
     }
 
     private void OnTriggerEnter(Collider c)
@@ -132,28 +143,55 @@ public class Signal : MonoBehaviour
         }
     }
 
-    private void UpdateCurrentWaypoint()
+    private bool UpdateCurrentWaypoint()
     {
+        bool isUpdated = false;
         Vector3 currentWaypoint = _path[_currentWaypointIndex];
-        if (Vector3.Distance(currentWaypoint, transform.position) <= NextWaypointDistance) //проверка, разрешено ли двигаться к следущей точки пути, вместо текущей
+
+        var dist = Vector3.Distance(currentWaypoint, transform.position);
+        if (dist <= NextWaypointDistance)
         {
             if (_currentWaypointIndex < _path.Count - 1)
             {
                 _currentWaypointIndex++;
-                TryClone();
+                isUpdated = true;
             }
         }
         _currentWaypoint = _path[_currentWaypointIndex];
+        return isUpdated;
     }
 
-    ///<param name="currentWaypoint">Ближайшая точка пути, к которой движется seeker</param>
-    private void Move(Vector3 currentWaypoint)
+    /// <summary>
+    /// Корректировка перемещения для сигнала в центре TeeShape.
+    /// </summary>
+    private void CorrectMovement(Vector3 moveDirection)//float distanceToCurrentWaypoint)
     {
-        Vector3 dir = (currentWaypoint - transform.position).normalized;
-        if (dir != Vector3.zero)
+        Vector3 prevWaipoint = _path[_currentWaypointIndex - 1];
+        float distanceToPrevWaypoint = Vector3.Distance(prevWaipoint, transform.position);
+
+        if (_currentShape is TeeShape && _currentWaypointIndex == 2) //проверка что сигнал в центре TeeShape
         {
-            transform.position += (dir * Time.deltaTime * _speed);
+            Vector3 dir = (prevWaipoint - transform.position).normalized;
+            if (dir != Vector3.zero)
+            {
+                transform.position = prevWaipoint;
+                if (moveDirection != Vector3.zero)
+                    transform.position -= moveDirection * distanceToPrevWaypoint; //сдвиг в сторону, противоположную следующему перемещению.
+            }
         }
+
+        //не помешала бы еще проверка на предыдущее направление перемещения и текущее к prevWaipoint, чтобы определить не дошел сигнал до prevWaipoint или уже прошел её.
+    }
+
+    private Vector3 GetMoveDirection(Vector3 currentWaypoint)
+    {
+        return (currentWaypoint - transform.position).normalized;
+    }
+
+    private void Move(Vector3 currentWaypoint, Vector3 moveDirection)
+    {
+        if (moveDirection != Vector3.zero)
+            transform.position += (moveDirection * Time.deltaTime * _speed);
     }
 
     private void Rotate(Vector3 currentWaypoint)
