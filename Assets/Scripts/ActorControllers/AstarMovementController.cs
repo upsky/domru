@@ -36,7 +36,7 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
         if (_vectorPath != null && _target != null)
         {
             //проверка-достигнут ли конец пути
-            if (Vector3.Distance(_vectorPath.Last(), transform.position) <= NextWaypointDistance)
+            if (Vector3.Distance(_vectorPath[_vectorPath.Length-1], transform.position) <= NextWaypointDistance)
             {
                 _vectorPath = null;
                 _onPathTraversed();
