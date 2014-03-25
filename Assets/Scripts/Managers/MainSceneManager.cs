@@ -66,10 +66,11 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
 
     private static void Victory()
     {        
-        Debug.LogWarning("<color=green>VICTORY</color>");
-        NGUITools.SetActive(Instance._victoryPanel, true);
+        //Debug.LogWarning("<color=green>VICTORY</color>");
         CurrentGameMode = GameMode.Victory;
         Cat.StopAnyActivity();
+        NGUITools.SetActive(Instance._victoryPanel, true);
+        NGUITools.GetRoot(Instance._victoryPanel).GetComponentsInChildren<LabelTimer>().First().enabled = false;
     }
 
     private static bool CheckVictoryCondition()
