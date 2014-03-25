@@ -17,6 +17,7 @@ public class InvokeAdjusterAction : MonoBehaviour, IGameAction
             MainSceneManager.Adjuster.StartWalk();
             MainSceneManager.Cat.StopAnyActivity();           
             ShapesSorter.StartSorting();
+            SignalManager.InvokeSignal(1f);
         }        
     }
 }

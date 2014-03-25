@@ -70,6 +70,13 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
             Instance._signalsCount--;
     }
 
+    /// <summary>
+    /// Создание сигнала через заданное время
+    /// </summary>
+    public static void InvokeSignal(float time)
+    {
+        Instance.Invoke("CreateSignal", time);
+    }
 
     private void CreateSignal()
     {
