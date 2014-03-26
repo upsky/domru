@@ -186,10 +186,10 @@ namespace Shapes
             return Sides[(byte)prevOutDirection.GetOpposite()];
         }
 
-        public bool HasConnection(Shape prevShape)
-        {
-            return Sides[(byte)_currentDirection.GetOpposite()] && Sides[(byte)prevShape._currentDirection];
-        }
+        //public bool HasConnection(Shape prevShape)
+        //{
+        //    return Sides[(byte)_currentDirection.GetOpposite()] && Sides[(byte)prevShape._currentDirection];
+        //}
 
         /// <summary>
         /// Возвращает выходное направление, относительно входного направления.

@@ -18,6 +18,8 @@ public static class ShapesGenerator
         var node = NodesGrid.Grid[x, y];
 
         GenerateRecursively(node, ConnectorsManager.StartConnector.CurrentDirection);
+        
+        ConnectorsManager.CheckAllConnections();
     }
 
     public static void GenerateRecursively(NodesGrid.Node node, Direction prevOutDirection)
@@ -26,6 +28,7 @@ public static class ShapesGenerator
             return;
 
         node.SetShape(CreateRandomShape(node.X, node.Y));
+        node.Shape.transform.parent = SceneContainers.Shapes;
         FastRotateToConnection(node.Shape, prevOutDirection);
 
         List<KeyValuePair<NodesGrid.Node,Direction>> nodes = NodesGrid.FindAvailableNeighborNodesForShapeSides(node);
@@ -33,29 +36,13 @@ public static class ShapesGenerator
         {
             GenerateRecursively(nodeDirPair.Key, nodeDirPair.Value.GetOpposite());
         }
-        
-        //node.Shape.gets
-
-        //foreach (var item in chainItems)
-        //{
-        //    if (item.Shape != null)
-        //    {
-        //        item.Shape.RotateToDirection(item.TargetDirection);
-        //        //Debug.LogWarning(item.Shape.name, item.Shape);
-        //       // yield return new WaitForSeconds(0.05f);
-
-        //        //if (item.childChain != null)
-        //         //   StartCoroutine(SortChainRecursively(item.childChain));
-        //    }
-        //}
-
     }
 
     public static Shape CreateRandomShape(float x, float y)
     {
         int rnd = Random.Range(0, 3);
         Vector3 pos = new Vector3(x, _shapeYpos, y);
-
+        rnd = 2;
         switch (rnd)
         {
             case 0:
@@ -69,13 +56,6 @@ public static class ShapesGenerator
                 return teeGO.GetComponent<TeeShape>();
         }
     }
-
-    //public static Shape InstantiateShape<T>() where T : Shape
-    //{
-      
-
-    //    return null;
-    //}
 
     /// <summary>
     /// Вращает targetShape, пока он не будет соединен с другим, если это возможно.

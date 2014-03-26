@@ -62,15 +62,25 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
 
     public static void CheckAllConnections()
     {
-        Instance._unConnectedConnectors.Clear();
-        Instance._unConnectedConnectors.AddRange(Instance._targetConnectors);
+        System.DateTime t1, t2;
+        t1 = System.DateTime.Now;
 
-        //if Has Start Connection
-        if (Instance._startConnector.NearestShape.HasConnection(Instance._startConnector.CurrentDirection))
+        for (int i=0; i<40*3; i++)
         {
-            Instance.CheckConnectRecursively(Instance._startConnector.NearestShape);
-            Instance._traversedShapes.Clear();
+            Instance._unConnectedConnectors.Clear();
+            Instance._unConnectedConnectors.AddRange(Instance._targetConnectors);
+
+            //if Has Start Connection
+            if (Instance._startConnector.NearestShape.HasConnection(Instance._startConnector.CurrentDirection))
+            {
+                Instance.CheckConnectRecursively(Instance._startConnector.NearestShape);
+                Instance._traversedShapes.Clear();
+            }
         }
+
+        t2 = System.DateTime.Now;
+        Debug.LogWarning("time CheckAllConnections() =" + (t2 - t1).Milliseconds*0.001);
+        Debug.LogWarning("connected connectors count=" + (Instance._targetConnectors.Count() - Instance._unConnectedConnectors.Count));
 
         foreach (var c in Instance._unConnectedConnectors)
             c.SwitchToOff();
