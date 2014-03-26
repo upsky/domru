@@ -13,7 +13,7 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
         //public int x;
         //public int y;
         public Shape shape;
-        public GameObject furniture;//не Shape
+        public GameObject notShapeObject;//не Shape
         //public Device device; //под вопросом. 
 
         /// <summary>
@@ -21,7 +21,7 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
         /// </summary>
         public bool IsAvailable
         {
-            get { return shape == null && furniture == null;/* && device==null*/ }
+            get { return shape == null && notShapeObject == null;/* && device==null*/ }
         } 
     }
 
@@ -101,37 +101,53 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
             for (int j = 0; j < gridGraph.width; j++)
             {
                 var node = new Node();
-                
-                int y=Mathf.RoundToInt(AstarPath.active.astarData.gridGraph.center.y);
-                var collaiders=Physics.OverlapSphere(new Vector3(i, y, j), 0.499f);
+
+                int ypos = Mathf.RoundToInt(AstarPath.active.astarData.gridGraph.center.y);
+                var collaiders = Physics.OverlapSphere(new Vector3(j, ypos, i), 0.499f);
                 collaiders = collaiders.Where(
-                    c => c.CompareTag(Consts.Tags.nodeDevice) ||
-                         c.CompareTag(Consts.Tags.nodeFurniture) ||
-                         c.CompareTag(Consts.Tags.shape)).ToArray();
+                    c => //c.CompareTag(Consts.Tags.nodeDevice) ||
+                    c.CompareTag(Consts.Tags.nodeFurniture) ||
+                    c.CompareTag(Consts.Tags.shape)).ToArray();
 
-                if (collaiders.Count()>1)
-                    Debug.LogWarning(i + "," + j +" count="+ collaiders.Count());
+                if (collaiders.Count() > 1)
+                {
+                    Debug.LogError(i + "," + j + " count=" + collaiders.Count());
+                    continue;
+                }
 
-                //furniture, shape, device
-
+                if (collaiders.Length > 0)
+                {
+                    var c = collaiders.First();
+                    Shape shape = c.GetComponent<Shape>();
+                    if (shape != null)
+                    {                        
+                        int x = Mathf.RoundToInt(shape.transform.position.x);
+                        int y = Mathf.RoundToInt(shape.transform.position.z);
+                        shape.Xindex = x; //j;
+                        shape.Yindex = y; //i;
+                        node.shape = shape;
+                    }
+                    else
+                        node.notShapeObject = c.gameObject;
+                }
                 nodesGrid[i, j] = node;
             }
 
         //Debug.LogWarning("y="+gridGraph.depth + ", x=" + gridGraph.width);
 
-        foreach (Transform tr in SceneContainers.Shapes)
-        {
-            if (!tr.gameObject.activeSelf)
-                continue;
-            //Debug.LogWarning( Mathf.RoundToInt(tr.position.x)+","+ Mathf.RoundToInt(tr.position.z));
-            var shape = tr.GetComponent<Shape>();
-            int x = Mathf.RoundToInt(tr.position.x);
-            int y = Mathf.RoundToInt(tr.position.z);
-            //Debug.LogWarning(y + "," + x, shape);
-            nodesGrid[y, x].shape = shape;
-            shape.Xindex = x;
-            shape.Yindex = y;
-        }
+        //foreach (Transform tr in SceneContainers.Shapes)
+        //{
+        //    if (!tr.gameObject.activeSelf)
+        //        continue;
+        //    //Debug.LogWarning( Mathf.RoundToInt(tr.position.x)+","+ Mathf.RoundToInt(tr.position.z));
+        //    var shape = tr.GetComponent<Shape>();
+        //    int x = Mathf.RoundToInt(tr.position.x);
+        //    int y = Mathf.RoundToInt(tr.position.z);
+        //    //Debug.LogWarning(y + "," + x, shape);
+        //    nodesGrid[y, x].shape = shape;
+        //    shape.Xindex = x;
+        //    shape.Yindex = y;
+        //}
 
         //Debug.LogWarning("UpperBound="+shapesGrid.GetUpperBound(0));=6
         return nodesGrid;
