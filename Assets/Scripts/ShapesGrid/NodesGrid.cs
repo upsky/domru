@@ -113,44 +113,36 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
     /// <summary>
     /// Поиск свободных соседних клеток, которые можно соединить с shape в текущей клетке. 
     /// </summary>
-    public static List<Node> FindAvailableNeighborNodesForShapeSides(Node node)
+    public static List<KeyValuePair<Node, Direction>> FindAvailableNeighborNodesForShapeSides(Node node)
     {
         if (node.Shape == null)
             return null;
 
-        List<Node> neighbors = new List<Node>();
+        var neighbors = new List<KeyValuePair<Node, Direction>>();
         var shape = node.Shape;
 
         if (shape.Up && shape.Yindex + 1 <= Grid.GetUpperBound(1))
         {
             var neighborNode = Grid[shape.Xindex, shape.Yindex + 1];
-            var neighborShape = neighborNode.Shape;
-            if (neighborShape != null && neighborShape.Down && !neighborShape.IsInRotateProcess)
-                neighbors.Add(neighborNode);
+            neighbors.Add(new KeyValuePair<Node, Direction>(neighborNode, Direction.Down));
         }
 
         if (shape.Right && shape.Xindex + 1 <= Grid.GetUpperBound(0))
         {
             var neighborNode = Grid[shape.Xindex + 1, shape.Yindex];
-            var neighborShape = neighborNode.Shape;
-            if (neighborShape != null && neighborShape.Left && !neighborShape.IsInRotateProcess)
-                neighbors.Add(neighborNode);
+            neighbors.Add(new KeyValuePair<Node, Direction>(neighborNode, Direction.Left));
         }
 
         if (shape.Down && shape.Yindex - 1 >= 0)
         {
             var neighborNode = Grid[shape.Xindex, shape.Yindex - 1];
-            var neighborShape = neighborNode.Shape;
-            if (neighborShape != null && neighborShape.Up && !neighborShape.IsInRotateProcess)
-                neighbors.Add(neighborNode);
+            neighbors.Add(new KeyValuePair<Node, Direction>(neighborNode, Direction.Up));
         }
 
         if (shape.Left && shape.Xindex - 1 >= 0)
         {
             var neighborNode = Grid[shape.Xindex - 1, shape.Yindex];
-            var neighborShape = neighborNode.Shape;
-            if (neighborShape != null && neighborShape.Right && !neighborShape.IsInRotateProcess)
-                neighbors.Add(neighborNode);
+            neighbors.Add(new KeyValuePair<Node, Direction>(neighborNode,Direction.Right));
         }
 
         return neighbors;

@@ -3,8 +3,10 @@ using UnityEngine;
 using System.Collections;
 using Shapes;
 
-public static class ShapesGeberator
+public static class ShapesGenerator
 {
+    private const float _shapeYpos = 10.22f;
+
     public static void StartGeneration()
     {
         //;
@@ -14,14 +16,24 @@ public static class ShapesGeberator
         
         Debug.LogWarning(x + "," + y);
         var node = NodesGrid.Grid[x, y];
+
+        GenerateRecursively(node, ConnectorsManager.StartConnector.CurrentDirection);
     }
 
-    public static void GenerateRecursively(NodesGrid.Node node)//List<ChainItem> chainItems) //string name, int level)
+    public static void GenerateRecursively(NodesGrid.Node node, Direction prevOutDirection)
     {
         if (!node.IsAvailable)
             return;
 
-        node.SetShape(CreateRandomShape());//, x,y);
+        node.SetShape(CreateRandomShape(node.X, node.Y));
+        FastRotateToConnection(node.Shape, prevOutDirection);
+
+        List<KeyValuePair<NodesGrid.Node,Direction>> nodes = NodesGrid.FindAvailableNeighborNodesForShapeSides(node);
+        foreach (var nodeDirPair in nodes)
+        {
+            GenerateRecursively(nodeDirPair.Key, nodeDirPair.Value.GetOpposite());
+        }
+        
         //node.Shape.gets
 
         //foreach (var item in chainItems)
@@ -39,28 +51,40 @@ public static class ShapesGeberator
 
     }
 
-    public static Shape CreateRandomShape()
+    public static Shape CreateRandomShape(float x, float y)
     {
         int rnd = Random.Range(0, 3);
+        Vector3 pos = new Vector3(x, _shapeYpos, y);
+
         switch (rnd)
         {
             case 0:
-                return new LineShape();
+                var lineGO = Object.Instantiate(ResourcesLoader.LineShapePrefab, pos, new Quaternion(0, 0, 0, 0)) as GameObject;
+                return lineGO.GetComponent<LineShape>();
             case 1:
-                return new CornerShape();
+                var cornerGO = Object.Instantiate(ResourcesLoader.CornerShapePrefab, pos, new Quaternion(0, 0, 0, 0)) as GameObject;
+                return cornerGO.GetComponent<CornerShape>();
             default:
-                return new TeeShape();
+                var teeGO = Object.Instantiate(ResourcesLoader.TeeShapePrefab, pos, new Quaternion(0, 0, 0, 0)) as GameObject;
+                return teeGO.GetComponent<TeeShape>();
         }
     }
+
+    //public static Shape InstantiateShape<T>() where T : Shape
+    //{
+      
+
+    //    return null;
+    //}
 
     /// <summary>
     /// Вращает targetShape, пока он не будет соединен с другим, если это возможно.
     /// </summary>
-    public static void RotateToConnection(Shape shape, Shape targetShape)
+    public static void FastRotateToConnection(Shape targetShape, Direction direction)
     {
         for (int i = 0; i < 4; i++)
         {
-            if (shape.HasConnection(targetShape))
+            if (targetShape.HasConnection(direction))
                 return;
             targetShape.FastRotate();
         }

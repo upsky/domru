@@ -27,7 +27,7 @@ public static class GenerateTagsClass
 
         foreach (var tag in UnityEditorInternal.InternalEditorUtility.tags)
         {
-            writer.WriteLine(string.Format("\t\tpublic static readonly string {0} = \"{1}\";", tag.Replace(" ", ""), tag));
+            writer.WriteLine(string.Format("\t\tpublic const string {0} = \"{1}\";", tag.Replace(" ", ""), tag));
         }
 
         writer.WriteLine("\t}");

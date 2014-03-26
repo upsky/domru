@@ -24,7 +24,7 @@ public class ClickHandler : RequiredMonoSingleton<ClickHandler>
                 hit.transform.SendMessage("OnClick", SendMessageOptions.DontRequireReceiver); 
             }
 
-            ShapesGeberator.StartGeneration();
+            ShapesGenerator.StartGeneration();
         }
     }
 }
