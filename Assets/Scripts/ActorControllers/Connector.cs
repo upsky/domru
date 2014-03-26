@@ -13,9 +13,38 @@ public class Connector : MonoBehaviour
     [ReadOnlyInInspector]
     public Direction CurrentDirection;
 
+    public Shape _nearestShape;
 
-    [HideInInspector]
-    public Shape NearestShape;
+    //public Shape NearestNode
+    //{
+    //    get
+    //    {
+    //        if (_nearestShape != null)
+    //            return _nearestShape;
+
+    //        var node = AstarPath.active.astarData.gridGraph.GetNearest(transform.position).node;
+    //        _nearestShape = PhysicsUtils.OverlapSphere<Shape>(node.position.ToVector3(), 0.3f).FirstOrDefault();
+
+    //        if (_nearestShape == null)
+    //            Debug.LogError("Shape not found", this);
+    //        return _nearestShape;
+    //    }
+    //}
+
+    public Shape NearestShape {
+        get
+        {
+            if (_nearestShape != null)
+                return _nearestShape;
+
+            var node = AstarPath.active.astarData.gridGraph.GetNearest(transform.position).node;
+            _nearestShape = PhysicsUtils.OverlapSphere<Shape>(node.position.ToVector3(), 0.3f).FirstOrDefault();
+
+            if (_nearestShape == null)
+                Debug.LogError("Shape not found", this);
+            return _nearestShape;
+        }
+    }
 
     public bool IsConnected { get; private set; }
 
@@ -30,12 +59,6 @@ public class Connector : MonoBehaviour
     {
         if (!IsStartConnector)
             renderer.material.color = Color.red;
-        var node = AstarPath.active.astarData.gridGraph.GetNearest(transform.position).node;
-
-        NearestShape = PhysicsUtils.OverlapSphere<Shape>(node.position.ToVector3(), 0.3f).FirstOrDefault();
-
-        if (NearestShape == null)
-            Debug.LogError("Shape not found");
     }
 
     private void OnTriggerEnter(Collider c) //проверка, пришел ли сигнал

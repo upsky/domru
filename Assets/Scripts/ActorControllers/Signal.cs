@@ -49,7 +49,7 @@ public class Signal : MonoBehaviour
         }
         int x = Mathf.RoundToInt(transform.position.x);
         int y = Mathf.RoundToInt(transform.position.z);
-        _currentShape = NodesGrid.Grid[x, y].shape;
+        _currentShape = NodesGrid.Grid[x, y].Shape;
     }
 
     /// <summary>

@@ -10,18 +10,36 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
 {
     public class Node
     {
-        //public int x;
-        //public int y;
-        public Shape shape;
-        public GameObject notShapeObject;//не Shape
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public Shape Shape { get; private set; }
+    
+        public GameObject NotShapeObject;//не Shape
         //public Device device; //под вопросом. 
+
+        public Node(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+
 
         /// <summary>
         /// Проверяет, не занята ли клетка каким-нибудь объектом
         /// </summary>
         public bool IsAvailable
         {
-            get { return shape == null && notShapeObject == null;/* && device==null*/ }
+            get { return Shape == null && NotShapeObject == null;/* && device==null*/ }
+        }
+
+        /// <summary>
+        /// Проверяет, не занята ли клетка каким-нибудь объектом
+        /// </summary>
+        public void SetShape(Shape shape)
+        {
+            Shape = shape;
+            Shape.Xindex = X;
+            Shape.Yindex = Y;
         } 
     }
 
@@ -43,16 +61,16 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
     public static Shape GetNextShape(Shape shape, Direction dir)
     {
         if (dir == Direction.Up && shape.Yindex + 1 <= Grid.GetUpperBound(1))
-            return Instance._nodesGrid[shape.Xindex, shape.Yindex + 1].shape;
+            return Instance._nodesGrid[shape.Xindex, shape.Yindex + 1].Shape;
 
         if (dir == Direction.Right && shape.Xindex + 1 <= Grid.GetUpperBound(0))
-            return Instance._nodesGrid[shape.Xindex + 1, shape.Yindex].shape;
+            return Instance._nodesGrid[shape.Xindex + 1, shape.Yindex].Shape;
 
         if (dir == Direction.Down && shape.Yindex - 1 >= 0)
-            return Instance._nodesGrid[shape.Xindex, shape.Yindex - 1].shape;
+            return Instance._nodesGrid[shape.Xindex, shape.Yindex - 1].Shape;
 
         if (dir == Direction.Left && shape.Xindex - 1 >= 0)
-            return Instance._nodesGrid[shape.Xindex - 1, shape.Yindex].shape;
+            return Instance._nodesGrid[shape.Xindex - 1, shape.Yindex].Shape;
 
         return null;
     }
@@ -63,28 +81,28 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
 
         if (shape.Up && shape.Yindex + 1 <= Grid.GetUpperBound(1))
         {
-            var neighborShape = Grid[shape.Xindex, shape.Yindex + 1].shape;
+            var neighborShape = Grid[shape.Xindex, shape.Yindex + 1].Shape;
             if (neighborShape != null && neighborShape.Down && !neighborShape.IsInRotateProcess)
                 neighbors.Add(neighborShape);
         }
 
         if (shape.Right && shape.Xindex + 1 <= Grid.GetUpperBound(0))
         {
-            var neighborShape = Grid[shape.Xindex + 1, shape.Yindex].shape;
+            var neighborShape = Grid[shape.Xindex + 1, shape.Yindex].Shape;
             if (neighborShape != null && neighborShape.Left && !neighborShape.IsInRotateProcess)
                 neighbors.Add(neighborShape);
         }
 
         if (shape.Down && shape.Yindex - 1 >= 0)
         {
-            var neighborShape = Grid[shape.Xindex, shape.Yindex - 1].shape;
+            var neighborShape = Grid[shape.Xindex, shape.Yindex - 1].Shape;
             if (neighborShape != null && neighborShape.Up && !neighborShape.IsInRotateProcess)
                 neighbors.Add(neighborShape);
         }
 
         if (shape.Left && shape.Xindex - 1 >= 0)
         {
-            var neighborShape = Grid[shape.Xindex - 1, shape.Yindex].shape;
+            var neighborShape = Grid[shape.Xindex - 1, shape.Yindex].Shape;
             if (neighborShape != null && neighborShape.Right && !neighborShape.IsInRotateProcess)
                 neighbors.Add(neighborShape);
         }
@@ -92,15 +110,62 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
         return neighbors;
     }
 
+    /// <summary>
+    /// Поиск свободных соседних клеток, которые можно соединить с shape в текущей клетке. 
+    /// </summary>
+    public static List<Node> FindAvailableNeighborNodesForShapeSides(Node node)
+    {
+        if (node.Shape == null)
+            return null;
+
+        List<Node> neighbors = new List<Node>();
+        var shape = node.Shape;
+
+        if (shape.Up && shape.Yindex + 1 <= Grid.GetUpperBound(1))
+        {
+            var neighborNode = Grid[shape.Xindex, shape.Yindex + 1];
+            var neighborShape = neighborNode.Shape;
+            if (neighborShape != null && neighborShape.Down && !neighborShape.IsInRotateProcess)
+                neighbors.Add(neighborNode);
+        }
+
+        if (shape.Right && shape.Xindex + 1 <= Grid.GetUpperBound(0))
+        {
+            var neighborNode = Grid[shape.Xindex + 1, shape.Yindex];
+            var neighborShape = neighborNode.Shape;
+            if (neighborShape != null && neighborShape.Left && !neighborShape.IsInRotateProcess)
+                neighbors.Add(neighborNode);
+        }
+
+        if (shape.Down && shape.Yindex - 1 >= 0)
+        {
+            var neighborNode = Grid[shape.Xindex, shape.Yindex - 1];
+            var neighborShape = neighborNode.Shape;
+            if (neighborShape != null && neighborShape.Up && !neighborShape.IsInRotateProcess)
+                neighbors.Add(neighborNode);
+        }
+
+        if (shape.Left && shape.Xindex - 1 >= 0)
+        {
+            var neighborNode = Grid[shape.Xindex - 1, shape.Yindex];
+            var neighborShape = neighborNode.Shape;
+            if (neighborShape != null && neighborShape.Right && !neighborShape.IsInRotateProcess)
+                neighbors.Add(neighborNode);
+        }
+
+        return neighbors;
+    }
+
+
     private static Node[,] FillNodesMatrix()
     {
         var gridGraph = AstarPath.active.astarData.gridGraph;
-        var nodesGrid = new Node[gridGraph.width,gridGraph.depth];
+        var nodesGrid = new Node[gridGraph.width, gridGraph.depth];
 
         for (int i = 0; i < gridGraph.width; i++)
             for (int j = 0; j < gridGraph.depth; j++)
             {
-                var node = new Node();
+                var node = new Node(i, j);
 
                 int ypos = Mathf.RoundToInt(AstarPath.active.astarData.gridGraph.center.y);
                 var collaiders = Physics.OverlapSphere(new Vector3(i, ypos, j), 0.499f);
@@ -120,15 +185,13 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
                     var c = collaiders.First();
                     Shape shape = c.GetComponent<Shape>();
                     if (shape != null)
-                    {                        
-                        int x = Mathf.RoundToInt(shape.transform.position.x);
-                        int y = Mathf.RoundToInt(shape.transform.position.z);
-                        shape.Xindex = x; //i;
-                        shape.Yindex = y; //j;
-                        node.shape = shape;
+                    {
+                        //int x = Mathf.RoundToInt(shape.transform.position.x);
+                        //int y = Mathf.RoundToInt(shape.transform.position.z);
+                        node.SetShape(shape);//, x, y);
                     }
                     else
-                        node.notShapeObject = c.gameObject;
+                        node.NotShapeObject = c.gameObject;
                 }
                 nodesGrid[i, j] = node;
             }
