@@ -42,14 +42,14 @@ public class Signal : MonoBehaviour
     {
         SignalManager.OnCreateSignal();
         transform.parent = SceneContainers.Signals;
-        if (ShapesGrid.Grid == null)
+        if (NodesGrid.Grid == null)
         {
-            Debug.LogError("ShapesGrid.Grid is not initialized");
+            Debug.LogError("NodesGrid.Grid is not initialized");
             return;
         }
         int x = Mathf.RoundToInt(transform.position.x);
         int y = Mathf.RoundToInt(transform.position.z);
-        _currentShape = ShapesGrid.Grid[y, x];
+        _currentShape = NodesGrid.Grid[y, x].shape;
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ public class Signal : MonoBehaviour
             if (!_isClonedInCurrentShape)
                 _prevOutDirection = _currentShape.GetOutDirection(_prevOutDirection);//получение направления выхода из текущей shape
 
-            _currentShape = ShapesGrid.GetNextShape(_currentShape, _prevOutDirection);
+            _currentShape = NodesGrid.GetNextShape(_currentShape, _prevOutDirection);
             if (_currentShape == null || _currentShape.IsInRotateProcess || !_currentShape.HasConnection(_prevOutDirection))
             {
                 DestroySelf();

@@ -10,5 +10,8 @@
 		public static readonly string Player = "Player";
 		public static readonly string GameController = "GameController";
 		public static readonly string Menu = "Menu";
+		public static readonly string nodeFurniture = "nodeFurniture";
+		public static readonly string shape = "shape";
+		public static readonly string nodeDevice = "nodeDevice";
 	}
 }

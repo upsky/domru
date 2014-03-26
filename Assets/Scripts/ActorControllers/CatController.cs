@@ -151,8 +151,8 @@ public class CatController : MonoBehaviour
 
         int x = Mathf.RoundToInt(transform.position.x);
         int y = Mathf.RoundToInt(transform.position.z);
-        
-        var shape=ShapesGrid.Grid[y, x];
+
+        var shape = NodesGrid.Grid[y, x].shape;
         if (shape != null)
         {
             shape.RotateCommand();

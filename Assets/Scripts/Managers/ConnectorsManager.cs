@@ -86,7 +86,7 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
             _unConnectedConnectors.Remove(connector);
         }
 
-        var neighbors = ShapesGrid.FindConnectedNeighborShapes(shape);
+        var neighbors = NodesGrid.FindConnectedNeighborShapes(shape);
         foreach (var neighbor in neighbors)
         {
             if (!_traversedShapes.Contains(neighbor))
