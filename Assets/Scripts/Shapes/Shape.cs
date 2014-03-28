@@ -13,6 +13,11 @@ namespace Shapes
 
         public bool IsInRotateProcess { get; protected set; }
 
+        public Direction CurrentDirection
+        {
+            get { return _currentDirection; }
+        }
+
         [HideInInspector]
         public int Xindex;
 
@@ -112,6 +117,14 @@ namespace Shapes
         {
             UpdateInnerRotateVariables();
             transform.Rotate(0, -90, 0);
+        }
+
+        public void FastRotateToDirection(Direction direction)
+        {
+            while (NeedContinueRotating(direction))
+            {
+                FastRotate();
+            }
         }
 
         private void RotateToLeft()

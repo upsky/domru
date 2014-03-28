@@ -60,26 +60,31 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
         return !Instance._unConnectedConnectors.Contains(c);
     }
 
+    public static bool IsAllConnected()
+    {
+        CheckAllConnections();
+        return Instance._unConnectedConnectors.Count == 0;
+    }
+
     public static void CheckAllConnections()
     {
-        System.DateTime t1, t2;
-        t1 = System.DateTime.Now;
+        //System.DateTime t1, t2;
+        //t1 = System.DateTime.Now;
 
-        for (int i=0; i<40*3; i++)
+
+        Instance._unConnectedConnectors.Clear();
+        Instance._unConnectedConnectors.AddRange(Instance._targetConnectors);
+
+        //if Has Start Connection
+        if (Instance._startConnector.NearestShape.HasConnection(Instance._startConnector.CurrentDirection))
         {
-            Instance._unConnectedConnectors.Clear();
-            Instance._unConnectedConnectors.AddRange(Instance._targetConnectors);
-
-            //if Has Start Connection
-            if (Instance._startConnector.NearestShape.HasConnection(Instance._startConnector.CurrentDirection))
-            {
-                Instance.CheckConnectRecursively(Instance._startConnector.NearestShape);
-                Instance._traversedShapes.Clear();
-            }
+            Instance.CheckConnectRecursively(Instance._startConnector.NearestShape);
+            Instance._traversedShapes.Clear();
         }
+        
 
-        t2 = System.DateTime.Now;
-        Debug.LogWarning("time CheckAllConnections() =" + (t2 - t1).Milliseconds*0.001);
+        //t2 = System.DateTime.Now;
+        //Debug.LogWarning("time CheckAllConnections() =" + (t2 - t1).Milliseconds*0.001);
         Debug.LogWarning("connected connectors count=" + (Instance._targetConnectors.Count() - Instance._unConnectedConnectors.Count));
 
         foreach (var c in Instance._unConnectedConnectors)

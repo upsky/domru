@@ -9,25 +9,24 @@ public static class ShapesGenerator
 
     public static void StartGeneration()
     {
-        //;
         var astarNode = AstarPath.active.astarData.gridGraph.GetNearest(ConnectorsManager.StartConnector.transform.position).node;
         int x = Mathf.RoundToInt(astarNode.position.ToVector3().x);
         int y = Mathf.RoundToInt(astarNode.position.ToVector3().z);
         
-        Debug.LogWarning(x + "," + y);
+        //Debug.LogWarning(x + "," + y);
         var node = NodesGrid.Grid[x, y];
 
         GenerateRecursively(node, ConnectorsManager.StartConnector.CurrentDirection);
-        
-        ConnectorsManager.CheckAllConnections();
+
+        RandomRoatateAllShapes();
     }
 
-    public static void GenerateRecursively(NodesGrid.Node node, Direction prevOutDirection)
+    private static void GenerateRecursively(NodesGrid.Node node, Direction prevOutDirection)
     {
         if (!node.IsAvailable)
             return;
 
-        node.SetShape(CreateRandomShape(node.X, node.Y));
+        node.SetShape(CreateTeeShape(node.X, node.Y));
         node.Shape.transform.parent = SceneContainers.Shapes;
         FastRotateToConnection(node.Shape, prevOutDirection);
 
@@ -38,11 +37,42 @@ public static class ShapesGenerator
         }
     }
 
-    public static Shape CreateRandomShape(float x, float y)
+    private static void RandomRoatateAllShapes()
+    {
+        foreach (var node in NodesGrid.Grid)
+        {
+            if (node.Shape != null)
+            {
+                Direction currentDir = node.Shape.CurrentDirection;
+                RandomRotateShape(node.Shape);
+                if (!ConnectorsManager.IsAllConnected())
+                {
+                    node.Shape.FastRotateToDirection(currentDir);
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    private static Shape CreateTeeShape(float x, float y)
+    {
+        Vector3 pos = new Vector3(x, _shapeYpos, y);
+        var teeGO = Object.Instantiate(ResourcesLoader.TeeShapePrefab, pos, new Quaternion(0, 0, 0, 0)) as GameObject;
+        return teeGO.GetComponent<TeeShape>();
+    }
+
+    private static Shape CreateRandomShape(float x, float y)
     {
         int rnd = Random.Range(0, 3);
         Vector3 pos = new Vector3(x, _shapeYpos, y);
-        rnd = 2;
         switch (rnd)
         {
             case 0:
@@ -57,10 +87,17 @@ public static class ShapesGenerator
         }
     }
 
+
+    private static void RandomRotateShape(Shape shape)
+    {
+        Direction dir = (Direction) Random.Range(0, 4);
+        shape.FastRotateToDirection(dir);
+    }
+
     /// <summary>
     /// Вращает targetShape, пока он не будет соединен с другим, если это возможно.
     /// </summary>
-    public static void FastRotateToConnection(Shape targetShape, Direction direction)
+    private static void FastRotateToConnection(Shape targetShape, Direction direction)
     {
         for (int i = 0; i < 4; i++)
         {
