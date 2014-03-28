@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 class CreatePrefabFromSelected
 {
-    const string menuName = "GameObject/Create Prefab From Selected";
+    const string menuName = "Assets/Custom/Create Prefab From Selected";
 
     /// <summary>
     /// Adds a menu named "Create Prefab From Selected" to the GameObject menu.
@@ -17,8 +17,13 @@ class CreatePrefabFromSelected
         foreach (GameObject go in Selection.gameObjects)
         {
             //var go = Selection.activeGameObject;
-            var prefab = PrefabUtility.CreateEmptyPrefab("Assets/" + go.name + ".prefab");
-            PrefabUtility.ReplacePrefab(go, prefab);
+            //var prefab = PrefabUtility.CreateEmptyPrefab("Assets/" + go.name + ".prefab");
+
+            var prefab = AssetDatabase.LoadAssetAtPath("Assets/" + go.name + ".prefab", typeof(GameObject));
+            if (prefab==null)
+                prefab = PrefabUtility.CreateEmptyPrefab("Assets/" + go.name + ".prefab");
+
+            PrefabUtility.ReplacePrefab(go, prefab, ReplacePrefabOptions.ReplaceNameBased);
         }
         AssetDatabase.Refresh();
     }
