@@ -1,8 +1,11 @@
-﻿using Shapes;
+﻿using System;
+using Shapes;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
 
+
+[ExecuteInEditMode]
 public class Connector : MonoBehaviour
 {
     public bool IsStartConnector;
@@ -41,9 +44,23 @@ public class Connector : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        if (!Application.isPlaying)
+            return;
+
         if (!IsStartConnector)
             renderer.material.color = Color.red;
     }
+
+#if UNITY_EDITOR
+    private void Update()
+    {
+        //выранивания до 0.5
+        float x = (float) Math.Ceiling(transform.position.x*2)/2;
+        float z = (float) Math.Ceiling(transform.position.z*2)/2;
+        transform.SetX(x);
+        transform.SetZ(z);
+    }
+#endif
 
     private void OnTriggerEnter(Collider c) //проверка, пришел ли сигнал
     {
@@ -81,5 +98,7 @@ public class Connector : MonoBehaviour
         else
             _device.SwitchToOff();
     }
+
+
 
 }
