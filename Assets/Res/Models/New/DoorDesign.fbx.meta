@@ -5,11 +5,16 @@ ModelImporter:
   fileIDToRecycleName:
     100000: //RootNode
     100002: DoorUV
+    100004: DoorDesignUV
     400000: //RootNode
     400002: DoorUV
+    400004: DoorDesignUV
     2300000: DoorUV
+    2300002: DoorDesignUV
     3300000: DoorUV
+    3300002: DoorDesignUV
     4300000: DoorUV
+    4300002: DoorDesignUV
     9500000: //RootNode
   materials:
     importMaterials: 0
