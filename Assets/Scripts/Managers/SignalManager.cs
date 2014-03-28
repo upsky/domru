@@ -28,7 +28,7 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
     [SerializeField]
     private bool _randomCloning = false;
 
-    [SerializeField]
+    [SerializeField, Range(1,100)]
     private int _maxSignalsCount = 100;
 
     [SerializeField, ReadOnlyInInspector]
