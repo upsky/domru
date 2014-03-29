@@ -21,10 +21,12 @@ public class ClickHandler : RequiredMonoSingleton<ClickHandler>
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, _clickableMmask))
             {
+                //Debug.LogWarning("OnClick_" + hit.transform.name);
                 hit.transform.SendMessage("OnClick", SendMessageOptions.DontRequireReceiver); 
             }
-
-            ShapesGenerator.StartGeneration();
         }
+
+        if (Input.GetMouseButtonDown(1))
+            ShapesGenerator.StartGeneration();
     }
 }
