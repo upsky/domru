@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-
 [ExecuteInEditMode]
 public class Connector : MonoBehaviour
 {
@@ -24,14 +23,32 @@ public class Connector : MonoBehaviour
             if (_nearestShape != null)
                 return _nearestShape;
 
-            var node = AstarPath.active.astarData.gridGraph.GetNearest(transform.position).node;
-            _nearestShape = PhysicsUtils.OverlapSphere<Shape>(node.position.ToVector3(), 0.3f).FirstOrDefault();
+            //var node = AstarPath.active.astarData.gridGraph.GetNearest(transform.position).node;
+            _nearestShape = NearestNode.Shape;//PhysicsExt.OverlapSphere<Shape>(node.position.ToVector3(), 0.3f).FirstOrDefault();
 
-            if (_nearestShape == null)
-                Debug.LogError("Shape not found", this);
+            //if (_nearestShape == null)
+            //    Debug.LogError("Shape not found", this);
             return _nearestShape;
         }
     }
+
+    public NodesGrid.Node _nearestNode;
+
+    public NodesGrid.Node NearestNode
+    {
+        get
+        {
+            if (_nearestNode != null)
+                return _nearestNode;
+
+            var node = AstarPath.active.astarData.gridGraph.GetNearest(transform.position).node;
+            VectorInt2 nodeIndex = node.position.ToVector3();
+
+            _nearestNode = NodesGrid.Grid[nodeIndex.x, nodeIndex.y];
+            return _nearestNode;
+        }
+    }
+
 
     public bool IsConnected { get; private set; }
 
@@ -98,7 +115,5 @@ public class Connector : MonoBehaviour
         else
             _device.SwitchToOff();
     }
-
-
 
 }

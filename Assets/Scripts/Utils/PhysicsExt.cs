@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public static class PhysicsUtils
+public static class PhysicsExt
 {
     public static T[] OverlapSphere<T>(Vector3 position, float radius) where T : Component
     {

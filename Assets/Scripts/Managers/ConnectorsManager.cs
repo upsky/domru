@@ -66,6 +66,12 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
         return Instance._unConnectedConnectors.Count == 0;
     }
 
+    public static int GetConnectedCount()
+    {
+        CheckAllConnections();
+        return Instance._targetConnectors.Length - Instance._unConnectedConnectors.Count;
+    }
+
     public static void CheckAllConnections()
     {
         //System.DateTime t1, t2;
@@ -90,6 +96,14 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
         foreach (var c in Instance._unConnectedConnectors)
             c.SwitchToOff();
     }
+
+    //public static List<NodesGrid.Node> GetAllConnectorsNodes(bool includeStartConnectorNode)
+    //{
+    //    List<NodesGrid.Node> nodes = Instance._targetConnectors.Select(c => c.NearestNode).ToList();
+    //    if (includeStartConnectorNode)
+    //        nodes.Add(Instance._startConnector.NearestNode);
+    //    return nodes;
+    //}
 
     private void CheckConnectRecursively(Shape shape)
     {

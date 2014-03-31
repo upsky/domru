@@ -115,10 +115,10 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
     /// </summary>
     public static List<KeyValuePair<Node, Direction>> FindAvailableNeighborNodesForShapeSides(Node node)
     {
-        if (node.Shape == null)
-            return null;
-
         var neighbors = new List<KeyValuePair<Node, Direction>>();
+        if (node.Shape == null)
+            return neighbors;
+
         var shape = node.Shape;
 
         if (shape.Up && shape.Yindex + 1 <= Grid.GetUpperBound(1))
@@ -146,6 +146,22 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
         }
 
         return neighbors;
+    }
+
+
+    /// <summary>
+    /// Возвращает количество нод, которые пустые или содержат shape, но не содержат другие объекты(мебель, устройства)
+    /// </summary>
+    /// <returns></returns>
+    public static int GetNodesCountWithNotShapeObject()
+    {
+        int count = 0;
+        foreach (var node in Grid)
+        {
+            if (node.NotShapeObject == null)
+                count++;
+        }
+        return count;
     }
 
 
@@ -178,9 +194,7 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
                     Shape shape = c.GetComponent<Shape>();
                     if (shape != null)
                     {
-                        //int x = Mathf.RoundToInt(shape.transform.position.x);
-                        //int y = Mathf.RoundToInt(shape.transform.position.z);
-                        node.SetShape(shape);//, x, y);
+                        node.SetShape(shape);
                     }
                     else
                         node.NotShapeObject = c.gameObject;

@@ -149,10 +149,8 @@ public class CatController : MonoBehaviour
         if (_isStoppedAnyActivity || _currentActivityType == ActivityType.DirectMovement || _waitTime > 0)
             return;
 
-        int x = Mathf.RoundToInt(transform.position.x);
-        int y = Mathf.RoundToInt(transform.position.z);
-
-        var shape = NodesGrid.Grid[x, y].Shape;
+        VectorInt2 nodeIndex = transform.position;
+        var shape = NodesGrid.Grid[nodeIndex.x, nodeIndex.y].Shape;
         if (shape != null)
         {
             shape.RotateCommand();

@@ -47,9 +47,8 @@ public class Signal : MonoBehaviour
             Debug.LogError("NodesGrid.Grid is not initialized");
             return;
         }
-        int x = Mathf.RoundToInt(transform.position.x);
-        int y = Mathf.RoundToInt(transform.position.z);
-        _currentShape = NodesGrid.Grid[x, y].Shape;
+        VectorInt2 nodeIndex = transform.position;
+        _currentShape = NodesGrid.Grid[nodeIndex.x, nodeIndex.y].Shape;
     }
 
     /// <summary>
