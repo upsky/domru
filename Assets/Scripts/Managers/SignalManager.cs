@@ -88,13 +88,13 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
         var shape = _spawnItems[index].Shape;
         var direction = _spawnItems[index].Side;
 
-        if (shape.GetPath(direction).Count == 0)
+        if (shape==null || shape.GetPath(direction).Count == 0)
         {
             return;
         }
         var startPoint = shape.GetPath(direction).First();
 
-        var signalGO = (Instantiate(_prefab, startPoint, new Quaternion(0, 0, 0, 0)) as GameObject);
+        var signalGO = (GameObject)Instantiate(_prefab, startPoint, new Quaternion(0, 0, 0, 0));
         var signal = signalGO.GetComponent<Signal>();
         signal.Init(direction, _prefab);
     }

@@ -7,6 +7,7 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
 {
     public enum GameMode
     {
+        //Loading,
         Normal,
         InvokeAdjuster, //режим вызова монтажника
         Victory

@@ -129,8 +129,8 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
         }
     }
 
-    private Connector FindConnectorWithConnection(Shape shape)
+    private static Connector FindConnectorWithConnection(Shape shape)
     {
-        return _unConnectedConnectors.FirstOrDefault(c => c.NearestShape == shape);
+        return Instance._unConnectedConnectors.FirstOrDefault(c => c.NearestShape == shape);
     }
 }

@@ -12,5 +12,5 @@ public class ChainItem
     public Shape Shape;
     public Direction TargetDirection;
 
-    public List<ChainItem> childChain;
+    public List<ChainItem> childChain = new List<ChainItem>();
 }

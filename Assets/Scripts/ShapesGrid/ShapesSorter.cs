@@ -24,6 +24,11 @@ public class ShapesSorter : RequiredMonoSingleton<ShapesSorter>
         Instance.StartCoroutine(Instance.SortChainRecursively(Instance._chainItems));
 	}
 
+    public static void SetChain(List<ChainItem> chainItems)
+    {
+        Instance._chainItems = chainItems;
+    }
+
     private IEnumerator SortChainRecursively(List<ChainItem> chainItems)//string name, int level)
     {
        

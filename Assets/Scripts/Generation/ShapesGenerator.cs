@@ -21,6 +21,7 @@ public static class ShapesGenerator
         if (isFirstStart)
         {
             shapesCount = 0;
+            isFirstStart = false;
 
             var astarNode = AstarPath.active.astarData.gridGraph.GetNearest(ConnectorsManager.StartConnector.transform.position).node;
             VectorInt2 nodeIndex = astarNode.position.ToVector3();
@@ -33,23 +34,21 @@ public static class ShapesGenerator
             bool isAllConnected = false;
             while (i < 100 && isAllConnected == false)
             {
-                RandomRotateAllShapes();
+                RandomSafeRotateWithGenerationAllShapes();
                 isAllConnected = ConnectorsManager.GetConnectedCount() == ConnectorsManager.TargetConnectors.Count();
                 i++;
             }
             if (isAllConnected)
                 Debug.LogWarning("<color=green>AllConnected=true</color> iterations_count=" + i);
 
+
+            RandomReplacementAllShapes();
+            ShapesPathBaker.FindAndSavePath();
+
+            FillEmptyNodes();
+            RandomRotateAllShapes();
         }
-        RandomReplacementAllShapes();
-        //isFirstStart = false;
-
-        //4. запекание(сохранение) пути
-
-        FillEmptyNodes();
-        //6. рендомный поворот всех нод
         //7. проверка, чтобы не был соединен ни один коннектор. Если соединен, то повтор пункта 6
-
     }
 
 
@@ -58,10 +57,7 @@ public static class ShapesGenerator
         if (!node.IsAvailable)
             return;
 
-        //node.SetShape(CreateTeeShape(node));
-        //shapesCount++;
         CreateShape(node, typeof (TeeShape));
-
         FastRotateToConnection((TeeShape)node.Shape, prevOutDirection);
 
         //генерация ноды, если свободная клетка
@@ -72,7 +68,11 @@ public static class ShapesGenerator
         }
     }
 
-    private static void RandomRotateAllShapes()
+
+    /// <summary>
+    /// Вращение всех shape так, чтобы не пропали соединения с коннекторами. Также генерирует shape-ы, если у повернутого shape есть свободные выходы в соседние пустые ноды.
+    /// </summary>
+    private static void RandomSafeRotateWithGenerationAllShapes()
     {
         //количество подключенных коннекторов в начале этой функции
         int connectedConnectorsMaxCount = ConnectorsManager.GetConnectedCount();
@@ -86,7 +86,7 @@ public static class ShapesGenerator
 
                 int connectedCount = ConnectorsManager.GetConnectedCount();
 
-                //возврат к состоянию до рендомного вращения
+                //возврат к состоянию до рэндомного вращения
                 if (connectedCount < connectedConnectorsMaxCount)
                     node.Shape.FastRotateToDirection(currentDir);
 
@@ -143,6 +143,14 @@ public static class ShapesGenerator
         }
     }
 
+    private static void RandomRotateAllShapes()
+    {
+        foreach (var node in NodesGrid.Grid)
+        {
+            if (node.Shape != null)
+                RandomRotateShape(node.Shape);
+        }
+    }
 
     private static void CreateRandomShape(Node node)
     {
@@ -234,9 +242,8 @@ public static class ShapesGenerator
         foreach (var node in NodesGrid.Grid)
         {
             if (node.IsAvailable)
-            {
                 CreateRandomShape(node);
-            }
         }
     }
+
 }
