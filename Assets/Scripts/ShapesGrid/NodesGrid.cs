@@ -4,6 +4,7 @@ using Shapes;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Object = UnityEngine.Object;
 
 
 public class NodesGrid : RequiredMonoSingleton<NodesGrid>
@@ -40,6 +41,12 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
             Shape = shape;
             Shape.Xindex = X;
             Shape.Yindex = Y;
+        }
+
+        public void RemoveShape()
+        {
+            Destroy(Shape.gameObject);
+            Shape = null;
         } 
     }
 

@@ -91,10 +91,16 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
 
         //t2 = System.DateTime.Now;
         //Debug.LogWarning("time CheckAllConnections() =" + (t2 - t1).Milliseconds*0.001);
-        Debug.LogWarning("connected connectors count=" + (Instance._targetConnectors.Count() - Instance._unConnectedConnectors.Count));
+       // Debug.LogWarning("connected connectors count=" + (Instance._targetConnectors.Count() - Instance._unConnectedConnectors.Count));
 
         foreach (var c in Instance._unConnectedConnectors)
             c.SwitchToOff();
+    }
+
+    public static Connector FindConnectorWithNearestShape(Shape shape)
+    {
+        var connector = TargetConnectors;
+        return connector.FirstOrDefault(c => c.NearestShape == shape);
     }
 
     //public static List<NodesGrid.Node> GetAllConnectorsNodes(bool includeStartConnectorNode)
@@ -127,5 +133,4 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
     {
         return _unConnectedConnectors.FirstOrDefault(c => c.NearestShape == shape);
     }
-
 }

@@ -15,20 +15,11 @@ public class Connector : MonoBehaviour
     [ReadOnlyInInspector]
     public Direction CurrentDirection;
 
-    public Shape _nearestShape;
-
-    public Shape NearestShape {
+    public Shape NearestShape 
+    {
         get
         {
-            if (_nearestShape != null)
-                return _nearestShape;
-
-            //var node = AstarPath.active.astarData.gridGraph.GetNearest(transform.position).node;
-            _nearestShape = NearestNode.Shape;//PhysicsExt.OverlapSphere<Shape>(node.position.ToVector3(), 0.3f).FirstOrDefault();
-
-            //if (_nearestShape == null)
-            //    Debug.LogError("Shape not found", this);
-            return _nearestShape;
+            return NearestNode.Shape;
         }
     }
 

@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System.Collections;
 using Shapes;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
+using Node = NodesGrid.Node;
 
 public static class ShapesGenerator
 {
@@ -10,43 +14,58 @@ public static class ShapesGenerator
 
     private static int shapesCount;
 
+    private static bool isFirstStart = true;
+
     public static void StartGeneration()
     {
-        shapesCount = 0;
-
-        var astarNode = AstarPath.active.astarData.gridGraph.GetNearest(ConnectorsManager.StartConnector.transform.position).node;
-        VectorInt2 nodeIndex = astarNode.position.ToVector3();
-        //Debug.LogWarning(x + "," + y);
-        var node = NodesGrid.Grid[nodeIndex.x, nodeIndex.y];
-
-        GenerateRecursively(node, ConnectorsManager.StartConnector.CurrentDirection);
-
-        int i = 0;
-        bool isAllConnected = false;
-        while (i < 100 && isAllConnected == false)
+        if (isFirstStart)
         {
-            RandomRotateAllShapes();
-            isAllConnected = ConnectorsManager.GetConnectedCount() == ConnectorsManager.TargetConnectors.Count();
-            i++;
+            shapesCount = 0;
+
+            var astarNode = AstarPath.active.astarData.gridGraph.GetNearest(ConnectorsManager.StartConnector.transform.position).node;
+            VectorInt2 nodeIndex = astarNode.position.ToVector3();
+            //Debug.LogWarning(x + "," + y);
+            var node = NodesGrid.Grid[nodeIndex.x, nodeIndex.y];
+
+            GenerateRecursively(node, ConnectorsManager.StartConnector.CurrentDirection);
+
+            int i = 0;
+            bool isAllConnected = false;
+            while (i < 100 && isAllConnected == false)
+            {
+                RandomRotateAllShapes();
+                isAllConnected = ConnectorsManager.GetConnectedCount() == ConnectorsManager.TargetConnectors.Count();
+                i++;
+            }
+            if (isAllConnected)
+                Debug.LogWarning("<color=green>AllConnected=true</color> iterations_count=" + i);
+
         }
-        if (isAllConnected)
-            Debug.LogWarning("<color=green>isAllConnected=true</color> iterations_count=" + i);
+        RandomReplacementAllShapes();
+        //isFirstStart = false;
+
+        //4. запекание(сохранение) пути
 
         FillEmptyNodes();
+        //6. рендомный поворот всех нод
+        //7. проверка, чтобы не был соединен ни один коннектор. Если соединен, то повтор пункта 6
+
     }
 
 
-    private static void GenerateRecursively(NodesGrid.Node node, Direction prevOutDirection)
+    private static void GenerateRecursively(Node node, Direction prevOutDirection)
     {
         if (!node.IsAvailable)
             return;
 
-        node.SetShape(CreateTeeShape(node.X, node.Y));
-        shapesCount++;
-        FastRotateToConnection(node.Shape, prevOutDirection);
+        //node.SetShape(CreateTeeShape(node));
+        //shapesCount++;
+        CreateShape(node, typeof (TeeShape));
+
+        FastRotateToConnection((TeeShape)node.Shape, prevOutDirection);
 
         //генерация ноды, если свободная клетка
-        List<KeyValuePair<NodesGrid.Node,Direction>> nodes = NodesGrid.FindAvailableNeighborNodesForShapeSides(node);
+        List<KeyValuePair<Node,Direction>> nodes = NodesGrid.FindAvailableNeighborNodesForShapeSides(node);
         foreach (var nodeDirPair in nodes)
         {
             GenerateRecursively(nodeDirPair.Key, nodeDirPair.Value.GetOpposite());
@@ -66,58 +85,114 @@ public static class ShapesGenerator
                 RandomRotateShape(node.Shape);
 
                 int connectedCount = ConnectorsManager.GetConnectedCount();
-                connectedConnectorsMaxCount = Mathf.Max(connectedConnectorsMaxCount, connectedCount);
 
                 //возврат к состоянию до рендомного вращения
                 if (connectedCount < connectedConnectorsMaxCount)
                     node.Shape.FastRotateToDirection(currentDir);
+
+                connectedConnectorsMaxCount = Mathf.Max(connectedConnectorsMaxCount, connectedCount);
             }
 
             //генерация ноды, если свободная клетка
-            List<KeyValuePair<NodesGrid.Node, Direction>> nodes = NodesGrid.FindAvailableNeighborNodesForShapeSides(node);
+            List<KeyValuePair<Node, Direction>> nodes = NodesGrid.FindAvailableNeighborNodesForShapeSides(node);
             foreach (var nodeDirPair in nodes)
             {
                 GenerateRecursively(nodeDirPair.Key, nodeDirPair.Value.GetOpposite());
             }
+        }
+    }
 
+    /// <summary>
+    /// Рэндомная замена с проверкой существования пути
+    /// </summary>
+    private static void RandomReplacementAllShapes()
+    {  
+        //количество подключенных коннекторов в начале этой функции
+        int connectedConnectorsMaxCount = ConnectorsManager.GetConnectedCount();
+
+        foreach (var node in NodesGrid.Grid)
+        {
+            if (node.Shape != null)
+            {
+                Direction currentDir = node.Shape.CurrentDirection;
+                Type currentShapeType = node.Shape.GetType();
+
+                RemoveShape(node);
+                CreateRandomShape(node);
+
+                //вращение с целью попытаться соединить ноду с другими
+                int connectedCount = ConnectorsManager.GetConnectedCount();
+                int i = 0;
+                while (i < 3 && connectedCount < connectedConnectorsMaxCount)
+                {
+                    node.Shape.FastRotate();
+                    connectedCount = ConnectorsManager.GetConnectedCount();
+                    i++;
+                }
+
+                //возврат к состоянию до рендома
+                if (connectedCount < connectedConnectorsMaxCount)
+                {
+                    RemoveShape(node);
+                    CreateShape(node, currentShapeType);
+                    node.Shape.FastRotateToDirection(currentDir);
+                }
+
+                connectedConnectorsMaxCount = Mathf.Max(connectedConnectorsMaxCount, connectedCount);
+            }
         }
     }
 
 
-
-    private static Shape CreateTeeShape(float x, float y)
+    private static void CreateRandomShape(Node node)
     {
-        Vector3 pos = new Vector3(x, _shapeYpos, y);
-        var teeGO = (GameObject) Object.Instantiate(ResourcesLoader.TeeShapePrefab, pos, new Quaternion(0, 0, 0, 0));
-        teeGO.transform.parent = SceneContainers.Shapes;
-        return teeGO.GetComponent<TeeShape>();
-    }
-
-    private static Shape CreateRandomShape(float x, float y)
-    {
-        int rnd = Random.Range(0, 3);
-        Vector3 pos = new Vector3(x, _shapeYpos, y);
-        Shape retShape = null;
-        GameObject prefab;
-        switch (rnd)
+        switch (Random.Range(0, 3))
         {
             case 0:
-                prefab = ResourcesLoader.LineShapePrefab;
+                CreateShape(node, typeof(LineShape));
                 break;
             case 1:
-                prefab = ResourcesLoader.CornerShapePrefab;
+                CreateShape(node, typeof(CornerShape));
                 break;
             default:
+                CreateShape(node, typeof(TeeShape));
+                break;
+        }
+    }
+
+    private static void CreateShape(Node node, Type shapeType)
+    {
+        GameObject prefab = null;
+        switch (shapeType.Name)
+        {
+            case "LineShape":
+                prefab = ResourcesLoader.LineShapePrefab;
+                break;
+            case "CornerShape":
+                prefab = ResourcesLoader.CornerShapePrefab;
+                break;
+            case "TeeShape":
                 prefab = ResourcesLoader.TeeShapePrefab;
+                break;
+            default:
+                Debug.LogError("incorrect type - " + shapeType.Name);
                 break;
         }
 
-        var shapeGO = (GameObject) Object.Instantiate(prefab, pos, new Quaternion(0, 0, 0, 0));
-        retShape = shapeGO.GetComponent<Shape>();
-        retShape.transform.parent = SceneContainers.Shapes;
-        return retShape;
+        Vector3 pos = new Vector3(node.X, _shapeYpos, node.Y);
+        var shapeGO = (GameObject)Object.Instantiate(prefab, pos, new Quaternion(0, 0, 0, 0));
+        shapeGO.transform.parent = SceneContainers.Shapes;
+        
+        Shape retShape = shapeGO.GetComponent<Shape>();
+        node.SetShape(retShape);
+        shapesCount++;
     }
 
+    private static void RemoveShape(Node node)
+    {
+        node.RemoveShape();
+        shapesCount--;
+    }
 
     private static void RandomRotateShape(Shape shape)
     {
@@ -126,31 +201,26 @@ public static class ShapesGenerator
     }
 
     /// <summary>
-    /// Вращает targetShape, пока он не будет соединен с другим, если это возможно. Если targetShape расположен в ноде с коннектором, то будет требоваться соединение еще и с коннектором
+    /// Вращает teeShape, пока он не будет соединен с другим, если это возможно. Если targetShape расположен в ноде с коннектором, то будет требоваться соединение еще и с коннектором
     /// </summary>
-    private static void FastRotateToConnection(Shape targetShape, Direction direction)
+    private static void FastRotateToConnection(TeeShape teeShape, Direction direction)
     {
         for (int i = 0; i < 4; i++)
         {
-            if (targetShape.HasConnection(direction))
+            if (teeShape.HasConnection(direction))
             {
-                var connector = GetConnector(targetShape);
+                var connector = ConnectorsManager.FindConnectorWithNearestShape(teeShape);
                 if (connector == null)
                     return;
-                if (targetShape.HasConnection(connector.CurrentDirection))
+                if (teeShape.HasConnection(connector.CurrentDirection))
                     return;
             }
-           
-            targetShape.FastRotate();
+            if (i < 3)
+                teeShape.FastRotate();
         }
         Debug.LogError("connection not found");
     }
 
-    private static Connector GetConnector(Shape targetShape)
-    {
-        var connector = ConnectorsManager.TargetConnectors;
-        return connector.FirstOrDefault(c => c.NearestShape == targetShape);
-    }
 
     private static void FillEmptyNodes()
     {
@@ -158,16 +228,15 @@ public static class ShapesGenerator
         if (shapesCount == needShapesCount)
             return;
 
-        Debug.LogWarning("<color=green>FillEmptyNodes()</color> count=" + shapesCount);
+        if (shapesCount!=0)
+            Debug.LogWarning("<color=green>FillEmptyNodes()</color> count=" + shapesCount);
 
         foreach (var node in NodesGrid.Grid)
         {
             if (node.IsAvailable)
             {
-                node.SetShape(CreateRandomShape(node.X, node.Y));
-                shapesCount++;
+                CreateRandomShape(node);
             }
         }
     }
-
 }
