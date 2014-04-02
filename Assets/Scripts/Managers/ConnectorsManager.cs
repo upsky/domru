@@ -74,25 +74,15 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
 
     public static void CheckAllConnections()
     {
-        //System.DateTime t1, t2;
-        //t1 = System.DateTime.Now;
-
-
         Instance._unConnectedConnectors.Clear();
         Instance._unConnectedConnectors.AddRange(Instance._targetConnectors);
 
         //if Has Start Connection
-        if (Instance._startConnector.NearestShape.HasConnection(Instance._startConnector.CurrentDirection))
+        if (Instance._startConnector.NearestNode.Shape.HasConnection(Instance._startConnector.CurrentDirection))
         {
-            Instance.CheckConnectRecursively(Instance._startConnector.NearestShape);
+            Instance.CheckConnectRecursively(Instance._startConnector.NearestNode.Shape);
             Instance._traversedShapes.Clear();
         }
-        
-
-        //t2 = System.DateTime.Now;
-        //Debug.LogWarning("time CheckAllConnections() =" + (t2 - t1).Milliseconds*0.001);
-       // Debug.LogWarning("connected connectors count=" + (Instance._targetConnectors.Count() - Instance._unConnectedConnectors.Count));
-
         foreach (var c in Instance._unConnectedConnectors)
             c.SwitchToOff();
     }
@@ -100,16 +90,8 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
     public static Connector FindConnectorWithNearestShape(Shape shape)
     {
         var connector = TargetConnectors;
-        return connector.FirstOrDefault(c => c.NearestShape == shape);
+        return connector.FirstOrDefault(c => c.NearestNode.Shape == shape);
     }
-
-    //public static List<NodesGrid.Node> GetAllConnectorsNodes(bool includeStartConnectorNode)
-    //{
-    //    List<NodesGrid.Node> nodes = Instance._targetConnectors.Select(c => c.NearestNode).ToList();
-    //    if (includeStartConnectorNode)
-    //        nodes.Add(Instance._startConnector.NearestNode);
-    //    return nodes;
-    //}
 
     private void CheckConnectRecursively(Shape shape)
     {
@@ -131,6 +113,6 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
 
     private static Connector FindConnectorWithConnection(Shape shape)
     {
-        return Instance._unConnectedConnectors.FirstOrDefault(c => c.NearestShape == shape);
+        return Instance._unConnectedConnectors.FirstOrDefault(c => c.NearestNode.Shape == shape);
     }
 }

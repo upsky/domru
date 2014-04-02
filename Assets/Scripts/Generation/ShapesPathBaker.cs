@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Shapes;
-using UnityEngine;
 
 public static class ShapesPathBaker
 {
     private static readonly List<Shape> _traversedShapes = new List<Shape>();
     private static readonly List<Connector> _unTraversedConnectors = new List<Connector>();
-    
-    private static readonly List<ChainItem> _chainItems=new List<ChainItem>(); //для сохранения обхода
+
+    private static readonly List<ChainItem> _chainItems = new List<ChainItem>(); //для сохранения обхода
 
     public static void FindAndSavePath()
     {
@@ -19,7 +17,7 @@ public static class ShapesPathBaker
         
         _unTraversedConnectors.AddRange(ConnectorsManager.TargetConnectors);
 
-        TraverseRecursively(ConnectorsManager.StartConnector.NearestShape, _chainItems);
+        TraverseRecursively(ConnectorsManager.StartConnector.NearestNode.Shape, _chainItems);
 
         ShapesSorter.SetChain(_chainItems);
     }
@@ -53,10 +51,6 @@ public static class ShapesPathBaker
                 if (hasFirstChain)
                     targetChain = chainItem.childChain;
 
-                //string shapeName = neighbor.Xindex + "," + neighbor.Yindex + "  type=" + neighbor.GetType().Name;
-                //Debug.LogWarning(shapeName, neighbor);
-                //neighbor.name = shapeName;
-
                 bool nextChainItemHasConnector = TraverseRecursively(neighbor, targetChain);
                 chainItemHasConnector |= nextChainItemHasConnector;
                 hasFirstChain = true;
@@ -74,7 +68,7 @@ public static class ShapesPathBaker
 
     private static Connector FindConnectorWithConnection(Shape shape)
     {
-        return _unTraversedConnectors.FirstOrDefault(c => c.NearestShape == shape);
+        return _unTraversedConnectors.FirstOrDefault(c => c.NearestNode.Shape == shape);
     }
 
 }

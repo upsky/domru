@@ -15,14 +15,6 @@ public class Connector : MonoBehaviour
     [ReadOnlyInInspector]
     public Direction CurrentDirection;
 
-    public Shape NearestShape 
-    {
-        get
-        {
-            return NearestNode.Shape;
-        }
-    }
-
     public NodesGrid.Node _nearestNode;
 
     public NodesGrid.Node NearestNode

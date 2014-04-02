@@ -25,7 +25,6 @@ public static class ShapesGenerator
 
             var astarNode = AstarPath.active.astarData.gridGraph.GetNearest(ConnectorsManager.StartConnector.transform.position).node;
             VectorInt2 nodeIndex = astarNode.position.ToVector3();
-            //Debug.LogWarning(x + "," + y);
             var node = NodesGrid.Grid[nodeIndex.x, nodeIndex.y];
 
             GenerateRecursively(node, ConnectorsManager.StartConnector.CurrentDirection);
@@ -46,9 +45,15 @@ public static class ShapesGenerator
             ShapesPathBaker.FindAndSavePath();
 
             FillEmptyNodes();
+        }
+
+        RandomRotateAllShapes();
+        //проверка, чтобы не был соединен ни один коннектор.
+        while (ConnectorsManager.GetConnectedCount()>0)
+        {
+            //Debug.LogWarning("<color=cyan>ConnectedCount>0</color>");
             RandomRotateAllShapes();
         }
-        //7. проверка, чтобы не был соединен ни один коннектор. Если соединен, то повтор пункта 6
     }
 
 
@@ -209,7 +214,7 @@ public static class ShapesGenerator
     }
 
     /// <summary>
-    /// Вращает teeShape, пока он не будет соединен с другим, если это возможно. Если targetShape расположен в ноде с коннектором, то будет требоваться соединение еще и с коннектором
+    /// Вращает teeShape, пока он не будет соединен с другим, если это возможно. Если teeShape расположен в ноде с коннектором, то будет требоваться соединение еще и с коннектором
     /// </summary>
     private static void FastRotateToConnection(TeeShape teeShape, Direction direction)
     {
@@ -236,8 +241,8 @@ public static class ShapesGenerator
         if (shapesCount == needShapesCount)
             return;
 
-        if (shapesCount!=0)
-            Debug.LogWarning("<color=green>FillEmptyNodes()</color> count=" + shapesCount);
+        //if (shapesCount!=0)
+        //    Debug.LogWarning("<color=green>FillEmptyNodes()</color> count=" + shapesCount);
 
         foreach (var node in NodesGrid.Grid)
         {
