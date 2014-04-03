@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System.Collections;
 using Shapes;
@@ -8,7 +9,7 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
     [System.Serializable]
     private class SpawnItem
     {
-        public Shape Shape =null;
+        public Shape Shape = null;
         public Direction Side = Direction.None;
     }
 
@@ -23,7 +24,7 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
     private float _repeatSpawnInerval = 7f;
 
     [SerializeField]
-    private SpawnItem[] _spawnItems;
+    private List<SpawnItem> _spawnItems;
 
     [SerializeField]
     private bool _randomCloning = false;
@@ -55,7 +56,13 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
 
     private void Start()
     {
-        InvokeRepeating("CreateSignal", _firstSpawnTime, _repeatSpawnInerval);
+        if (Application.loadedLevelName == Consts.SceneNames.Title.ToString())
+            InvokeRepeating("CreateSignal", _firstSpawnTime, _repeatSpawnInerval);
+        else
+        {
+            EventMessenger.Subscribe(GameEvent.StartGameProcess, this, OnStartGameProcess);
+            EventMessenger.Subscribe(GameEvent.CompleteNodesGeneration, this, OnCompleteNodesGeneration);
+        }
     }
 
     public static void OnCreateSignal()
@@ -78,12 +85,25 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
         Instance.Invoke("CreateSignal", time);
     }
 
+    private void OnCompleteNodesGeneration()
+    {
+        _spawnItems.Clear();//на тот случай, если в редакторе случайно добавлены элементы
+        var shape = ConnectorsManager.StartConnector.NearestNode.Shape;
+        _spawnItems.Add(new SpawnItem { Shape = shape, Side = ConnectorsManager.StartConnector.CurrentDirection });
+    }
+
+    private void OnStartGameProcess()
+    {
+        InvokeRepeating("CreateSignal", _firstSpawnTime, _repeatSpawnInerval);
+    }
+
+
     private void CreateSignal()
     {
-        if (!IsAllowedCreateSignal)
+        if (!IsAllowedCreateSignal || _spawnItems.Count==0)
             return;
 
-        int index = Random.Range(0, _spawnItems.Length);
+        int index = Random.Range(0, _spawnItems.Count);
 
         var shape = _spawnItems[index].Shape;
         var direction = _spawnItems[index].Side;
@@ -101,7 +121,7 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
 
     private void OnDrawGizmosSelected()
     {
-        if (_spawnItems == null || _spawnItems.Length==0)
+        if (_spawnItems == null || _spawnItems.Count == 0)
             return;
         Gizmos.color = ColorUtils.CreateWithAlpha(Color.green, 0.5f);
         foreach (var item in _spawnItems)

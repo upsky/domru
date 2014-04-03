@@ -26,7 +26,7 @@ public class ClickHandler : RequiredMonoSingleton<ClickHandler>
             }
         }
 
-        if (Input.GetMouseButtonDown(1))
-            ShapesGenerator.StartGeneration();
+        //if (Input.GetMouseButtonDown(1))
+        //    ShapesGenerator.Generate();
     }
 }

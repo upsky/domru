@@ -14,6 +14,12 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
     }
 
     [SerializeField]
+    private bool _needRoomContentGeneration = false;
+
+    [SerializeField]
+    private bool _needShapesGeneration = true;
+
+    [SerializeField]
     private AdjusterController _adjuster;
 
     [SerializeField]
@@ -50,7 +56,20 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
 
     private void Start ()
 	{
+        if (_needShapesGeneration)
+        {
+            ShapesGenerator.Generate();
+            EventMessenger.SendMessage(GameEvent.CompleteNodesGeneration, this);
+        }
+        StartGameProcess();
 	}
+
+    private void StartGameProcess()
+    {
+        Debug.LogWarning("StartGame");
+        CurrentGameMode = GameMode.Normal;
+        EventMessenger.SendMessage(GameEvent.StartGameProcess, this);
+    }
 
     public static void OnShapeRotateStart(Shape shape)
     {

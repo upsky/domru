@@ -16,7 +16,7 @@ public static class ShapesGenerator
 
     private static bool isFirstStart = true;
 
-    public static void StartGeneration()
+    public static void Generate()
     {
         if (isFirstStart)
         {
@@ -54,6 +54,8 @@ public static class ShapesGenerator
             //Debug.LogWarning("<color=cyan>ConnectedCount>0</color>");
             RandomRotateAllShapes();
         }
+
+        //EventMessenger.SendMessage(GameEvent.CompleteGeneration, null); //typeof(ShapesGenerator));
     }
 
 

@@ -40,6 +40,8 @@ public class CatController : MonoBehaviour
 
     private void Start()
     {
+        EventMessenger.Subscribe(GameEvent.StartGameProcess, this, OnStartGameProcess);
+
         _pathFinderMovement = this.GetInterfaceComponent<IPathFinderMovement>();
         if (_pathFinderMovement == null)
         {
@@ -67,12 +69,9 @@ public class CatController : MonoBehaviour
         {
             Debug.LogError("_rndPlayAudio=null", this);
             return;
-        }        
+        }
 
-        //установка ближашей цели в качестве стартовой позиции для исключения при следующем поиске целей 
-        _lastTargetIndex = GetNearestTargetIndex();
-
-        _waitTime = _firstWaitInterval;
+        _waitTime = 180;
     }
 
     private void Update()
@@ -100,6 +99,14 @@ public class CatController : MonoBehaviour
             StartDirectionMovement();
         }
         _isStoppedAnyActivity = true;
+    }
+
+    private void OnStartGameProcess()
+    {
+        //установка ближашей цели в качестве стартовой позиции для исключения при следующем поиске целей 
+        _lastTargetIndex = GetNearestTargetIndex();
+
+        _waitTime = _firstWaitInterval;
     }
 
     private void OnClick()
