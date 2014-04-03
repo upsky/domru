@@ -11,6 +11,9 @@ public class SeekerTarget : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = ColorUtils.CreateWithAlpha(Color.blue, 0.5f);
-        Gizmos.DrawSphere(transform.position, 0.3f);
+
+        Vector3 pos = transform.position;
+        pos.y += 0.5f;
+        Gizmos.DrawSphere(pos, 0.3f);
     }
 }

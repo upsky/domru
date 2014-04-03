@@ -185,7 +185,7 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
                 int ypos = Mathf.RoundToInt(AstarPath.active.astarData.gridGraph.center.y);
                 var collaiders = Physics.OverlapSphere(new Vector3(i, ypos, j), 0.499f);
                 collaiders = collaiders.Where(
-                    c => //c.CompareTag(Consts.Tags.nodeDevice) ||
+                    c => c.CompareTag(Consts.Tags.nodeDevice) ||
                     c.CompareTag(Consts.Tags.nodeFurniture) ||
                     c.CompareTag(Consts.Tags.shape)).ToArray();
 

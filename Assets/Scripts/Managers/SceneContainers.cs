@@ -10,9 +10,6 @@ public class SceneContainers: RequiredMonoSingleton<SceneContainers>
     private Transform _shapes;
 
     [SerializeField]
-    private Transform _seekerTargets;
-
-    [SerializeField]
     private Transform _connectors;
 
     [SerializeField]
@@ -21,11 +18,6 @@ public class SceneContainers: RequiredMonoSingleton<SceneContainers>
     public static Transform RoomContent
     {
         get { return Instance._roomContent; }
-    }
-
-    public static Transform SeekerTargets
-    {
-        get { return Instance._seekerTargets; }
     }
 
     public static Transform Shapes

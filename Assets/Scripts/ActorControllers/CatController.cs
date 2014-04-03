@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class CatController : MonoBehaviour
 {
@@ -37,6 +38,9 @@ public class CatController : MonoBehaviour
     private bool _isStoppedAnyActivity;
 
     private float _waitTime;
+
+    private Transform[] _targets;
+
 
     private void Start()
     {
@@ -92,6 +96,9 @@ public class CatController : MonoBehaviour
 
     private void OnStartGameProcess()
     {
+        _targets = FindObjectsOfType<SeekerTarget>().Select(t => t.transform).ToArray();
+
+
         //установка ближашей цели в качестве стартовой позиции для исключения при следующем поиске целей 
         _lastTargetIndex = GetNearestTargetIndex();
 
@@ -168,17 +175,17 @@ public class CatController : MonoBehaviour
 
     private Transform SelectTarget()
     {
-        _lastTargetIndex = RandomUtils.RangeWithExclude(0, SceneContainers.SeekerTargets.childCount, _lastTargetIndex);
-        return SceneContainers.SeekerTargets.GetChild(_lastTargetIndex);
+        _lastTargetIndex = RandomUtils.RangeWithExclude(0, _targets.Length, _lastTargetIndex);
+        return _targets[_lastTargetIndex];
     }
 
     private int GetNearestTargetIndex()
     {
         int nearestTargetIndex = 0;
-        float minDist = Vector3.Distance(transform.position, SceneContainers.SeekerTargets.GetChild(0).position);
-        for (int i = 1; i < SceneContainers.SeekerTargets.childCount; i++)
+        float minDist = Vector3.Distance(transform.position, _targets[0].position);
+        for (int i = 1; i < _targets.Length; i++)
         {
-            float dist = Vector3.Distance(transform.position, SceneContainers.SeekerTargets.GetChild(i).position);
+            float dist = Vector3.Distance(transform.position, _targets[i].position);
             if (dist < minDist)
             {
                 minDist = dist;

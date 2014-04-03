@@ -43,11 +43,6 @@ public class EventMessenger : MonoSingleton<EventMessenger>
         _eventSubscribersPairs.Clear();
     }
 
-    private void Start()
-    {
-        _eventSubscribersPairs.Clear();
-    }
-
     public static void Subscribe(GameEvent gameEvent, Object subscriber, Action action)
     {
         if (subscriber == null || action == null || Instance == null)
