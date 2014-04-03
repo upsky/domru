@@ -84,7 +84,8 @@ public class Connector : MonoBehaviour
             Debug.LogWarning("device not found",this);
         else
             _device.SwitchToOn();
-        MainSceneManager.OnConnetorSwitchToOn();
+
+        EventMessenger.SendMessage(GameEvent.ConnetorSwitchToOn, this);
     }
 
     public void SwitchToOff()

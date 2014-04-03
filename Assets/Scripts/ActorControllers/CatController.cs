@@ -41,6 +41,8 @@ public class CatController : MonoBehaviour
     private void Start()
     {
         EventMessenger.Subscribe(GameEvent.StartGameProcess, this, OnStartGameProcess);
+        EventMessenger.Subscribe(GameEvent.InvokeAdjuster, this, StopAnyActivity);
+        EventMessenger.Subscribe(GameEvent.EngGameProcess, this, StopAnyActivity);
 
         _pathFinderMovement = this.GetInterfaceComponent<IPathFinderMovement>();
         if (_pathFinderMovement == null)
@@ -88,10 +90,18 @@ public class CatController : MonoBehaviour
         }
     }
 
+    private void OnStartGameProcess()
+    {
+        //установка ближашей цели в качестве стартовой позиции для исключения при следующем поиске целей 
+        _lastTargetIndex = GetNearestTargetIndex();
+
+        _waitTime = _firstWaitInterval;
+    }
+
     /// <summary>
     /// Завершение текущего действия и затем прекращение любой дальнейшей деятельности.  
     /// </summary>
-    public void StopAnyActivity()
+    private void StopAnyActivity()
     {
         if (!_isStoppedAnyActivity && _currentActivityType == ActivityType.PathFinderMovement)
         {
@@ -99,14 +109,6 @@ public class CatController : MonoBehaviour
             StartDirectionMovement();
         }
         _isStoppedAnyActivity = true;
-    }
-
-    private void OnStartGameProcess()
-    {
-        //установка ближашей цели в качестве стартовой позиции для исключения при следующем поиске целей 
-        _lastTargetIndex = GetNearestTargetIndex();
-
-        _waitTime = _firstWaitInterval;
     }
 
     private void OnClick()

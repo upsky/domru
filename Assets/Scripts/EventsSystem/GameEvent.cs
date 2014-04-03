@@ -3,9 +3,10 @@
     CompleteContentGeneration,
     CompleteNodesGeneration,
     StartGameProcess,
+    InvokeAdjuster,
     EngGameProcess,
     ConnetorSwitchToOn,
     OnCreateSignal,
     OnDestroySignal,
-    OnShapeRotateStart,
+    //OnShapeRotateStart, (shape)
 }

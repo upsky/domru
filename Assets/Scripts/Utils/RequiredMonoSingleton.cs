@@ -14,16 +14,16 @@ public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : Require
         get
         {
             //if (_instance == null)
-                //_instance = new GameObject("InstanceOf" + typeof(T)).AddComponent<T>();
-          
+            //_instance = new GameObject("InstanceOf" + typeof(T)).AddComponent<T>();
+
             // Problem during the creation, this should not happen
             if (_instance == null)
             {
                 if (_isDestroyed)
                 {
-                    #if UNITY_EDITOR
+#if UNITY_EDITOR
                     Debug.LogWarning("Object with " + typeof (T) + " script is was destroyed");
-                    #endif
+#endif
                 }
                 else
                     Debug.LogError("Object with " + typeof (T) + " script is not added in this scene");
@@ -37,16 +37,19 @@ public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : Require
         _isDestroyed = true;
         _instance = null;
     }
+    protected virtual void OnDestroy()
+    {
+        _isDestroyed = true;
+    }
 
     protected virtual void Awake()
     {
         if (_instance != null)
-            Debug.LogError("Object with " + typeof(T) + " script could be single only", this);
+        {
+            Debug.LogError("Object with " + typeof (T) + " script could be single only", this);
+            Destroy(gameObject);
+            return;
+        }
         _instance = this as T;
-    }
-
-    protected virtual void OnDestroy()
-    {
-        _isDestroyed = true;
     }
 }

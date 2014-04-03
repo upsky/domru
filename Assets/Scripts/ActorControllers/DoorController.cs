@@ -16,6 +16,11 @@ public class DoorController : MonoBehaviour
     private float stepAngle;
     private float angleCounter = 0;
 
+    private void Start()
+    {
+        EventMessenger.Subscribe(GameEvent.InvokeAdjuster, this, OpenDoor);
+    }
+
     private void Update()
     {
         if (stepAngle != 0)
@@ -41,7 +46,7 @@ public class DoorController : MonoBehaviour
         }
     }
 
-    public void OpenDoor()
+    private void OpenDoor()
     {
         if (!isOpen)
         {
@@ -49,19 +54,19 @@ public class DoorController : MonoBehaviour
             stepAngle = -angle/timeAction*Time.deltaTime;
             angleCounter = 0;
         }
-        else
-        {
-            CloseDoor();
-        }
+        //else
+        //{
+        //    CloseDoor();
+        //}
     }
 
-    public void CloseDoor()
-    {
-        if (isOpen)
-        {
-            stepAngle = angle/timeAction*Time.deltaTime;
-            angleCounter = 0;
-            isOpen = false;
-        }
-    }
+    //public void CloseDoor()
+    //{
+    //    if (isOpen)
+    //    {
+    //        stepAngle = angle/timeAction*Time.deltaTime;
+    //        angleCounter = 0;
+    //        isOpen = false;
+    //    }
+    //}
 }

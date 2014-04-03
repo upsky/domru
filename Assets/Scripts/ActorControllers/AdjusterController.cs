@@ -13,6 +13,11 @@ public class AdjusterController : MonoBehaviour
     [SerializeField]
     private float _speed = 1f;
 
+    private bool _isAllowedMoving;
+    private bool _isInDestinationPosition;
+    private Vector3 _globalDestinationPosition;
+    private Animator _animator;
+
     /// <summary>
     /// Максимальное расстояние от объекта до точки пути, к которой он движется, при достижении которого он может двигаться к следующей точке. Использовать только в FixedUpdate().
     /// </summary>
@@ -21,19 +26,16 @@ public class AdjusterController : MonoBehaviour
         get { return Time.fixedDeltaTime * _speed * 1.01f; }
     }
 
-    private Vector3 _globalDestinationPosition;
-    private bool _isInDestinationPosition;
-    private Animator _animator;
-
     private void Start()
     {
+        EventMessenger.Subscribe(GameEvent.InvokeAdjuster, this, StartWalk);
         _animator = GetComponent<Animator>();
         _globalDestinationPosition = transform.TransformPoint(_destinationPosition);
     }
 
     private void FixedUpdate()
     {
-        if (_isInDestinationPosition)
+        if (_isInDestinationPosition || !_isAllowedMoving)
             return;
 
         if (Vector3.Distance(_globalDestinationPosition, transform.position) <= NextWaypointDistance)
@@ -49,9 +51,11 @@ public class AdjusterController : MonoBehaviour
         }
     }
 
-    public void StartWalk()
+    private void StartWalk()
     {
-        gameObject.SetActive(true);
+        renderer.enabled = true;
+        _animator.enabled = true;
+        _isAllowedMoving = true;
     }
 
     ///<param name="currentWaypoint">Ближайшая точка пути, к которой движется seeker</param>

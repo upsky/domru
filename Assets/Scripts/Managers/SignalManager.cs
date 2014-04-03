@@ -62,27 +62,28 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
         {
             EventMessenger.Subscribe(GameEvent.StartGameProcess, this, OnStartGameProcess);
             EventMessenger.Subscribe(GameEvent.CompleteNodesGeneration, this, OnCompleteNodesGeneration);
+            EventMessenger.Subscribe(GameEvent.InvokeAdjuster, this, () => InvokeSignal(1f));
+            EventMessenger.Subscribe(GameEvent.OnCreateSignal, this, OnCreateSignal);
+            EventMessenger.Subscribe(GameEvent.OnDestroySignal, this, OnDestroySignal);
         }
     }
 
-    public static void OnCreateSignal()
+    private void OnCreateSignal()
     {
-        if (Instance != null)
-            Instance._signalsCount++;
+        _signalsCount++;
     }
 
-    public static void OnDestroySignal()
+    private void OnDestroySignal()
     {
-        if (Instance != null)
-            Instance._signalsCount--;
+        _signalsCount--;
     }
 
     /// <summary>
     /// Создание сигнала через заданное время
     /// </summary>
-    public static void InvokeSignal(float time)
+    private void InvokeSignal(float time)
     {
-        Instance.Invoke("CreateSignal", time);
+        Invoke("CreateSignal", time);
     }
 
     private void OnCompleteNodesGeneration()

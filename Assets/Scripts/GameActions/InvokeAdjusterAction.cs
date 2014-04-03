@@ -12,12 +12,8 @@ public class InvokeAdjusterAction : MonoBehaviour, IGameAction
     {
         if (MainSceneManager.CurrentGameMode == MainSceneManager.GameMode.Normal)
         {
+            EventMessenger.SendMessage(GameEvent.InvokeAdjuster, this);
             MainSceneManager.CurrentGameMode = MainSceneManager.GameMode.InvokeAdjuster;
-            MainSceneManager.Door.OpenDoor();
-            MainSceneManager.Adjuster.StartWalk();
-            MainSceneManager.Cat.StopAnyActivity();           
-            ShapesSorter.StartSorting();
-            SignalManager.InvokeSignal(1f);
         }        
     }
 }

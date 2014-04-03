@@ -34,11 +34,14 @@ public class EventMessenger : MonoSingleton<EventMessenger>
         }        
     }
 
-
-
     [SerializeField]
     private List<EventSubscribersPair> _eventSubscribersPairs = new List<EventSubscribersPair>();
 
+
+    private void OnLevelWasLoaded(int level)
+    {
+        _eventSubscribersPairs.Clear();
+    }
 
     private void Start()
     {
@@ -47,7 +50,7 @@ public class EventMessenger : MonoSingleton<EventMessenger>
 
     public static void Subscribe(GameEvent gameEvent, Object subscriber, Action action)
     {
-        if (subscriber==null || action==null)
+        if (subscriber == null || action == null || Instance == null)
             return;
 
         var eventSubscribersPair = Instance._eventSubscribersPairs.FirstOrDefault(p => p.Event == gameEvent);
@@ -61,14 +64,30 @@ public class EventMessenger : MonoSingleton<EventMessenger>
         }
     }
 
+    public static void UnSubscribe(GameEvent gameEvent, Object subscriber)
+    {
+        if (subscriber == null || Instance==null)
+            return;
+
+        var eventSubscribersPair = Instance._eventSubscribersPairs.FirstOrDefault(p => p.Event == gameEvent);
+        if (eventSubscribersPair != null)
+        {
+            var subscriberActionPair= eventSubscribersPair.SubscriberActionPairs.FirstOrDefault(p => p.Subscriber.GetInstanceID() == subscriber.GetInstanceID());
+            if (subscriberActionPair!=null)
+                eventSubscribersPair.SubscriberActionPairs.Remove(subscriberActionPair);
+        }
+    }
+
     public static void SendMessage(GameEvent gameEvent, System.Object sender)
     {
-        Instance.SendMessage(gameEvent);
+        if (Instance!=null)
+            Instance.SendMessage(gameEvent);
     }
 
     public static void SendMessage(GameEvent gameEvent, Object sender)
     {
-        Instance.SendMessage(gameEvent);
+        if (Instance != null)
+            Instance.SendMessage(gameEvent);
     }
 
     private void SendMessage(GameEvent gameEvent)

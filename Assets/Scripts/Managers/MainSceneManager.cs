@@ -20,30 +20,6 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
     private bool _needShapesGeneration = true;
 
     [SerializeField]
-    private AdjusterController _adjuster;
-
-    [SerializeField]
-    private CatController _cat;
-
-    [SerializeField]
-    private DoorController _door;
-
-    public static AdjusterController Adjuster
-    {
-        get { return Instance._adjuster; }
-    }
-
-    public static CatController Cat
-    {
-        get { return Instance._cat; }
-    }
-
-    public static DoorController Door
-    {
-        get { return Instance._door; }
-    }
-
-    [SerializeField]
     private GameObject _victoryPanel;
 
     public static GameMode CurrentGameMode
@@ -62,6 +38,8 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
             EventMessenger.SendMessage(GameEvent.CompleteNodesGeneration, this);
         }
         StartGameProcess();
+
+        EventMessenger.Subscribe(GameEvent.ConnetorSwitchToOn, this, OnConnetorSwitchToOn);        
 	}
 
     private void StartGameProcess()
@@ -71,6 +49,12 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         EventMessenger.SendMessage(GameEvent.StartGameProcess, this);
     }
 
+    private void OnConnetorSwitchToOn()
+    {
+        if (Instance.CheckVictoryCondition())
+            Instance.Victory();
+    }
+
     public static void OnShapeRotateStart(Shape shape)
     {
         SignalsUtils.DestroySignalsInCell(shape.Xindex, shape.Yindex);
@@ -78,22 +62,18 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
             ConnectorsManager.CheckAllConnections();
     }
 
-    public static void OnConnetorSwitchToOn()
-    {
-        if (CheckVictoryCondition())
-            Victory();
-    }
 
-    private static void Victory()
+
+    private void Victory()
     {        
         //Debug.LogWarning("<color=green>VICTORY</color>");
         CurrentGameMode = GameMode.Victory;
-        Cat.StopAnyActivity();
+        EventMessenger.SendMessage(GameEvent.EngGameProcess, this);
         NGUITools.SetActive(Instance._victoryPanel, true);
         NGUITools.GetRoot(Instance._victoryPanel).GetComponentsInChildren<LabelTimer>().First().enabled = false;
     }
 
-    private static bool CheckVictoryCondition()
+    private bool CheckVictoryCondition()
     {
         return ConnectorsManager.TargetConnectors.Length == ConnectorsManager.TargetConnectors.Count(c => c.IsConnected);
     }

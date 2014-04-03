@@ -9,19 +9,9 @@ public class ShapesSorter : RequiredMonoSingleton<ShapesSorter>
     [SerializeField]
     private List<ChainItem> _chainItems;
 
-    /////<remarks> Только для редактора, т.к. некогда рефлексить</remarks>
-    //public List<ChainItem> ChainItems
-    //{
-    //    get { return _chainItems; }
-    //}
-
-	void Start ()
-	{ 
-	}
-    
-    public static void StartSorting()
+    private void Start()
     {
-        Instance.StartCoroutine(Instance.SortChainRecursively(Instance._chainItems));
+        EventMessenger.Subscribe(GameEvent.InvokeAdjuster, this, StartSorting);
 	}
 
     public static void SetChain(List<ChainItem> chainItems)
@@ -29,9 +19,13 @@ public class ShapesSorter : RequiredMonoSingleton<ShapesSorter>
         Instance._chainItems = chainItems;
     }
 
+    private void StartSorting()
+    {
+        StartCoroutine(Instance.SortChainRecursively(Instance._chainItems));
+    }
+
     private IEnumerator SortChainRecursively(List<ChainItem> chainItems)//string name, int level)
     {
-       
         foreach (var item in chainItems)
         {
             if (item.Shape != null)
@@ -44,7 +38,6 @@ public class ShapesSorter : RequiredMonoSingleton<ShapesSorter>
                     StartCoroutine(SortChainRecursively(item.childChain));
             }
         }
-        
     }
 
 }

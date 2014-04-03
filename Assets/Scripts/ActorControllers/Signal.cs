@@ -40,7 +40,8 @@ public class Signal : MonoBehaviour
 
     private void Awake()
     {
-        SignalManager.OnCreateSignal();
+        EventMessenger.SendMessage(GameEvent.OnCreateSignal, this);
+
         transform.parent = SceneContainers.Signals;
         if (NodesGrid.Grid == null)
         {
@@ -227,6 +228,6 @@ public class Signal : MonoBehaviour
 
     private void OnDestroy()
     {
-        SignalManager.OnDestroySignal();
+        EventMessenger.SendMessage(GameEvent.OnDestroySignal, this);
     }
 }
