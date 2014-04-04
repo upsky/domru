@@ -189,22 +189,18 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
                     c.CompareTag(Consts.Tags.nodeFurniture) ||
                     c.CompareTag(Consts.Tags.shape)).ToArray();
 
-                if (collaiders.Count() > 1)
-                {
-                    Debug.LogError(i + "," + j + " count=" + collaiders.Count());
-                    continue;
-                }
-
                 if (collaiders.Length > 0)
                 {
-                    var c = collaiders.First();
-                    Shape shape = c.GetComponent<Shape>();
+                    Shape shape = collaiders.Select(c=>c.GetComponent<Shape>()).FirstOrDefault();
                     if (shape != null)
                     {
                         node.SetShape(shape);
                     }
                     else
-                        node.NotShapeObject = c.gameObject;
+                    {
+                        Device device = collaiders.Select(c => c.GetComponent<Device>()).FirstOrDefault();
+                        node.NotShapeObject = device != null ? device.gameObject : collaiders.First().gameObject;
+                    }
                 }
                 nodesGrid[i, j] = node;
             }
