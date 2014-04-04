@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Версия синглтона с требованием обязательного добавления объекта на сцену при обращения к нему.
+/// Версия синглтона с требованием обязательного добавления объекта на сцену при обращения к нему. Использовать как локальный объект для конкретных сцен.
 /// </summary>
 public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : RequiredMonoSingleton<T>
 {
@@ -40,6 +40,7 @@ public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : Require
     protected virtual void OnDestroy()
     {
         _isDestroyed = true;
+        _instance = null;
     }
 
     protected virtual void Awake()
@@ -50,6 +51,7 @@ public abstract class RequiredMonoSingleton<T> : MonoBehaviour where T : Require
             Destroy(gameObject);
             return;
         }
+        _isDestroyed = false;//очистка флага, т.к. Awake выполняется только при загрузке сцены, если объект добавлен пользователем в сцену.
         _instance = this as T;
     }
 }

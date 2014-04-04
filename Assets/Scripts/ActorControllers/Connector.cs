@@ -9,13 +9,13 @@ public class Connector : MonoBehaviour
 {
     public bool IsStartConnector;
 
-    [SerializeField]
+    [SerializeField, ReadOnlyInInspector]
     private Device _device;
 
     [ReadOnlyInInspector]
     public Direction CurrentDirection;
 
-    public NodesGrid.Node _nearestNode;
+    private NodesGrid.Node _nearestNode;
 
     public NodesGrid.Node NearestNode
     {
@@ -49,6 +49,8 @@ public class Connector : MonoBehaviour
 
         if (!IsStartConnector)
             renderer.material.color = Color.red;
+
+        EventMessenger.Subscribe(GameEvent.StartGameProcess, this, FindNearestDevice);
     }
 
 #if UNITY_EDITOR
@@ -98,6 +100,13 @@ public class Connector : MonoBehaviour
             Debug.LogWarning("device not found", this);
         else
             _device.SwitchToOff();
+    }
+
+    private void FindNearestDevice()
+    {
+        _device = TargetFindingMethods.FindNearestTarget<Device>(transform.position, 100f, int.MaxValue);
+        if (_device == null)
+            Debug.LogWarning("device not found", this);
     }
 
 }

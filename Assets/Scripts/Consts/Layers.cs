@@ -10,5 +10,7 @@
 		public const int Floor = 9;
 		public const int CastShadow = 10;
 		public const int Signals = 11;
+		public const int Connectors = 12;
+		public const int Obstacles = 13;
 	}
 }

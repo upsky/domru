@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Стандартная версия синглтона, автоматически добавляемого на сцену
+/// Стандартная версия синглтона, автоматически добавляемого на сцену. Создает Глобальный и DontDestroyOnLoad объект.
 /// </summary>
 public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
 {
@@ -37,8 +37,9 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
     //    // _isDestroyed = true;
     //}
 
+
     protected virtual void Awake()
-    {
+    {        
         if (_instance != null)
         {
             Debug.LogWarning("Object with " + typeof (T) + " script could be single only", this);
