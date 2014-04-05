@@ -181,6 +181,12 @@ public class CatController : MonoBehaviour
 
     private int GetNearestTargetIndex()
     {
+        if (_targets.Length == 0)
+        {
+            Debug.LogError("targerts not found");
+            return 0;
+        }
+
         int nearestTargetIndex = 0;
         float minDist = Vector3.Distance(transform.position, _targets[0].position);
         for (int i = 1; i < _targets.Length; i++)
