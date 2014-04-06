@@ -8,7 +8,7 @@ public class ClickHandler : RequiredMonoSingleton<ClickHandler>
 
     private void Start()
     {
-       _clickableMmask = _clickableMmask.RemoveFromMask(Consts.Layers.Signals);
+        _clickableMmask = _clickableMmask.RemoveFromMask(Consts.Layers.Signals, Consts.Layers.Obstacles);
     }
 
     //public static bool MouseOverGUI = false;

@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 18d286bff88b91c47b24669d08659b57
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - _sofaPrefab: {fileID: 400000, guid: 66982ef0ca281794f8d3a7fb5694df3d, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 

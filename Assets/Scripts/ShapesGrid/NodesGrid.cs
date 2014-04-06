@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Pathfinding;
 using Shapes;
 using UnityEngine;
 using System.Collections;
@@ -14,14 +15,17 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
         public int X { get; private set; }
         public int Y { get; private set; }
         public Shape Shape { get; private set; }
+
+        public GraphNode AstarNode { get; private set; }
     
         public GameObject NotShapeObject;//не Shape
         //public Device device; //под вопросом. 
 
-        public Node(int x, int y)
+        public Node(int x, int y, GraphNode astarNode)
         {
             X = x;
             Y = y;
+            AstarNode = astarNode;
         }
 
 
@@ -180,9 +184,10 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
         for (int i = 0; i < gridGraph.width; i++)
             for (int j = 0; j < gridGraph.depth; j++)
             {
-                var node = new Node(i, j);
-
                 int ypos = Mathf.RoundToInt(AstarPath.active.astarData.gridGraph.center.y);
+                var astarNode = AstarPath.active.astarData.gridGraph.GetNearest(new Vector3(i, ypos, j)).node;
+                var node = new Node(i, j, astarNode);
+
                 var collaiders = Physics.OverlapSphere(new Vector3(i, ypos, j), 0.499f);
                 collaiders = collaiders.Where(
                     c => c.CompareTag(Consts.Tags.nodeDevice) ||

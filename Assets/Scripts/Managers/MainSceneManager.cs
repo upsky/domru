@@ -37,6 +37,12 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         if (_UIRoot == null)
             Debug.LogError("UI Root not found");
 
+        if (_needRoomContentGeneration)
+        {
+            RoomContentGenerator.Generate();
+            EventMessenger.SendMessage(GameEvent.CompleteContentGeneration, this);
+        }
+
         if (_needShapesGeneration)
         {
             ShapesGenerator.Generate();
