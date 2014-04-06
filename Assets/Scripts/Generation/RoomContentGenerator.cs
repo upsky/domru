@@ -92,13 +92,16 @@ public class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
         var plasmaTV = (Transform) Instantiate(Instance._plasmaTVPrefab, plasmaTV_pos, Quaternion.LookRotation(Vector3.right));
         plasmaTV.parent = Instance._devices;
 
-        var plasmaConnector_pos = new Vector3(plasmaTV_pos.x, Instance._connectorPrefab.transform.position.y + 10f, plasmaTV_pos.z + 0.5f);
+        var plasmaConnector_pos = new Vector3(plasmaTV_pos.x-0.5f, Instance._connectorPrefab.transform.position.y + 10f, plasmaTV_pos.z - 0.5f);
         var plasmaConnector = (Transform)Instantiate(Instance._connectorPrefab, plasmaConnector_pos, Quaternion.LookRotation(Vector3.right));
         plasmaConnector.parent = SceneContainers.Connectors;
 
         var plasmaConnectorSpawnNode = Instance._allNodes.Find(c => c.GridNode == NodesGrid.Grid[0, yIndex + 1]);
         plasmaConnectorSpawnNode.IsConnectorNode = true;
         Instance._allEmptyNodes.Remove(plasmaConnectorSpawnNode);
+
+
+        //start connector
     }
 
 
