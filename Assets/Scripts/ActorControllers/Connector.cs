@@ -38,7 +38,7 @@ public class Connector : MonoBehaviour
     private void Awake()
     {
         //автоустановка правильного значения CurrentDirection при старте игры
-        CurrentDirection = DirectionUtils.EulerAngleToDirection(transform.rotation.eulerAngles.y).GetNext(); //.GetNext() - т.к. модель повернута не так, как нужно
+        CurrentDirection = DirectionUtils.EulerAngleToDirection(transform.rotation.eulerAngles.y);//.GetNext(); //.GetNext() - т.к. модель повернута не так, как нужно
     }
 
     // Use this for initialization
