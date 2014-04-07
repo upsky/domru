@@ -83,6 +83,7 @@ public class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
         Vector3 sofa_pos = node.AstarNode.position.ToVector3();
 
         var sofa = (Transform) Instantiate(Instance._sofaPrefab, sofa_pos, new Quaternion(0, 0, 0, 0));
+        GridAligner.AlignTwoNodeObject(sofa);
         sofa.parent = Instance._furniture;
         node.NotShapeObject = sofa.gameObject;
         NodesGrid.Grid[3, yIndex + 1].NotShapeObject = sofa.gameObject;
