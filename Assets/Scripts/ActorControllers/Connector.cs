@@ -56,6 +56,8 @@ public class Connector : MonoBehaviour
 #if UNITY_EDITOR
     private void Update()
     {
+        if (Application.isPlaying)
+            return;
         //выранивания до 0.5
         float x = (float) Math.Ceiling(transform.position.x*2)/2;
         float z = (float) Math.Ceiling(transform.position.z*2)/2;

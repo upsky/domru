@@ -8,7 +8,13 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
 {
     public static Connector StartConnector
     {
-        get { return Instance._startConnector; }
+        get
+        {
+            if (Instance._startConnector == null)
+                Instance.Init();
+
+            return Instance._startConnector;
+        }
     }
 
     /// <summary>
@@ -16,7 +22,12 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
     /// </summary>
     public static Connector[] TargetConnectors
     {
-        get { return Instance._targetConnectors; }
+        get
+        {
+            if (Instance._targetConnectors == null)
+                Instance.Init();
+            return Instance._targetConnectors;
+        }
     }
 
     private Connector _startConnector = null;
@@ -27,8 +38,10 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
 
     private void Start()
     {
-        //Init connectors
+    }
 
+    private void Init()
+    {
         List<Connector> targetConnectors = new List<Connector>();
         foreach (Transform connector in SceneContainers.Connectors)
         {

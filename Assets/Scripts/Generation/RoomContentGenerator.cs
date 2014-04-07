@@ -57,7 +57,7 @@ public class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
     private Transform _devices;
 
     private List<SpawnNode> _allNodes = new List<SpawnNode>();
-    private List<SpawnNode> _allEmptyNodes = new List<SpawnNode>();
+    private List<SpawnNode> _emptyNodes = new List<SpawnNode>();
 
     protected override void Awake()
     {
@@ -92,16 +92,28 @@ public class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
         var plasmaTV = (Transform) Instantiate(Instance._plasmaTVPrefab, plasmaTV_pos, Quaternion.LookRotation(Vector3.right));
         plasmaTV.parent = Instance._devices;
 
-        var plasmaConnector_pos = new Vector3(plasmaTV_pos.x-0.5f, Instance._connectorPrefab.transform.position.y + 10f, plasmaTV_pos.z - 0.5f);
+        var plasmaConnector_pos = new Vector3(plasmaTV_pos.x, Instance._connectorPrefab.transform.position.y + 10f, plasmaTV_pos.z - 0.5f);
         var plasmaConnector = (Transform)Instantiate(Instance._connectorPrefab, plasmaConnector_pos, Quaternion.LookRotation(Vector3.right));
         plasmaConnector.parent = SceneContainers.Connectors;
 
         var plasmaConnectorSpawnNode = Instance._allNodes.Find(c => c.GridNode == NodesGrid.Grid[0, yIndex + 1]);
         plasmaConnectorSpawnNode.IsConnectorNode = true;
-        Instance._allEmptyNodes.Remove(plasmaConnectorSpawnNode);
+        Instance._emptyNodes.Remove(plasmaConnectorSpawnNode);
+
 
 
         //start connector
+        int spawnIndex = UnityEngine.Random.Range(0, 2);
+        var spawnNode = Instance._allNodes[spawnIndex];
+        var startConnector_pos = spawnNode.GridNode.AstarNode.BottomCenterPosition();
+        startConnector_pos.y = Instance._connectorPrefab.transform.position.y + 10f;
+
+        var startConnector = (Transform)Instantiate(Instance._connectorPrefab, startConnector_pos, Quaternion.LookRotation(Vector3.forward));
+        startConnector.parent = SceneContainers.Connectors;
+        startConnector.GetComponent<Connector>().IsStartConnector = true;
+
+        spawnNode.IsConnectorNode = true;
+        Instance._emptyNodes.Remove(spawnNode);
     }
 
 
@@ -123,6 +135,6 @@ public class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
         for (int i = 6; i >=1; i--)
             _allNodes.Add(new SpawnNode(NodesGrid.Grid[6, i]));
 
-        _allEmptyNodes.AddRange(_allNodes);
+        _emptyNodes.AddRange(_allNodes);
     }
 }

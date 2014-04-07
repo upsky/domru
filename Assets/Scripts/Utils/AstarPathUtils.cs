@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using Pathfinding;
 public static class AstarPathUtils
 { 
     #if UNITY_EDITOR
@@ -17,5 +17,16 @@ public static class AstarPathUtils
         if (path.astarData == null || path.astarData.gridGraph == null)
             AstarPath.MenuScan();
     }
-     #endif
+    #endif
+}
+
+public static class GraphNodeExt
+{
+    public static Vector3 BottomCenterPosition(this GraphNode node)
+    {
+        var pos = node.position.ToVector3();
+        pos.z -= AstarPath.active.astarData.gridGraph.nodeSize*0.5f;
+        return pos;
+    }
+
 }

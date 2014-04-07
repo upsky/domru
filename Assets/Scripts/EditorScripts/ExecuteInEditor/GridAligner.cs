@@ -17,7 +17,7 @@ public class GridAligner : MonoBehaviour
     private AstarPath _astarPath;
 
     [SerializeField]
-    private float _yPos=0.3f;
+    private float _yPos = 0.3f;
 
     [SerializeField]
     private List<Transform> ContainersForAligningByXYZ;
@@ -30,6 +30,9 @@ public class GridAligner : MonoBehaviour
 
     [SerializeField]
     private List<Transform> ObjectsForAligningByXZ;
+
+    [SerializeField]
+    private List<Transform> ContainersForTwoNodeObjectsByXZ;
     #endregion
 
     private void Start()
@@ -45,6 +48,7 @@ public class GridAligner : MonoBehaviour
 
         AligningPositionByXYZ(GetListForAligning(ContainersForAligningByXYZ, ObjectsForAligningByXYZ));
         AligningPositionByXZ(GetListForAligning(ContainersForAligningByXZ, ObjectsForAligningByXZ));
+        AligningPositionTwoNodeObjectsByXZ(GetListForAligning(ContainersForTwoNodeObjectsByXZ, null));
     }
 
     private IEnumerable<Transform> GetListForAligning(IEnumerable<Transform> Containers, IEnumerable<Transform> concreteObjects)
@@ -54,7 +58,8 @@ public class GridAligner : MonoBehaviour
         foreach (Transform child in Containers)
             allSelectedChilds.AddRange(child.Cast<Transform>());
 
-        allSelectedChilds.AddRange(concreteObjects);
+        if (concreteObjects != null)
+            allSelectedChilds.AddRange(concreteObjects);
         return allSelectedChilds;
     }
 
@@ -77,6 +82,38 @@ public class GridAligner : MonoBehaviour
             Vector3 newPos = gridGraph.GetNearest(tr.position).node.position.ToVector3();
             newPos.y = tr.position.y;
             tr.position = newPos;
+        }
+    }
+
+    private void AligningPositionTwoNodeObjectsByXZ(IEnumerable<Transform> transforms)
+    {
+        var gridGraph = AstarPath.active.astarData.gridGraph;
+        foreach (var tr in transforms)
+        {
+            //Vector3 newPos = gridGraph.GetNearest(tr.position).node.position.ToVector3();
+            //newPos.y = tr.position.y;
+            //if (tr.up==Vector3.up)
+            //Debug.LogWarning(tr.eulerAngles.y);
+            var angle = tr.eulerAngles.y;
+            switch (Mathf.RoundToInt(angle))
+            {
+                case 0:
+                    Debug.LogWarning("up");
+                    break;
+                case 90:
+                    Debug.LogWarning("right");
+                    break;
+                case 180:
+                    Debug.LogWarning("down");
+                    break;
+                case 270:
+                    Debug.LogWarning("left");
+                    break;
+                default:
+                    Debug.LogWarning("недопустимое значение угла");
+                    break;
+            }
+            //tr.position = newPos;
         }
     }
 #endif
