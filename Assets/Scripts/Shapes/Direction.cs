@@ -48,6 +48,21 @@ namespace Shapes
                     return Direction.Right;
             }
         }
+
+        /// <summary>
+        /// Для Left и Down возвращает -1, для остальных значений возвращает 1.
+        /// </summary>
+        public static int CreateSign(this Direction dir)
+        {
+            switch (dir)
+            {
+                case Direction.Left:
+                case Direction.Down:
+                    return -1;
+                default:
+                    return 1;
+            }
+        }
     }
 
 

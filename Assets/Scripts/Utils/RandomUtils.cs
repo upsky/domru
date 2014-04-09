@@ -1,9 +1,10 @@
+using System.Linq;
 
 namespace UnityEngine
 {
     public static class RandomUtils
     {
-        public static int RangeWithExclude(int min, int max, int value)
+        public static int RangeWithExclude(int min, int max, params int[] values)
         {
             if (min >= (max - 1))
             {
@@ -15,7 +16,7 @@ namespace UnityEngine
             do
             {
                 rnd = Random.Range(min, max);
-            } while (rnd == value);
+            } while (values.Any(v=>v==rnd));
             return rnd;
         }
     }
