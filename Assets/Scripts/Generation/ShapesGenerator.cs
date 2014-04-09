@@ -12,44 +12,38 @@ public static class ShapesGenerator
 {
     private const float _shapeYpos = 10.22f;
 
-    private static int shapesCount;
-
-    private static bool isFirstStart = true;
+    private static int _shapesCount;
 
     public static void Generate()
     {
-        if (isFirstStart)
+        _shapesCount = 0;
+
+        var astarNode = AstarPath.active.astarData.gridGraph.GetNearest(ConnectorsManager.StartConnector.transform.position).node;
+        VectorInt2 nodeIndex = astarNode.position.ToVector3();
+        var node = NodesGrid.Grid[nodeIndex.x, nodeIndex.y];
+
+        GenerateRecursively(node, ConnectorsManager.StartConnector.CurrentDirection);
+
+        int i = 0;
+        bool isAllConnected = false;
+        while (i < 100 && isAllConnected == false)
         {
-            shapesCount = 0;
-            isFirstStart = false;
-
-            var astarNode = AstarPath.active.astarData.gridGraph.GetNearest(ConnectorsManager.StartConnector.transform.position).node;
-            VectorInt2 nodeIndex = astarNode.position.ToVector3();
-            var node = NodesGrid.Grid[nodeIndex.x, nodeIndex.y];
-
-            GenerateRecursively(node, ConnectorsManager.StartConnector.CurrentDirection);
-
-            int i = 0;
-            bool isAllConnected = false;
-            while (i < 100 && isAllConnected == false)
-            {
-                RandomSafeRotateWithGenerationAllShapes();
-                isAllConnected = ConnectorsManager.GetConnectedCount() == ConnectorsManager.TargetConnectors.Count();
-                i++;
-            }
-            if (isAllConnected)
-                Debug.LogWarning("<color=green>AllConnected=true</color> iterations_count=" + i);
-
-
-            RandomReplacementAllShapes();
-            ShapesPathBaker.FindAndSavePath();
-
-            FillEmptyNodes();
+            RandomSafeRotateWithGenerationAllShapes();
+            isAllConnected = ConnectorsManager.GetConnectedCount() == ConnectorsManager.TargetConnectors.Count();
+            i++;
         }
+        if (isAllConnected)
+            Debug.LogWarning("<color=green>AllConnected=true</color> iterations_count=" + i);
+
+
+        RandomReplacementAllShapes();
+        ShapesPathBaker.FindAndSavePath();
+
+        FillEmptyNodes();
 
         RandomRotateAllShapes();
         //проверка, чтобы не был соединен ни один коннектор.
-        while (ConnectorsManager.GetConnectedCount()>0)
+        while (ConnectorsManager.GetConnectedCount() > 0)
         {
             //Debug.LogWarning("<color=cyan>ConnectedCount>0</color>");
             RandomRotateAllShapes();
@@ -200,13 +194,13 @@ public static class ShapesGenerator
         
         Shape retShape = shapeGO.GetComponent<Shape>();
         node.SetShape(retShape);
-        shapesCount++;
+        _shapesCount++;
     }
 
     private static void RemoveShape(Node node)
     {
         node.RemoveShape();
-        shapesCount--;
+        _shapesCount--;
     }
 
     private static void RandomRotateShape(Shape shape)
@@ -240,7 +234,7 @@ public static class ShapesGenerator
     private static void FillEmptyNodes()
     {
         int needShapesCount = NodesGrid.GetNodesCountWithNotShapeObject();
-        if (shapesCount == needShapesCount)
+        if (_shapesCount == needShapesCount)
             return;
 
         //if (shapesCount!=0)

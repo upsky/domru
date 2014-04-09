@@ -16,7 +16,6 @@ public static class ShapesPathBaker
         _chainItems.Clear();
         
         _unTraversedConnectors.AddRange(ConnectorsManager.TargetConnectors);
-
         TraverseRecursively(ConnectorsManager.StartConnector.NearestNode.Shape, _chainItems);
 
         ShapesSorter.SetChain(_chainItems);
@@ -57,6 +56,7 @@ public static class ShapesPathBaker
             }
         }
 
+        //если текущая нода не соединена с коннектором и дочерние ответвления тоже не соединены с коннектором, то удалить данный узел.
         if (!chainItemHasConnector)
         {
             //chainItem.Shape.name += "_RemovedChainItem";

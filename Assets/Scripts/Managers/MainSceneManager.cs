@@ -19,8 +19,7 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
     [SerializeField]
     private bool _needShapesGeneration = true;
 
-    [SerializeField]
-    private GameObject _victoryPanel;
+    private GameObject _UIRoot;
 
     public static GameMode CurrentGameMode
     {
@@ -31,15 +30,25 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
     private GameMode _currentGameMode;
 
     private void Start ()
-	{
+    {
+        EventMessenger.Subscribe(GameEvent.ConnetorSwitchToOn, this, OnConnetorSwitchToOn);
+
+        _UIRoot = GameObject.Find("UI Root");
+        if (_UIRoot == null)
+            Debug.LogError("UI Root not found");
+
+        if (_needRoomContentGeneration)
+        {
+            RoomContentGenerator.Generate();
+            EventMessenger.SendMessage(GameEvent.CompleteContentGeneration, this);
+        }
+
         if (_needShapesGeneration)
         {
             ShapesGenerator.Generate();
             EventMessenger.SendMessage(GameEvent.CompleteNodesGeneration, this);
         }
-        StartGameProcess();
-
-        EventMessenger.Subscribe(GameEvent.ConnetorSwitchToOn, this, OnConnetorSwitchToOn);        
+        StartGameProcess();       
 	}
 
     private void StartGameProcess()
@@ -69,8 +78,10 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         //Debug.LogWarning("<color=green>VICTORY</color>");
         CurrentGameMode = GameMode.Victory;
         EventMessenger.SendMessage(GameEvent.EngGameProcess, this);
-        NGUITools.SetActive(Instance._victoryPanel, true);
-        NGUITools.GetRoot(Instance._victoryPanel).GetComponentsInChildren<LabelTimer>().First().enabled = false;
+
+        var victoryPanel = _UIRoot.transform.Find("VictoryPanel");
+        NGUITools.SetActive(victoryPanel.gameObject, true);
+        _UIRoot.GetComponentsInChildren<LabelTimer>().First().enabled = false;
     }
 
     private bool CheckVictoryCondition()

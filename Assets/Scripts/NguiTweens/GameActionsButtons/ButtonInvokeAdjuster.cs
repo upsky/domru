@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InvokeAdjusterAction : MonoBehaviour, IGameAction
+public class ButtonInvokeAdjuster : MonoBehaviour
 {
     private void Start()
     {
-        enabled = false;
     }
 
-    public void Execute()
+    private void OnClick()
     {
         if (MainSceneManager.CurrentGameMode == MainSceneManager.GameMode.Normal)
         {

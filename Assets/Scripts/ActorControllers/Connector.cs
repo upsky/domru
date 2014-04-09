@@ -9,13 +9,13 @@ public class Connector : MonoBehaviour
 {
     public bool IsStartConnector;
 
-    [SerializeField]
+    [SerializeField, ReadOnlyInInspector]
     private Device _device;
 
     [ReadOnlyInInspector]
     public Direction CurrentDirection;
 
-    public NodesGrid.Node _nearestNode;
+    private NodesGrid.Node _nearestNode;
 
     public NodesGrid.Node NearestNode
     {
@@ -38,7 +38,7 @@ public class Connector : MonoBehaviour
     private void Awake()
     {
         //автоустановка правильного значения CurrentDirection при старте игры
-        CurrentDirection = DirectionUtils.EulerAngleToDirection(transform.rotation.eulerAngles.y).GetNext(); //.GetNext() - т.к. модель повернута не так, как нужно
+        CurrentDirection = DirectionUtils.EulerAngleToDirection(transform.rotation.eulerAngles.y);//.GetNext(); //.GetNext() - т.к. модель повернута не так, как нужно
     }
 
     // Use this for initialization
@@ -49,11 +49,15 @@ public class Connector : MonoBehaviour
 
         if (!IsStartConnector)
             renderer.material.color = Color.red;
+
+        EventMessenger.Subscribe(GameEvent.StartGameProcess, this, FindNearestDevice);
     }
 
 #if UNITY_EDITOR
     private void Update()
     {
+        if (Application.isPlaying)
+            return;
         //выранивания до 0.5
         float x = (float) Math.Ceiling(transform.position.x*2)/2;
         float z = (float) Math.Ceiling(transform.position.z*2)/2;
@@ -98,6 +102,13 @@ public class Connector : MonoBehaviour
             Debug.LogWarning("device not found", this);
         else
             _device.SwitchToOff();
+    }
+
+    private void FindNearestDevice()
+    {
+        _device = TargetFindingMethods.FindNearestTarget<Device>(transform.position, 100f, int.MaxValue);
+        if (_device == null)
+            Debug.LogWarning("device not found", this);
     }
 
 }
