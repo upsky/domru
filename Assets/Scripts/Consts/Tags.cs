@@ -2,16 +2,17 @@
 {
 	public static class Tags
 	{
-		public static readonly string Untagged = "Untagged";
-		public static readonly string Respawn = "Respawn";
-		public static readonly string Finish = "Finish";
-		public static readonly string EditorOnly = "EditorOnly";
-		public static readonly string MainCamera = "MainCamera";
-		public static readonly string Player = "Player";
-		public static readonly string GameController = "GameController";
-		public static readonly string Menu = "Menu";
-		public static readonly string nodeFurniture = "nodeFurniture";
-		public static readonly string shape = "shape";
-		public static readonly string nodeDevice = "nodeDevice";
+		public const string Untagged = "Untagged";
+		public const string Respawn = "Respawn";
+		public const string Finish = "Finish";
+		public const string EditorOnly = "EditorOnly";
+		public const string MainCamera = "MainCamera";
+		public const string Player = "Player";
+		public const string GameController = "GameController";
+		public const string Menu = "Menu";
+		public const string nodeFurniture = "nodeFurniture";
+		public const string shape = "shape";
+		public const string nodeDevice = "nodeDevice";
+		public const string survivedSignal = "survivedSignal";
 	}
 }

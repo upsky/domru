@@ -110,9 +110,15 @@ public class Signal : MonoBehaviour
 
     private void OnTriggerEnter(Collider c)
     {
+        if (gameObject.CompareTag(Consts.Tags.survivedSignal))
+        {
+            tag = "";
+            return;
+        }
         var signal2 = c.GetComponent<Signal>();
         if (signal2 != null && signal2._parentSignal != this && _parentSignal != signal2)
         {
+            signal2.tag = Consts.Tags.survivedSignal;
             DestroySelf();
         }
     }
