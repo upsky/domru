@@ -51,6 +51,15 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
         {
             Destroy(Shape.gameObject);
             Shape = null;
+        }
+
+        /// <summary>
+        /// Очистка ссылок на Shape и NotShapeObject
+        /// </summary>
+        public void Clear()
+        {
+            Shape = null;
+            NotShapeObject = null;
         } 
     }
 
@@ -66,7 +75,8 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
 
     private void Start()
     {
-        _nodesGrid = FillNodesMatrix();
+        _nodesGrid = CreateNodesMatrix();
+        UpdateNodesData();
     }
 
     public static Shape GetNextShape(Shape shape, Direction dir)
@@ -176,17 +186,32 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
     }
 
 
-    private static Node[,] FillNodesMatrix()
+    private static Node[,] CreateNodesMatrix()
     {
         var gridGraph = AstarPath.active.astarData.gridGraph;
         var nodesGrid = new Node[gridGraph.width, gridGraph.depth];
+        int ypos = Mathf.RoundToInt(AstarPath.active.astarData.gridGraph.center.y);
 
         for (int i = 0; i < gridGraph.width; i++)
             for (int j = 0; j < gridGraph.depth; j++)
             {
-                int ypos = Mathf.RoundToInt(AstarPath.active.astarData.gridGraph.center.y);
                 var astarNode = AstarPath.active.astarData.gridGraph.GetNearest(new Vector3(i, ypos, j)).node;
-                var node = new Node(i, j, astarNode);
+                nodesGrid[i, j] = new Node(i, j, astarNode);
+            }     
+        return nodesGrid;
+    }
+
+    public static void UpdateNodesData()
+    {
+        var gridGraph = AstarPath.active.astarData.gridGraph;
+        var nodesGrid = Instance._nodesGrid;
+        int ypos = Mathf.RoundToInt(AstarPath.active.astarData.gridGraph.center.y);
+
+        for (int i = 0; i < gridGraph.width; i++)
+            for (int j = 0; j < gridGraph.depth; j++)
+            {
+                var node = nodesGrid[i, j];
+                node.Clear();
 
                 var collaiders = Physics.OverlapSphere(new Vector3(i, ypos, j), 0.499f);
                 collaiders = collaiders.Where(
@@ -196,7 +221,7 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
 
                 if (collaiders.Length > 0)
                 {
-                    Shape shape = collaiders.Select(c=>c.GetComponent<Shape>()).FirstOrDefault();
+                    Shape shape = collaiders.Select(c => c.GetComponent<Shape>()).FirstOrDefault();
                     if (shape != null)
                     {
                         node.SetShape(shape);
@@ -207,11 +232,7 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
                         node.NotShapeObject = device != null ? device.gameObject : collaiders.First().gameObject;
                     }
                 }
-                nodesGrid[i, j] = node;
             }
-
-        //Debug.LogWarning("UpperBound="+shapesGrid.GetUpperBound(0));=6
-        return nodesGrid;
     }
 
     /*

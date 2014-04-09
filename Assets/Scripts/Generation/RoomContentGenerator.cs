@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using Shapes;
+using Random = UnityEngine.Random;
+
 public class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
 {
     private class SpawnNode
@@ -53,19 +55,21 @@ public class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
     [SerializeField]
     private Transform _connectorPrefab;
 
+    [SerializeField]
+    private Transform[] _windowPrefabs;
+
     private Transform _furniture;
     private Transform _devices;
 
     private List<SpawnNode> _allNodes = new List<SpawnNode>();
     private List<SpawnNode> _emptyNodes = new List<SpawnNode>();
 
+
     protected override void Awake()
     {
         base.Awake();
         _furniture = SceneContainers.RoomContent.Find("Furniture");
         _devices = SceneContainers.RoomContent.Find("Devices");
-
-        //SceneContainers.Connectors - уже есть
 
         if (Instance._sofaPrefab == null)
             Debug.LogException(new Exception("_sofaPrefab is null"), Instance);
@@ -78,33 +82,134 @@ public class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
     {
         Instance.FillNodes();
 
-        int yIndex = UnityEngine.Random.Range(2, 4);
-        NodesGrid.Node node = NodesGrid.Grid[3, yIndex];
-        Vector3 sofa_pos = node.AstarNode.position.ToVector3();
+        Direction sofaDir;
+        int xIndex, yIndex;
+        Vector3 sofa_pos;
+        Instance.CreateSofa(out sofa_pos, out sofaDir, out xIndex, out yIndex);
+        Instance.CreateWindows(sofaDir);
 
-        var sofa = (Transform) Instantiate(Instance._sofaPrefab, sofa_pos, new Quaternion(0, 0, 0, 0));
+        Vector3 plasmaPos;
+        Instance.CreatePlasma(sofa_pos, sofaDir, out plasmaPos);
+        Instance.CreatePlasmaConnector(plasmaPos, sofaDir);
+
+        Instance.CreateStartConnector(sofaDir);
+
+
+        //todo префабы устройств тоже сделать списком с исключением элементов из рандома, при их добавленнии на сцену.
+        //префабы устройств составные - сразу со столами.
+
+
+        NodesGrid.UpdateNodesData();
+    }
+
+    private void CreateSofa(out Vector3 position, out Direction sofaDir, out int xIndex, out int yIndex)
+    {
+        sofaDir = (Direction)Random.Range(0, 4); //sofaDir = Direction.Down;
+        Quaternion sofaQuaternion = DirectionUtils.DirectionToQuaternion(sofaDir);
+        xIndex = 0;
+        yIndex = 0;
+
+        switch (sofaDir)
+        {
+            case Direction.Up:
+                xIndex = Random.Range(2, 4);
+                yIndex = Random.Range(3, 5);
+                break;
+
+            case Direction.Down:
+                xIndex = 2;
+                yIndex = Random.Range(2, 4);
+                break;
+
+            case Direction.Right:
+                xIndex = Random.Range(3, 5);
+                yIndex = Random.Range(2, 4);
+                break;
+
+            case Direction.Left:
+                xIndex = Random.Range(2, 4);
+                yIndex = Random.Range(2, 4);
+                break;
+        }
+        //Debug.LogWarning(sofaDir+" x="+xIndex+", y="+yIndex);
+
+
+        NodesGrid.Node node = NodesGrid.Grid[xIndex, yIndex];
+        position = node.AstarNode.position.ToVector3();
+
+        var sofa = (Transform)Instantiate(Instance._sofaPrefab, position, sofaQuaternion);
         GridAligner.AlignTwoNodeObject(sofa);
         sofa.parent = Instance._furniture;
-        node.NotShapeObject = sofa.gameObject;
-        NodesGrid.Grid[3, yIndex + 1].NotShapeObject = sofa.gameObject;
+    }
 
+    private void CreatePlasma(Vector3 sofaPos, Direction sofaDir, out Vector3 plasmaPos)
+    {
+        Vector3 position = sofaPos;
+        position.y = Instance._plasmaTVPrefab.transform.position.y + 10f;
+        Direction dir = sofaDir.GetOpposite();
 
-        var plasmaTV_pos = new Vector3(sofa_pos.x - 3.5f, Instance._plasmaTVPrefab.transform.position.y + 10f, sofa_pos.z + 0.5f);
-        var plasmaTV = (Transform) Instantiate(Instance._plasmaTVPrefab, plasmaTV_pos, Quaternion.LookRotation(Vector3.right));
+        switch (dir)
+        {
+            case Direction.Up:
+                position.z -= 100f;
+                position.x += 0.5f;
+                break;
+
+            case Direction.Down:
+                position.z += 100f;
+                position.x += 0.5f;
+                break;
+
+            case Direction.Right:
+                position.z += 0.5f;
+                position.x -= 100f;
+                break;
+
+            case Direction.Left:
+                position.z += 0.5f;
+                position.x += 100f;
+                break;
+        }
+        var plasmaTV_pos = plasmaPos = RoomClamp(position);
+
+        var plasmaTV = (Transform)Instantiate(Instance._plasmaTVPrefab, plasmaTV_pos, DirectionUtils.DirectionToQuaternion(dir));
         plasmaTV.parent = Instance._devices;
+    }
 
-        var plasmaConnector_pos = new Vector3(plasmaTV_pos.x, Instance._connectorPrefab.transform.position.y + 10f, plasmaTV_pos.z - 0.5f);
-        var plasmaConnector = (Transform)Instantiate(Instance._connectorPrefab, plasmaConnector_pos, Quaternion.LookRotation(Vector3.right));
+    private void CreatePlasmaConnector(Vector3 plasmaPos, Direction sofaDir)
+    {
+        Vector3 position = plasmaPos;
+        position.y = Instance._plasmaTVPrefab.transform.position.y + 10f;
+        Direction dir = sofaDir.GetOpposite();
+
+        switch (dir)
+        {
+            case Direction.Up:
+            case Direction.Down:
+                position.x -= 0.5f;
+                break;
+
+             case Direction.Right:
+             case Direction.Left:
+                position.z -= 0.5f;
+                break;
+        }
+
+        var plasmaConnector_pos = new Vector3(position.x, Instance._connectorPrefab.transform.position.y + 10f, position.z);
+        var plasmaConnector = (Transform)Instantiate(Instance._connectorPrefab, plasmaConnector_pos, DirectionUtils.DirectionToQuaternion(dir));
         plasmaConnector.parent = SceneContainers.Connectors;
 
-        var plasmaConnectorSpawnNode = Instance._allNodes.Find(c => c.GridNode == NodesGrid.Grid[0, yIndex + 1]);
+
+        var nearNode = plasmaConnector.GetComponent<Connector>().NearestNode;
+        Debug.LogWarning(nearNode.X + "_" + nearNode.Y);
+        var plasmaConnectorSpawnNode = Instance._allNodes.Find(c => c.GridNode == NodesGrid.Grid[nearNode.X, nearNode.Y]);
         plasmaConnectorSpawnNode.IsConnectorNode = true;
         Instance._emptyNodes.Remove(plasmaConnectorSpawnNode);
+    }
 
-
-
-        //start connector
-        int spawnIndex = UnityEngine.Random.Range(0, 2);
+    private void CreateStartConnector(Direction sofaDirection)
+    {
+        int spawnIndex = (sofaDirection==Direction.Down)? 0: Random.Range(0, 2);
         var spawnNode = Instance._allNodes[spawnIndex];
         var startConnector_pos = spawnNode.GridNode.AstarNode.BottomCenterPosition();
         startConnector_pos.y = Instance._connectorPrefab.transform.position.y + 10f;
@@ -117,6 +222,10 @@ public class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
         Instance._emptyNodes.Remove(spawnNode);
     }
 
+    private void CreateWindows(Direction sofaDir)
+    {
+
+    }
 
     /// <summary>
     /// Добавление нод в список против часовой от ноды справа от двери [6,0]
@@ -138,4 +247,16 @@ public class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
 
         _emptyNodes.AddRange(_allNodes);
     }
+
+    private static Vector3 RoomClamp(Vector3 point)
+    {
+        const float localOffset = 3f;
+        const float min = -3.5f + localOffset;
+        const float max = 3.5f + localOffset;
+        point.x = Mathf.Clamp(point.x, min, max);
+        point.z = Mathf.Clamp(point.z, min, max);
+        return point;
+    }
+
+
 }

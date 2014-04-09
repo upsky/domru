@@ -50,6 +50,9 @@ public class Signal : MonoBehaviour
         }
         VectorInt2 nodeIndex = transform.position;
         _currentShape = NodesGrid.Grid[nodeIndex.x, nodeIndex.y].Shape;
+
+        if (_currentShape.IsInRotateProcess)
+            DestroySelf();
     }
 
     /// <summary>

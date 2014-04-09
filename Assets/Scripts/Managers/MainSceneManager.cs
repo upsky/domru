@@ -53,7 +53,7 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
 
     private void StartGameProcess()
     {
-        Debug.LogWarning("StartGame");
+        //Debug.LogWarning("StartGame");
         CurrentGameMode = GameMode.Normal;
         EventMessenger.SendMessage(GameEvent.StartGameProcess, this);
     }

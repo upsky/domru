@@ -32,8 +32,8 @@ public static class ShapesGenerator
             isAllConnected = ConnectorsManager.GetConnectedCount() == ConnectorsManager.TargetConnectors.Count();
             i++;
         }
-        if (isAllConnected)
-            Debug.LogWarning("<color=green>AllConnected=true</color> iterations_count=" + i);
+        //if (isAllConnected)
+        //    Debug.LogWarning("<color=green>AllConnected=true</color> iterations_count=" + i);
 
 
         RandomReplacementAllShapes();

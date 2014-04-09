@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using System.Collections.Generic;
 
 namespace Shapes
 {
@@ -78,13 +80,18 @@ namespace Shapes
                 case Direction.Right:
                     return Vector3.right;
                 case Direction.Down:
-                    return Vector3.down;
+                    return Vector3.back;
                 case Direction.Left:
                     return Vector3.left;
                 default:
                     Debug.LogError("недопустимое значение угла");
                     return Vector3.zero;
             }
+        }
+
+        public static Quaternion DirectionToQuaternion(Direction direction)
+        {
+            return Quaternion.LookRotation(DirectionToVector3(direction));
         }
     }
 }
