@@ -69,8 +69,11 @@ public partial class RoomContentGenerator : RequiredMonoSingleton<RoomContentGen
 
         Instance.CreateComp();
         Instance.CreatePhone();
+        Instance.CreateCovers();
 
-        //todo кота перемещать на ближайшую свободную или занятую cover  клетку
+        //todo кота перемещать на ближайшую свободную или занятую cover  клетку  - GetNearEmptyNode(, exclude devices)
+        //
+
 
         AstarPath.active.Scan();
         NodesGrid.UpdateNodesData();

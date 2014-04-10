@@ -235,48 +235,30 @@ public partial class RoomContentGenerator
         var phone = (Transform)Instantiate(_phonePrefab, pos, DirectionUtils.DirectionToQuaternion(spawnNode.Direction1));
         phone.parent = _devices;
 
-        spawnNode.IsDeviceNode = true;
+        //spawnNode.IsDeviceNode = true; - не нужно, т.к. не мешает коту
         CreateConnector(spawnNode, spawnNode.Direction1);
     }
 
     //todo если нужно конкретные элементы расположить, то это недолго, а пока рендомно префабы генерить
-    //private void CreateCovers()
-    //{
-    //    const float localOffset = 3f;
-    //    var prefab = RandomUtils.GetRandomItem(_coversPrefabs);
-    //    int count = Random.Range(3, 6);
+    private void CreateCovers()
+    {
+        int count = Random.Range(3, 6);
 
-    //    int prevDir = -1;
-    //    for (int i = 0; i < count; i++)
-    //    {
-    //        _emptyNodes.
-    //        Direction dir = (Direction)RandomUtils.RangeWithExclude(0, 4, (int)sofaDir.GetOpposite(), prevDir);
-    //        prevDir = (int)dir;
+        for (int i = 0; i < count; i++)
+        {
+            var prefab = RandomUtils.GetRandomItem(_coversPrefabs);
 
-    //        Vector3 pos = new Vector3(0f, prefab.position.y + 10f, 0f);
-    //        switch (dir)
-    //        {
-    //            case Direction.Up:
-    //                pos.x = localOffset - 0.65f;
-    //                pos.z = -100;
-    //                break;
+            var spawnNode = GetFarEmptyNode();//_emptyNodes.
+            Direction dir = spawnNode.Direction1;
 
-    //            case Direction.Down:
-    //                pos.x = localOffset - 0.5f + Random.Range(0, 2);
-    //                pos.z = 100;
-    //                break;
+            Vector3 pos = spawnNode.GridNode.Position;
+            pos.y += 0.22f;
+            var cover = (Transform)Instantiate(prefab, pos, DirectionUtils.DirectionToQuaternion(dir));
+            cover.parent = _furniture;
 
-    //            case Direction.Right:
-    //            case Direction.Left:
-    //                pos.x = -100 * dir.CreateSign();
-    //                pos.z = localOffset - 0.5f + Random.Range(0, 2);
-    //                break;
-    //        }
-
-    //        var window = (Transform)Instantiate(prefab, RoomClamp(pos), DirectionUtils.DirectionToQuaternion(dir));
-    //        window.parent = _windows;
-    //    }
-    //}
+            RemoveNodeFromEmptyNodes(spawnNode, ref spawnNode.IsCoverNode);
+        }
+    }
 
 
 }
