@@ -15,11 +15,16 @@ public class NodesGrid : RequiredMonoSingleton<NodesGrid>
         public int X { get; private set; }
         public int Y { get; private set; }
         public Shape Shape { get; private set; }
+        public GameObject NotShapeObject;//не Shape
+        //public Device device; //под вопросом. 
+
 
         public GraphNode AstarNode { get; private set; }
     
-        public GameObject NotShapeObject;//не Shape
-        //public Device device; //под вопросом. 
+        public Vector3 Position 
+        { 
+            get { return AstarNode.position.ToVector3(); }
+        }
 
         public Node(int x, int y, GraphNode astarNode)
         {
