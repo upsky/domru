@@ -57,7 +57,6 @@ public partial class RoomContentGenerator
     /// <summary>
     /// Наиболее удаленная нода от уже занятых
     /// </summary>
-    /// <returns></returns>
     private SpawnNode GetFarEmptyNode()
     {
         //индексы, занятых нод
@@ -85,14 +84,76 @@ public partial class RoomContentGenerator
             farIndex = indexes[indexes.Count - 1] + maxDist / 2;
         }
 
-
-        var pos = _allNodes[farIndex].GridNode.Position;
-        Debug.DrawLine(pos, pos + Vector3.up*4, Color.blue, 100f);
-        //получить массив индексов из _allnodes, которые занятые
-        //найди наибольшее значения между 2-мя индексами
-
         return _allNodes[farIndex];
     }
+
+    /// <summary>
+    /// Наиболее удаленная свободная нода от коннекторов
+    /// </summary>
+    private SpawnNode GetFarEmptyNodeFromConnectors()
+    {
+        //индексы, нод с коннекторами
+        var indexes = Enumerable.Range(0, _allNodes.Count)
+                                .Where(i => _allNodes[i].IsConnectorNode)
+                                .ToList();
+
+        //поиск индекса НЕзанятой ноды, наиболее отдаленной от 2-х нод с коннекторами
+        int maxDist = 0;
+        int farIndex = 0;
+        for (int i = 1; i < indexes.Count; i++)
+        {
+            if (indexes[i] - indexes[i - 1] > maxDist)// && _allNodes[indexes[i]].IsEmpty)
+            {
+                maxDist = indexes[i] - indexes[i - 1];
+                farIndex = indexes[i - 1] + maxDist / 2;
+            }
+        }
+
+        //сравнение найденной дистанции со значением дистанции между первой и последней незанятыми нодами.
+        int lastDist = indexes[0] + 1 + (_allNodes.Count - 1) - indexes[indexes.Count - 1];
+        if (lastDist > maxDist)
+        {
+            maxDist = lastDist;
+            farIndex = indexes[indexes.Count - 1] + maxDist / 2;
+        }
+
+        var pos = _allNodes[farIndex].GridNode.Position;
+        Debug.DrawLine(pos, pos + Vector3.up * 4, Color.green, 100f);
+
+        if (!_allNodes[farIndex].IsEmpty)
+            return GetNearEmptyNode(_allNodes[farIndex]);
+        return _allNodes[farIndex];
+    }
+
+     private SpawnNode GetNearEmptyNode(SpawnNode node)
+     {
+         var index = _allNodes.FindIndex(c => c == node);
+         int k1 = 1;
+         for (int i = index + 1; i < _allNodes.Count; i++)
+         {
+             if (_allNodes[i].IsEmpty)
+                 break;
+             k1++;
+         }
+
+         int k2 = 1;
+         for (int i = index - 1; i >= 0; i--)
+         {
+             if (_allNodes[i].IsEmpty)
+                 break;
+             k2++;
+         }
+
+         int targetIndex = (k1 <= k2) ?  index + k1 : index - k2;
+         //if (targetIndex<0)
+
+         var pos = _allNodes[targetIndex].GridNode.Position;
+         Debug.DrawLine(pos, pos + Vector3.up*4, Color.blue, 100f);
+
+
+         return _allNodes[targetIndex];
+     }
+
 
     /// <summary>
     /// Получает самую дальнюю от коннекторов ноду, являющуюся соседней текущей ноде.
@@ -127,17 +188,8 @@ public partial class RoomContentGenerator
             k2++;
         }
 
-        int targetIndex;
-        if (k1 >= k2)
-        {
-            targetIndex = index + 1;
-        }
-        else
-        {
-            targetIndex = index - 1;
-        }
-
-       return _allNodes[targetIndex];
+        int targetIndex = k1 >= k2 ? index + 1 : index - 1;
+        return _allNodes[targetIndex];
     }
 
     private void RemoveNodeFromEmptyNodes(SpawnNode node, ref bool flagForChanging)
@@ -148,8 +200,11 @@ public partial class RoomContentGenerator
 
     private void DebugEmptyNodes()
     {
-        foreach (var node in _emptyNodes)
-            Debug.DrawLine(node.GridNode.Position, node.GridNode.Position + Vector3.up*2, Color.red, 100f);
+        foreach (var node in _allNodes) //_emptyNodes)
+        {
+            if (node.IsEmpty)
+                Debug.DrawLine(node.GridNode.Position, node.GridNode.Position + Vector3.up*2, Color.red, 100f);
+        }
     }
 
     /// <summary>

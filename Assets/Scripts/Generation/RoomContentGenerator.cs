@@ -18,6 +18,9 @@ public partial class RoomContentGenerator : RequiredMonoSingleton<RoomContentGen
     private Transform _connectorPrefab;
 
     [SerializeField]
+    private Transform _phonePrefab;
+
+    [SerializeField]
     private Transform[] _windowPrefabs;
 
     [SerializeField]
@@ -64,12 +67,8 @@ public partial class RoomContentGenerator : RequiredMonoSingleton<RoomContentGen
 
         Instance.CreateStartConnector(sofaDir);
 
-
-
         Instance.CreateComp();
-
-        //todo префабы устройств тоже сделать списком с исключением элементов из рандома, при их добавленнии на сцену.
-        //префабы устройств составные - сразу со столами.
+        Instance.CreatePhone();
 
         //todo кота перемещать на ближайшую свободную или занятую cover  клетку
 

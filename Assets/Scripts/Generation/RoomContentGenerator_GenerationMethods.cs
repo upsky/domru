@@ -11,7 +11,7 @@ public partial class RoomContentGenerator
 
     private void CreateSofa(out Vector3 position, out Direction sofaDir, out int xIndex, out int yIndex)
     {
-        sofaDir = (Direction)Random.Range(0, 4); //sofaDir = Direction.Down;
+        sofaDir = (Direction)Random.Range(0, 4); //sofaDir = Direction.Right;
         Quaternion sofaQuaternion = DirectionUtils.DirectionToQuaternion(sofaDir);
         xIndex = 0;
         yIndex = 0;
@@ -109,7 +109,14 @@ public partial class RoomContentGenerator
 
     private void CreateStartConnector(Direction sofaDirection)
     {
-        int spawnIndex = (sofaDirection==Direction.Down)? 0: Random.Range(0, 2);
+        int spawnIndex;
+        if (sofaDirection == Direction.Down)
+            spawnIndex = 0;
+        else if (sofaDirection == Direction.Right)
+            spawnIndex = 1;
+        else
+            spawnIndex = Random.Range(0, 2);
+
         var spawnNode = _emptyNodes[spawnIndex];
         var startConnector_pos = spawnNode.GridNode.AstarNode.BottomCenterPosition();
         startConnector_pos.y = _connectorPrefab.position.y + 10f;
@@ -138,7 +145,6 @@ public partial class RoomContentGenerator
                 startConnector_pos.x -= 0.5f * direction.CreateSign();
                 break;
         }
-
 
         var connector = (Transform)Instantiate(_connectorPrefab, startConnector_pos, DirectionUtils.DirectionToQuaternion(direction));
         connector.parent = SceneContainers.Connectors;
@@ -203,13 +209,37 @@ public partial class RoomContentGenerator
         RemoveNodeFromEmptyNodes(compSpawnNode, ref compSpawnNode.IsDeviceNode);
 
         var connectorSpawnNode = GetFarthestFromConnectorstNeighborNode(compSpawnNode);
-        Direction connectorDir;
-        connectorDir = compSpawnNode.Direction2 == Direction.None ? compSpawnNode.Direction1 : connectorSpawnNode.Direction1;
+        Direction connectorDir = compSpawnNode.Direction2 == Direction.None ? compSpawnNode.Direction1 : connectorSpawnNode.Direction1;
         CreateConnector(connectorSpawnNode, connectorDir);
     }
 
+    private void CreatePhone()
+    {
+        var spawnNode = GetFarEmptyNodeFromConnectors();
 
+        Vector3 pos = spawnNode.GridNode.Position;
+        pos.y = _phonePrefab.position.y + 10f;
+        switch (spawnNode.Direction1)
+        {
+            case Direction.Up:
+            case Direction.Down:
+                pos.z -= 0.5f * spawnNode.Direction1.CreateSign();
+                break;
 
+            case Direction.Left:
+            case Direction.Right:
+                pos.x -= 0.5f * spawnNode.Direction1.CreateSign();
+                break;
+        }
+
+        var phone = (Transform)Instantiate(_phonePrefab, pos, DirectionUtils.DirectionToQuaternion(spawnNode.Direction1));
+        phone.parent = _devices;
+
+        spawnNode.IsDeviceNode = true;
+        CreateConnector(spawnNode, spawnNode.Direction1);
+    }
+
+    //todo если нужно конкретные элементы расположить, то это недолго, а пока рендомно префабы генерить
     //private void CreateCovers()
     //{
     //    const float localOffset = 3f;
