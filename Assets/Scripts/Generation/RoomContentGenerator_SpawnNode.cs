@@ -12,6 +12,7 @@ public partial class RoomContentGenerator
     {
         Empty,
         Connector,
+        CoverConnector,
         Device,
         Cover,
         Busy
@@ -70,14 +71,14 @@ public partial class RoomContentGenerator
 
 
     /// <summary>
-    /// Наиболее удаленная свободная нода от коннекторов
+    /// Наиболее удаленная свободная нода от types
     /// </summary>
-    private SpawnNode GetFarEmptyNodeFromConnectors()//(params SpawnNodeType[] types)
+    private SpawnNode GetFarEmptyNodeFrom(params SpawnNodeType[] types)
     {
-        //индексы, нод с коннекторами
-        var indexes = _allNodes.Where(n => n.NodeType==SpawnNodeType.Connector).Select(n => n.Index).ToList();
+        //индексы, нод c types
+        var indexes = _allNodes.Where(n => n.NodeType.In(types)).Select(n => n.Index).ToList();
 
-        int index = _allNodes.First(n => n.NodeType == SpawnNodeType.Connector).Index;
+        int index = _allNodes.First(n => n.NodeType.In(types)).Index;
         indexes.Add(_allNodes.Count + index);
 
         //поиск индекса ноды, наиболее отдаленной от 2-х нод с коннекторами
@@ -95,33 +96,36 @@ public partial class RoomContentGenerator
         //var pos = _allNodes[farIndex].GridNode.Position;
         //Debug.DrawLine(pos, pos + Vector3.up * 4, Color.green, 100f);
 
-        if (_allNodes[farIndex].NodeType != SpawnNodeType.Empty)
+        if (_allNodes.Count <= farIndex)
+        {
+            Debug.LogWarning("farIndex=" + farIndex);
+            farIndex -= (_allNodes.Count);
+        }
+        if (_allNodes[farIndex].NodeType != SpawnNodeType.Empty)//error
             return GetNearEmptyNode(_allNodes[farIndex]);
         return _allNodes[farIndex];
     }
 
-     private SpawnNode GetNearEmptyNode(SpawnNode node)
+    private SpawnNode GetNearEmptyNode(SpawnNode node)
     {
         var nextItems = ListUtils.CreateListFrom(node.Index, _allNodes);
         var prevItems = ListUtils.CreateReversedListFrom(node.Index, _allNodes);
 
         for (int i = 0; i < nextItems.Count; i++)
         {
-            if (nextItems[i].NodeType==SpawnNodeType.Empty)
+            if (nextItems[i].NodeType == SpawnNodeType.Empty)
                 return nextItems[i];
             if (prevItems[i].NodeType == SpawnNodeType.Empty)
                 return prevItems[i];
         }
         Debug.LogError("Empty node not found");
         return null;
-     }
+    }
 
 
     /// <summary>
     /// Получает самую дальнюю от коннекторов ноду, являющуюся соседней текущей ноде.
     /// </summary>
-    /// <remarks>Учтены не все баговые ситуации, т.к. применяется только для генерации конектора компа. 
-    /// Т.к. расстояние между занятыми нодами довольно большое, то некоторые ошибочные ситуации не воспроизведутся</remarks>
     private SpawnNode GetFarthestFromConnectorstNeighborNode(SpawnNode node)
     {
         var nextItems = ListUtils.CreateListFrom(node.Index, _allNodes);
@@ -188,5 +192,10 @@ public partial class RoomContentGenerator
         _emptyNodes.AddRange(_allNodes);
         RemoveNodeFromEmptyNodes(_allNodes[1], SpawnNodeType.Busy);
     }
-    
+
+
+    private List<SpawnNode> GetEmptyCornerNodes(List<SpawnNode> nodes)
+    {
+        return nodes.Where(n => n.Direction2 != Direction.None && n.NodeType == SpawnNodeType.Empty).ToList();
+    }
 }

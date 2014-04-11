@@ -201,8 +201,8 @@ public partial class RoomContentGenerator
 
     private void CreateComp()
     {
-        //todo GetFarEmptyNodeFromConnectors()//from connectors or devices
-        var compSpawnNode = GetFarEmptyNodeFromConnectors();//GetFarEmptyNode();
+        var compSpawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector);
+
         var compPrefab = RandomUtils.GetRandomItem(_compPrefabs);
         var comp = (Transform)Instantiate(compPrefab, compSpawnNode.GridNode.Position, DirectionUtils.DirectionToQuaternion(compSpawnNode.Direction1));
         comp.parent = _devices;
@@ -216,7 +216,7 @@ public partial class RoomContentGenerator
 
     private void CreatePhone()
     {
-        var spawnNode = GetFarEmptyNodeFromConnectors();
+        var spawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector);
 
         Vector3 pos = spawnNode.GridNode.Position;
         pos.y = _phonePrefab.position.y + 10f;
@@ -242,20 +242,34 @@ public partial class RoomContentGenerator
 
     //todo если нужно конкретные элементы расположить, то это недолго, а пока рендомно префабы генерить
     private void CreateCovers()
-    {return;
+    {
         int count = Random.Range(3, 6);
+        var cornerNodes = GetEmptyCornerNodes(_emptyNodes);
+        foreach (var spawnNode in cornerNodes)
+        {
+            var prefab = RandomUtils.GetRandomItem(_coversPrefabs);
+            Direction dir = spawnNode.Direction1;
+
+            Vector3 pos = spawnNode.GridNode.Position;
+            pos.y += 0.22f;
+            var cover = (Transform)Instantiate(prefab, pos, DirectionUtils.DirectionToQuaternion(dir));
+            cover.parent = _furniture;
+
+            RemoveNodeFromEmptyNodes(spawnNode, SpawnNodeType.Cover);
+        }
+
+        count -= cornerNodes.Count;
 
         for (int i = 0; i < count; i++)
         {
-            var spawnNode = RandomUtils.GetRandomItem(_emptyNodes);//GetFarEmptyNode();//_emptyNodes.
+            //var spawnNode = RandomUtils.GetRandomItem(_emptyNodes);//GetFarEmptyNode();//_emptyNodes.
             //todo для кота и cover юзать аналог GetFarEmptyNodeFromConnectors()
             //Для cover юзать GetFarEmptyNodeFrom(excmudeNodetype = cover)
             //Для cover юзать GetFarEmptyNodeFrom(excmudeNodetype = device)
-            //todo подумать, может на очередь заменить списки индексов
+            var spawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Cover);
+
 
             var prefab = RandomUtils.GetRandomItem(_coversPrefabs);
-
-            
             Direction dir = spawnNode.Direction1;
 
             Vector3 pos = spawnNode.GridNode.Position;
