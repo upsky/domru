@@ -17,9 +17,16 @@ public partial class RoomContentGenerator
     //   BusyNode
     //}
 
+    //todo object.IN()
+
 
     private class SpawnNode
     {
+        /// <summary>
+        /// Индекс в массиве _allNodes
+        /// </summary>
+        public int Index { get; private set; }
+
         public bool IsConnectorNode;
         public bool IsDeviceNode;
         public bool IsCoverNode;
@@ -41,9 +48,11 @@ public partial class RoomContentGenerator
         /// </summary>
         public Direction Direction2 = Direction.None;
 
-        public SpawnNode(NodesGrid.Node gridNode)
+        public SpawnNode(NodesGrid.Node gridNode, int index)
         {
+            Index = index;
             GridNode = gridNode;
+
             if (gridNode.Y == 0)
                 Direction1 = Direction.Up;
             else if (gridNode.Y == 6)
@@ -64,38 +73,7 @@ public partial class RoomContentGenerator
     }
 
 
-    /// <summary>
-    /// Наиболее удаленная нода от уже занятых
-    /// </summary>
-    private SpawnNode GetFarEmptyNode()
-    {
-        //индексы, занятых нод
-        var indexes = Enumerable.Range(0, _allNodes.Count)
-                                .Where(i => !_allNodes[i].IsEmpty)
-                                .ToList();
 
-        //поиск индекса ноды, наиболее отдаленной от 2-х занятых нод 
-        int maxDist = 0;
-        int farIndex = 0;
-        for (int i = 1; i < indexes.Count; i++)
-        {
-            if (indexes[i] - indexes[i - 1] > maxDist)
-            {
-                maxDist = indexes[i] - indexes[i - 1];
-                farIndex = indexes[i-1] + maxDist/2;
-            }
-        }
-
-        //сравнение найденной дистанции со значением дистанции между первой и последней незанятыми нодами.
-        int lastDist = indexes[0] + 1 + (_allNodes.Count - 1) - indexes[indexes.Count - 1];
-        if (lastDist > maxDist)
-        {
-            maxDist = lastDist;
-            farIndex = indexes[indexes.Count - 1] + maxDist / 2;
-        }
-
-        return _allNodes[farIndex];
-    }
 
     /// <summary>
     /// Наиболее удаленная свободная нода от коннекторов
@@ -103,9 +81,10 @@ public partial class RoomContentGenerator
     private SpawnNode GetFarEmptyNodeFromConnectors()
     {
         //индексы, нод с коннекторами
-        var indexes = Enumerable.Range(0, _allNodes.Count)
-                                .Where(i => _allNodes[i].IsConnectorNode)
-                                .ToList();
+        var indexes = _allNodes.Where(n => n.IsConnectorNode).Select(n => n.Index).ToList();
+            
+        int index=_allNodes.First(n => n.IsConnectorNode).Index;
+        indexes.Add(_allNodes.Count + index);
 
         //поиск индекса НЕзанятой ноды, наиболее отдаленной от 2-х нод с коннекторами
         int maxDist = 0;
@@ -119,14 +98,6 @@ public partial class RoomContentGenerator
             }
         }
 
-        //сравнение найденной дистанции со значением дистанции между первой и последней незанятыми нодами.
-        int lastDist = indexes[0] + 1 + (_allNodes.Count - 1) - indexes[indexes.Count - 1];
-        if (lastDist > maxDist)
-        {
-            maxDist = lastDist;
-            farIndex = indexes[indexes.Count - 1] + maxDist / 2;
-        }
-
         //var pos = _allNodes[farIndex].GridNode.Position;
         //Debug.DrawLine(pos, pos + Vector3.up * 4, Color.green, 100f);
 
@@ -136,32 +107,19 @@ public partial class RoomContentGenerator
     }
 
      private SpawnNode GetNearEmptyNode(SpawnNode node)
-     {
-         var index = _allNodes.FindIndex(c => c == node);
-         int k1 = 1;
-         for (int i = index + 1; i < _allNodes.Count; i++)
-         {
-             if (_allNodes[i].IsEmpty)
-                 break;
-             k1++;
-         }
+    {
+        var nextItems = ListUtils.CreateListFrom(node.Index, _allNodes);
+        var prevItems = ListUtils.CreateReversedListFrom(node.Index, _allNodes);
 
-         int k2 = 1;
-         for (int i = index - 1; i >= 0; i--)
-         {
-             if (_allNodes[i].IsEmpty)
-                 break;
-             k2++;
-         }
-
-         int targetIndex = (k1 <= k2) ?  index + k1 : index - k2;
-         //if (targetIndex<0)
-
-         //var pos = _allNodes[targetIndex].GridNode.Position;
-         //Debug.DrawLine(pos, pos + Vector3.up*4, Color.blue, 100f);
-
-
-         return _allNodes[targetIndex];
+        for (int i = 0; i < nextItems.Count; i++)
+        {
+            if (nextItems[i].IsEmpty)
+                return nextItems[i];
+            if (prevItems[i].IsEmpty)
+                return prevItems[i];
+        }
+        Debug.LogError("Empty node not found");
+        return null;
      }
 
 
@@ -172,35 +130,32 @@ public partial class RoomContentGenerator
     /// Т.к. расстояние между занятыми нодами довольно большое, то некоторые ошибочные ситуации не воспроизведутся</remarks>
     private SpawnNode GetFarthestFromConnectorstNeighborNode(SpawnNode node)
     {
-        var index = _allNodes.FindIndex(c => c == node);
+        var nextItems = ListUtils.CreateListFrom(node.Index, _allNodes);
+        var prevItems = ListUtils.CreateReversedListFrom(node.Index, _allNodes);
 
-        int k1=1;
-        for (int i = index+1; i < _allNodes.Count; i++)
+        //если соседняя нода занята, то вернуть ноду с другой стороны
+        if (!nextItems[0].IsEmpty)
+            return prevItems[0];
+        if (!prevItems[0].IsEmpty)
+            return nextItems[0];
+
+        for (int i = 0; i < nextItems.Count; i++)
         {
-            if (_allNodes[i].IsConnectorNode)
-                break;
-            k1++;
-
-            if (i == _allNodes.Count - 1) //если последний проход и не был найден коннектор, то прибавляем расстояние до стартового коннектора
-            {
-                if (_allNodes[0].IsConnectorNode)
-                    k1++;
-                else
-                    k1 += 2;
-            }
+            if (nextItems[i].IsConnectorNode)
+                return prevItems[0];
+            if (prevItems[i].IsConnectorNode)
+                return nextItems[0];
         }
-
-        int k2 = 1;
-        for (int i = index-1; i >= 0; i--)
-        {
-            if (_allNodes[i].IsConnectorNode)
-                break;
-            k2++;
-        }
-
-        int targetIndex = k1 >= k2 ? index + 1 : index - 1;
-        return _allNodes[targetIndex];
+        Debug.LogError("node with connector not found");
+        return null;
     }
+
+
+
+
+
+
+
 
     private void RemoveNodeFromEmptyNodes(SpawnNode node, ref bool flagForChanging)
     {
@@ -222,18 +177,19 @@ public partial class RoomContentGenerator
     /// </summary>
     private void FillNodes()
     {
+        int index = 0;
         //_allNodes.Add(new SpawnNode(NodesGrid.Grid[6, 0]));
         for (int i = 6; i >= 0; i--)
-            _allNodes.Add(new SpawnNode(NodesGrid.Grid[i, 0]));
+            _allNodes.Add(new SpawnNode(NodesGrid.Grid[i, 0], index++));
 
         for (int i = 1; i < 7; i++)
-            _allNodes.Add(new SpawnNode(NodesGrid.Grid[0, i]));
+            _allNodes.Add(new SpawnNode(NodesGrid.Grid[0, i], index++));
 
         for (int i = 1; i < 7; i++)
-            _allNodes.Add(new SpawnNode(NodesGrid.Grid[i, 6]));
+            _allNodes.Add(new SpawnNode(NodesGrid.Grid[i, 6], index++));
 
         for (int i = 5; i >= 1; i--)
-            _allNodes.Add(new SpawnNode(NodesGrid.Grid[6, i]));
+            _allNodes.Add(new SpawnNode(NodesGrid.Grid[6, i], index++));
 
         _emptyNodes.AddRange(_allNodes);
         RemoveNodeFromEmptyNodes(_allNodes[1], ref _allNodes[1].IsBusyNode);

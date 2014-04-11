@@ -11,7 +11,7 @@ public partial class RoomContentGenerator
 
     private void CreateSofa(out Vector3 position, out Direction sofaDir, out int xIndex, out int yIndex)
     {
-        sofaDir = (Direction)Random.Range(0, 4); //sofaDir = Direction.Right;
+        sofaDir = (Direction)Random.Range(0, 4); sofaDir = Direction.Left;
         Quaternion sofaQuaternion = DirectionUtils.DirectionToQuaternion(sofaDir);
         xIndex = 0;
         yIndex = 0;
@@ -78,21 +78,21 @@ public partial class RoomContentGenerator
         Vector3 position = plasmaPos;
         position.y = _connectorPrefab.position.y + 10f;
         Direction dir = sofaDir.GetOpposite();
-        int busyNodeOffsetIndexX = 0;
-        int busyNodeOffsetIndexY = 0;
+        int secondNodeOffsetIndexX = 0;
+        int secondNodeOffsetIndexY = 0;
 
         switch (dir)
         {
             case Direction.Up:
             case Direction.Down:
                 position.x -= 0.5f;
-                busyNodeOffsetIndexX = 1;
+                secondNodeOffsetIndexX = 1;
                 break;
 
             case Direction.Right:
             case Direction.Left:
                 position.z -= 0.5f;
-                busyNodeOffsetIndexY = 1;
+                secondNodeOffsetIndexY = 1;
                 break;
         }
 
@@ -103,8 +103,8 @@ public partial class RoomContentGenerator
         var plasmaConnectorSpawnNode = _emptyNodes.Find(c => c.GridNode == NodesGrid.Grid[nearNode.X, nearNode.Y]);
         RemoveNodeFromEmptyNodes(plasmaConnectorSpawnNode, ref plasmaConnectorSpawnNode.IsConnectorNode);
 
-        var plasmaBusySpawnNode = _emptyNodes.Find(c => c.GridNode == NodesGrid.Grid[nearNode.X + busyNodeOffsetIndexX, nearNode.Y + busyNodeOffsetIndexY]);
-        RemoveNodeFromEmptyNodes(plasmaBusySpawnNode, ref plasmaBusySpawnNode.IsBusyNode);
+        var secondNode = _emptyNodes.Find(c => c.GridNode == NodesGrid.Grid[nearNode.X + secondNodeOffsetIndexX, nearNode.Y + secondNodeOffsetIndexY]);
+        RemoveNodeFromEmptyNodes(secondNode, ref secondNode.IsDeviceNode);
     }
 
     private void CreateStartConnector(Direction sofaDirection)
@@ -201,7 +201,8 @@ public partial class RoomContentGenerator
 
     private void CreateComp()
     {
-        var compSpawnNode = GetFarEmptyNode();
+        //todo GetFarEmptyNodeFromConnectors()//from connectors or devices
+        var compSpawnNode = GetFarEmptyNodeFromConnectors();//GetFarEmptyNode();
         var compPrefab = RandomUtils.GetRandomItem(_compPrefabs);
         var comp = (Transform)Instantiate(compPrefab, compSpawnNode.GridNode.Position, DirectionUtils.DirectionToQuaternion(compSpawnNode.Direction1));
         comp.parent = _devices;
@@ -241,7 +242,7 @@ public partial class RoomContentGenerator
 
     //todo если нужно конкретные элементы расположить, то это недолго, а пока рендомно префабы генерить
     private void CreateCovers()
-    {
+    {return;
         int count = Random.Range(3, 6);
 
         for (int i = 0; i < count; i++)
@@ -251,7 +252,6 @@ public partial class RoomContentGenerator
             //Для cover юзать GetFarEmptyNodeFrom(excmudeNodetype = cover)
             //Для cover юзать GetFarEmptyNodeFrom(excmudeNodetype = device)
             //todo подумать, может на очередь заменить списки индексов
-
 
             var prefab = RandomUtils.GetRandomItem(_coversPrefabs);
 
