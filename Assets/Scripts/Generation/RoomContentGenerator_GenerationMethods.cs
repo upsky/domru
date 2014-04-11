@@ -11,7 +11,7 @@ public partial class RoomContentGenerator
 
     private void CreateSofa(out Vector3 position, out Direction sofaDir, out int xIndex, out int yIndex)
     {
-        sofaDir = (Direction)Random.Range(0, 4); sofaDir = Direction.Left;
+        sofaDir = (Direction)Random.Range(0, 4); //sofaDir = Direction.Left;
         Quaternion sofaQuaternion = DirectionUtils.DirectionToQuaternion(sofaDir);
         xIndex = 0;
         yIndex = 0;
@@ -157,7 +157,7 @@ public partial class RoomContentGenerator
         var prefab = RandomUtils.GetRandomItem(_windowPrefabs);
         int winCount = (Random.Range(1, 4) == 3) ? 1 : 2;
         
-        winCount = 2;//Test only
+        //winCount = 2;//Test only
 
         int prevDir = -1;
         for (int i = 0; i < winCount; i++)
@@ -205,45 +205,43 @@ public partial class RoomContentGenerator
         var compSpawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector, SpawnNodeType.CornerConnector);
 
         var compPrefab = RandomUtils.GetRandomItem(_compPrefabs);
-        var comp = (Transform)Instantiate(compPrefab, compSpawnNode.GridNode.Position, DirectionUtils.DirectionToQuaternion(compSpawnNode.Direction1));
+        var comp = (Transform)Instantiate(compPrefab, compSpawnNode.GridNode.Position, DirectionUtils.DirectionToQuaternion(compSpawnNode.MainDirection));
         comp.parent = _devices;
 
         RemoveNodeFromEmptyNodes(compSpawnNode, SpawnNodeType.Device);
 
         var connectorSpawnNode = GetFarthestFromConnectorstNeighborNode(compSpawnNode);
-        Direction connectorDir = compSpawnNode.Direction2 == Direction.None ? compSpawnNode.Direction1 : connectorSpawnNode.Direction1;
+        Direction connectorDir = compSpawnNode.DirectionInCover == Direction.None ? compSpawnNode.MainDirection : connectorSpawnNode.MainDirection;
         CreateConnector(connectorSpawnNode, connectorDir);
     }
 
     private void CreatePhone()
     {
         var spawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector, SpawnNodeType.CornerConnector);
-
-        spawnNode = GetEmptyCornerNodes(_emptyNodes).First(); //TEST only 
+        //spawnNode = GetEmptyCornerNodes(_emptyNodes).First(); //TEST only 
 
         Vector3 pos = spawnNode.GridNode.Position;
         pos.y = _phonePrefab.position.y + 10f;
-        switch (spawnNode.Direction1)
+        switch (spawnNode.MainDirection)
         {
             case Direction.Up:
             case Direction.Down:
-                pos.z -= 0.5f * spawnNode.Direction1.CreateSign();
+                pos.z -= 0.5f * spawnNode.MainDirection.CreateSign();
                 break;
 
             case Direction.Left:
             case Direction.Right:
-                pos.x -= 0.5f * spawnNode.Direction1.CreateSign();
+                pos.x -= 0.5f * spawnNode.MainDirection.CreateSign();
                 break;
         }
 
-        var phone = (Transform)Instantiate(_phonePrefab, pos, DirectionUtils.DirectionToQuaternion(spawnNode.Direction1));
+        var phone = (Transform)Instantiate(_phonePrefab, pos, DirectionUtils.DirectionToQuaternion(spawnNode.MainDirection));
         phone.parent = _devices;
 
-        //SpawnNodeType.Device  - не нужно, т.к. не мешает коту
-        CreateConnector(spawnNode, spawnNode.Direction1);
+        //SpawnNodeType.Device  - не нужно
+        CreateConnector(spawnNode, spawnNode.MainDirection);
     }
 
-    //todo если нужно конкретные элементы расположить, то это недолго, а пока рендомно префабы генерить
     private void CreateCovers(int count, Transform prefab)
     {
         var cornerNodes = GetEmptyCornerNodes(_emptyNodes);
@@ -279,16 +277,9 @@ public partial class RoomContentGenerator
         }
     }
 
-    //private void SetCatPosition()
-    //{
-    //    var node = GetNearNode(_allNodes[6], SpawnNodeType.Cover, SpawnNodeType.Empty);
-    //    _cat.position.x=
-    //    _cat.position.z
-    //}
-
     private void InstantiateCover(Transform prefab, SpawnNode spawnNode)
     {
-        Direction dir = spawnNode.Direction1;
+        Direction dir = spawnNode.MainDirection;
 
         Vector3 pos = spawnNode.GridNode.Position;
         pos.y += 0.22f;
@@ -298,4 +289,11 @@ public partial class RoomContentGenerator
         RemoveNodeFromEmptyNodes(spawnNode, SpawnNodeType.Cover);
     }
 
+
+    //private void SetCatPosition()
+    //{
+    //    var node = GetNearNode(_allNodes[6], SpawnNodeType.Cover, SpawnNodeType.Empty);
+    //    _cat.position.x=
+    //    _cat.position.z
+    //}
 }

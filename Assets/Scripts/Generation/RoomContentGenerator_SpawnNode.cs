@@ -33,12 +33,12 @@ public partial class RoomContentGenerator
         /// <summary>
         /// Направление, противоположное стене. Для угловых нод, всегда за данное направление отвечает NodesGrid.Node.Y
         /// </summary>
-        public Direction Direction1 = Direction.None;
+        public Direction MainDirection = Direction.None;
 
         /// <summary>
         /// Дополнительное направление, противоположное второй стене.(только для угловых нод) 
         /// </summary>
-        public Direction Direction2 = Direction.None;
+        public Direction DirectionInCover = Direction.None;
 
         public SpawnNode(NodesGrid.Node gridNode, int index)
         {
@@ -46,20 +46,20 @@ public partial class RoomContentGenerator
             GridNode = gridNode;
 
             if (gridNode.Y == 0)
-                Direction1 = Direction.Up;
+                MainDirection = Direction.Up;
             else if (gridNode.Y == 6)
-                Direction1 = Direction.Down;
+                MainDirection = Direction.Down;
             else if (gridNode.X == 0)
-                Direction1 = Direction.Right;
+                MainDirection = Direction.Right;
             else
-                Direction1 = Direction.Left;
+                MainDirection = Direction.Left;
 
             if (gridNode.Y == 0 || gridNode.Y == 6)
             {
                 if (gridNode.X == 0)
-                    Direction2 = Direction.Right;
+                    DirectionInCover = Direction.Right;
                 else if (gridNode.X == 6)
-                    Direction2 = Direction.Left;
+                    DirectionInCover = Direction.Left;
             }
         }
     }
@@ -172,7 +172,7 @@ public partial class RoomContentGenerator
     private void RemoveNodeFromEmptyNodes(SpawnNode node, SpawnNodeType newType)
     {
         node.NodeType = newType;
-        if (newType == SpawnNodeType.Connector && node.Direction2!=Direction.None)
+        if (newType == SpawnNodeType.Connector && node.DirectionInCover!=Direction.None)
             node.NodeType = SpawnNodeType.CornerConnector;
         _emptyNodes.Remove(node);
     }
@@ -192,7 +192,7 @@ public partial class RoomContentGenerator
     private void FillNodes()
     {
         int index = 0;
-        //_allNodes.Add(new SpawnNode(NodesGrid.Grid[6, 0]));
+
         for (int i = 6; i >= 0; i--)
             _allNodes.Add(new SpawnNode(NodesGrid.Grid[i, 0], index++));
 
@@ -212,6 +212,6 @@ public partial class RoomContentGenerator
 
     private List<SpawnNode> GetEmptyCornerNodes(List<SpawnNode> nodes)
     {
-        return nodes.Where(n => n.Direction2 != Direction.None && n.NodeType == SpawnNodeType.Empty).ToList();
+        return nodes.Where(n => n.DirectionInCover != Direction.None && n.NodeType == SpawnNodeType.Empty).ToList();
     }
 }
