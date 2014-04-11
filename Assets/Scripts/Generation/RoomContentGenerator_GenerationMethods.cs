@@ -101,10 +101,10 @@ public partial class RoomContentGenerator
 
         var nearNode = plasmaConnector.GetComponent<Connector>().NearestNode;
         var plasmaConnectorSpawnNode = _emptyNodes.Find(c => c.GridNode == NodesGrid.Grid[nearNode.X, nearNode.Y]);
-        RemoveNodeFromEmptyNodes(plasmaConnectorSpawnNode, ref plasmaConnectorSpawnNode.IsConnectorNode);
+        RemoveNodeFromEmptyNodes(plasmaConnectorSpawnNode, SpawnNodeType.Connector);
 
         var secondNode = _emptyNodes.Find(c => c.GridNode == NodesGrid.Grid[nearNode.X + secondNodeOffsetIndexX, nearNode.Y + secondNodeOffsetIndexY]);
-        RemoveNodeFromEmptyNodes(secondNode, ref secondNode.IsDeviceNode);
+        RemoveNodeFromEmptyNodes(secondNode, SpawnNodeType.Device);
     }
 
     private void CreateStartConnector(Direction sofaDirection)
@@ -125,7 +125,7 @@ public partial class RoomContentGenerator
         startConnector.parent = SceneContainers.Connectors;
         startConnector.GetComponent<Connector>().IsStartConnector = true;
 
-        RemoveNodeFromEmptyNodes(spawnNode, ref spawnNode.IsConnectorNode);
+        RemoveNodeFromEmptyNodes(spawnNode, SpawnNodeType.Connector);
     }
 
     private void CreateConnector(SpawnNode spawnNode, Direction direction)
@@ -149,7 +149,7 @@ public partial class RoomContentGenerator
         var connector = (Transform)Instantiate(_connectorPrefab, startConnector_pos, DirectionUtils.DirectionToQuaternion(direction));
         connector.parent = SceneContainers.Connectors;
 
-        RemoveNodeFromEmptyNodes(spawnNode, ref spawnNode.IsConnectorNode);
+        RemoveNodeFromEmptyNodes(spawnNode, SpawnNodeType.Connector);
     }
 
     private void CreateWindows(Direction sofaDir)
@@ -190,11 +190,11 @@ public partial class RoomContentGenerator
 
             var nearNode = AstarPath.active.astarData.gridGraph.GetNearest(pos - new Vector3(0.1f, 0, 0.1f)).node;
             var spawnNode = _emptyNodes.Find(c => c.GridNode.AstarNode == nearNode);
-            RemoveNodeFromEmptyNodes(spawnNode, ref spawnNode.IsBusyNode);
+            RemoveNodeFromEmptyNodes(spawnNode, SpawnNodeType.Busy);
 
             var nearNode2 = AstarPath.active.astarData.gridGraph.GetNearest(pos + new Vector3(0.1f, 0, 0.1f)).node;
             var spawnNode2 = _emptyNodes.Find(c => c.GridNode.AstarNode == nearNode2);
-            RemoveNodeFromEmptyNodes(spawnNode2, ref spawnNode2.IsBusyNode);
+            RemoveNodeFromEmptyNodes(spawnNode2, SpawnNodeType.Busy);
         }
     }
 
@@ -207,7 +207,7 @@ public partial class RoomContentGenerator
         var comp = (Transform)Instantiate(compPrefab, compSpawnNode.GridNode.Position, DirectionUtils.DirectionToQuaternion(compSpawnNode.Direction1));
         comp.parent = _devices;
 
-        RemoveNodeFromEmptyNodes(compSpawnNode, ref compSpawnNode.IsDeviceNode);
+        RemoveNodeFromEmptyNodes(compSpawnNode, SpawnNodeType.Device);
 
         var connectorSpawnNode = GetFarthestFromConnectorstNeighborNode(compSpawnNode);
         Direction connectorDir = compSpawnNode.Direction2 == Direction.None ? compSpawnNode.Direction1 : connectorSpawnNode.Direction1;
@@ -236,7 +236,7 @@ public partial class RoomContentGenerator
         var phone = (Transform)Instantiate(_phonePrefab, pos, DirectionUtils.DirectionToQuaternion(spawnNode.Direction1));
         phone.parent = _devices;
 
-        //spawnNode.IsDeviceNode = true; - не нужно, т.к. не мешает коту
+        //SpawnNodeType.Device  - не нужно, т.к. не мешает коту
         CreateConnector(spawnNode, spawnNode.Direction1);
     }
 
@@ -263,7 +263,7 @@ public partial class RoomContentGenerator
             var cover = (Transform)Instantiate(prefab, pos, DirectionUtils.DirectionToQuaternion(dir));
             cover.parent = _furniture;
 
-            RemoveNodeFromEmptyNodes(spawnNode, ref spawnNode.IsCoverNode);
+            RemoveNodeFromEmptyNodes(spawnNode, SpawnNodeType.Cover);
         }
     }
 
