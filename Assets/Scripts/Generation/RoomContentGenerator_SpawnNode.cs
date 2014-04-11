@@ -12,15 +12,12 @@ public partial class RoomContentGenerator
     {
         Empty,
         Connector,
-        CoverConnector,
+        CornerConnector,
         Device,
         Cover,
         Busy
         //если будут нужны ноды с двумя типами, то просто создать типы анагочные этому - DeviceAndConnector
     }
-
-    //todo object.IN()
-
 
     private class SpawnNode
     {
@@ -101,25 +98,42 @@ public partial class RoomContentGenerator
             Debug.LogWarning("farIndex=" + farIndex);
             farIndex -= (_allNodes.Count);
         }
-        if (_allNodes[farIndex].NodeType != SpawnNodeType.Empty)//error
-            return GetNearEmptyNode(_allNodes[farIndex]);
+
+        if (_allNodes[farIndex].NodeType != SpawnNodeType.Empty)
+            return GetNearNode(_allNodes[farIndex], SpawnNodeType.Empty);
+        
         return _allNodes[farIndex];
     }
 
-    private SpawnNode GetNearEmptyNode(SpawnNode node)
+    private SpawnNode GetNearNode(SpawnNode node, params SpawnNodeType[] types)
     {
         var nextItems = ListUtils.CreateListFrom(node.Index, _allNodes);
         var prevItems = ListUtils.CreateReversedListFrom(node.Index, _allNodes);
 
         for (int i = 0; i < nextItems.Count; i++)
         {
-            if (nextItems[i].NodeType == SpawnNodeType.Empty)
+            if (nextItems[i].NodeType.In(types))
                 return nextItems[i];
-            if (prevItems[i].NodeType == SpawnNodeType.Empty)
+            if (prevItems[i].NodeType.In(types))
                 return prevItems[i];
         }
         Debug.LogError("Empty node not found");
         return null;
+    }
+
+    private int GetNearNodeDistance(SpawnNode node, params SpawnNodeType[] types)
+    {
+        int distance = 0;
+        var nextItems = ListUtils.CreateListFrom(node.Index, _allNodes);
+        var prevItems = ListUtils.CreateReversedListFrom(node.Index, _allNodes);
+
+        for (int i = 0; i < nextItems.Count; i++)
+        {
+            distance++;
+            if (nextItems[i].NodeType.In(types) || prevItems[i].NodeType.In(types))
+                return distance;
+        }
+        return distance;
     }
 
 
@@ -158,6 +172,8 @@ public partial class RoomContentGenerator
     private void RemoveNodeFromEmptyNodes(SpawnNode node, SpawnNodeType newType)
     {
         node.NodeType = newType;
+        if (newType == SpawnNodeType.Connector && node.Direction2!=Direction.None)
+            node.NodeType = SpawnNodeType.CornerConnector;
         _emptyNodes.Remove(node);
     }
 

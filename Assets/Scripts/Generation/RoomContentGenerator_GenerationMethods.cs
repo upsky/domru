@@ -156,7 +156,9 @@ public partial class RoomContentGenerator
     {
         const float localOffset = 3f;
         var prefab = RandomUtils.GetRandomItem(_windowPrefabs);
-        int winCount = Random.Range(1, 3);
+        int winCount = (Random.Range(1, 4) == 3) ? 1 : 2;
+        
+        winCount = 2;//Test only
 
         int prevDir = -1;
         for (int i = 0; i < winCount; i++)
@@ -201,7 +203,7 @@ public partial class RoomContentGenerator
 
     private void CreateComp()
     {
-        var compSpawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector);
+        var compSpawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector, SpawnNodeType.CornerConnector);
 
         var compPrefab = RandomUtils.GetRandomItem(_compPrefabs);
         var comp = (Transform)Instantiate(compPrefab, compSpawnNode.GridNode.Position, DirectionUtils.DirectionToQuaternion(compSpawnNode.Direction1));
@@ -216,7 +218,9 @@ public partial class RoomContentGenerator
 
     private void CreatePhone()
     {
-        var spawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector);
+        var spawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector, SpawnNodeType.CornerConnector);
+
+        spawnNode = GetEmptyCornerNodes(_emptyNodes).First(); //TEST only 
 
         Vector3 pos = spawnNode.GridNode.Position;
         pos.y = _phonePrefab.position.y + 10f;
@@ -244,42 +248,52 @@ public partial class RoomContentGenerator
     private void CreateCovers()
     {
         int count = Random.Range(3, 6);
+        count = 5;
         var cornerNodes = GetEmptyCornerNodes(_emptyNodes);
         foreach (var spawnNode in cornerNodes)
         {
             var prefab = RandomUtils.GetRandomItem(_coversPrefabs);
-            Direction dir = spawnNode.Direction1;
-
-            Vector3 pos = spawnNode.GridNode.Position;
-            pos.y += 0.22f;
-            var cover = (Transform)Instantiate(prefab, pos, DirectionUtils.DirectionToQuaternion(dir));
-            cover.parent = _furniture;
-
-            RemoveNodeFromEmptyNodes(spawnNode, SpawnNodeType.Cover);
+            CreateCover(prefab, spawnNode);
         }
 
         count -= cornerNodes.Count;
+        //todo попробовать рендомно расставить оставшиеся ноды для кота, чтобы между ними было не меньше 3-х нод и между cover и CornerConnector было > 2 клеток
 
         for (int i = 0; i < count; i++)
         {
-            //var spawnNode = RandomUtils.GetRandomItem(_emptyNodes);//GetFarEmptyNode();//_emptyNodes.
-            //todo для кота и cover юзать аналог GetFarEmptyNodeFromConnectors()
-            //Для cover юзать GetFarEmptyNodeFrom(excmudeNodetype = cover)
-            //Для cover юзать GetFarEmptyNodeFrom(excmudeNodetype = device)
-            var spawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Cover);
+            SpawnNode spawnNode = null;
 
-
+            for (int j = 0; j < 100; j++)
+            {
+                var node = RandomUtils.GetRandomItem(_emptyNodes);
+                int dist = GetNearNodeDistance(node, SpawnNodeType.Cover);
+                if (dist > _nodesBetweenCorners)
+                {
+                    dist = GetNearNodeDistance(node, SpawnNodeType.CornerConnector);
+                    if (dist > 1)
+                    {
+                        spawnNode = node;
+                        break;
+                    }
+                }
+            }
+            if (spawnNode==null)
+                continue;
             var prefab = RandomUtils.GetRandomItem(_coversPrefabs);
-            Direction dir = spawnNode.Direction1;
-
-            Vector3 pos = spawnNode.GridNode.Position;
-            pos.y += 0.22f;
-            var cover = (Transform)Instantiate(prefab, pos, DirectionUtils.DirectionToQuaternion(dir));
-            cover.parent = _furniture;
-
-            RemoveNodeFromEmptyNodes(spawnNode, SpawnNodeType.Cover);
+            CreateCover(prefab, spawnNode);
         }
     }
 
+    private void CreateCover(Transform prefab, SpawnNode spawnNode)
+    {
+        Direction dir = spawnNode.Direction1;
+
+        Vector3 pos = spawnNode.GridNode.Position;
+        pos.y += 0.22f;
+        var cover = (Transform)Instantiate(prefab, pos, DirectionUtils.DirectionToQuaternion(dir));
+        cover.parent = _furniture;
+
+        RemoveNodeFromEmptyNodes(spawnNode, SpawnNodeType.Cover);
+    }
 
 }

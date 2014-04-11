@@ -8,6 +8,9 @@ using Random = UnityEngine.Random;
 
 public partial class RoomContentGenerator : RequiredMonoSingleton<RoomContentGenerator>
 {
+    [SerializeField, Range(2,3)]
+    private int _nodesBetweenCorners = 2;
+
     [SerializeField]
     private Transform _sofaPrefab;
 
@@ -72,7 +75,7 @@ public partial class RoomContentGenerator : RequiredMonoSingleton<RoomContentGen
         Instance.CreateCovers();
 
         //todo кота перемещать на ближайшую свободную или занятую cover  клетку  - GetNearEmptyNode(, exclude devices)
-        //
+        //            //todo для кота и cover юзать аналог GetFarEmptyNodeFromConnectors()
 
 
         AstarPath.active.Scan();
