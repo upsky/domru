@@ -28,6 +28,9 @@ public partial class RoomContentGenerator : RequiredMonoSingleton<RoomContentGen
 
     [SerializeField]
     private Transform[] _coversPrefabs;
+    
+    [SerializeField]
+    private Transform[] _chairPrefabs;
 
     [SerializeField]
     private Transform[] _compPrefabs;
@@ -36,9 +39,11 @@ public partial class RoomContentGenerator : RequiredMonoSingleton<RoomContentGen
     private Transform _furniture;
     private Transform _devices;
     private Transform _windows;
+    //private Transform _cat;
     private List<SpawnNode> _allNodes = new List<SpawnNode>();
     private List<SpawnNode> _emptyNodes = new List<SpawnNode>();
 
+    private const float localOffset = 3f;
 
     protected override void Awake()
     {
@@ -46,6 +51,7 @@ public partial class RoomContentGenerator : RequiredMonoSingleton<RoomContentGen
         _furniture = SceneContainers.RoomContent.Find("Furniture");
         _devices = SceneContainers.RoomContent.Find("Devices");
         _windows = SceneContainers.RoomContent.Find("Windows");
+        //_cat = GameObject.Find("Dynamic/Cat").transform;
 
         if (Instance._sofaPrefab == null)
             Debug.LogException(new Exception("_sofaPrefab is null"), Instance);
@@ -72,11 +78,15 @@ public partial class RoomContentGenerator : RequiredMonoSingleton<RoomContentGen
 
         Instance.CreateComp();
         Instance.CreatePhone();
-        Instance.CreateCovers();
 
-        //todo кота перемещать на ближайшую свободную или занятую cover  клетку  - GetNearEmptyNode(, exclude devices)
-        //            //todo для кота и cover юзать аналог GetFarEmptyNodeFromConnectors()
 
+        int chairCount = Random.Range(1, 3);
+        int coverCount = Random.Range(2, 4);
+        var chairPrefab = RandomUtils.GetRandomItem(Instance._chairPrefabs);
+        var coverPrefab = RandomUtils.GetRandomItem(Instance._coversPrefabs);
+
+        Instance.CreateCovers(chairCount, chairPrefab);
+        Instance.CreateCovers(coverCount, coverPrefab);
 
         AstarPath.active.Scan();
         NodesGrid.UpdateNodesData();
@@ -85,7 +95,6 @@ public partial class RoomContentGenerator : RequiredMonoSingleton<RoomContentGen
    
     private static Vector3 RoomClamp(Vector3 point)
     {
-        const float localOffset = 3f;
         const float min = -3.5f + localOffset;
         const float max = 3.5f + localOffset;
         point.x = Mathf.Clamp(point.x, min, max);

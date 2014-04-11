@@ -154,7 +154,6 @@ public partial class RoomContentGenerator
 
     private void CreateWindows(Direction sofaDir)
     {
-        const float localOffset = 3f;
         var prefab = RandomUtils.GetRandomItem(_windowPrefabs);
         int winCount = (Random.Range(1, 4) == 3) ? 1 : 2;
         
@@ -245,19 +244,15 @@ public partial class RoomContentGenerator
     }
 
     //todo если нужно конкретные элементы расположить, то это недолго, а пока рендомно префабы генерить
-    private void CreateCovers()
+    private void CreateCovers(int count, Transform prefab)
     {
-        int count = Random.Range(3, 6);
-        count = 5;
         var cornerNodes = GetEmptyCornerNodes(_emptyNodes);
         foreach (var spawnNode in cornerNodes)
         {
-            var prefab = RandomUtils.GetRandomItem(_coversPrefabs);
-            CreateCover(prefab, spawnNode);
+            InstantiateCover(prefab, spawnNode);
         }
 
         count -= cornerNodes.Count;
-        //todo попробовать рендомно расставить оставшиеся ноды для кота, чтобы между ними было не меньше 3-х нод и между cover и CornerConnector было > 2 клеток
 
         for (int i = 0; i < count; i++)
         {
@@ -277,14 +272,21 @@ public partial class RoomContentGenerator
                     }
                 }
             }
+
             if (spawnNode==null)
                 continue;
-            var prefab = RandomUtils.GetRandomItem(_coversPrefabs);
-            CreateCover(prefab, spawnNode);
+            InstantiateCover(prefab, spawnNode);
         }
     }
 
-    private void CreateCover(Transform prefab, SpawnNode spawnNode)
+    //private void SetCatPosition()
+    //{
+    //    var node = GetNearNode(_allNodes[6], SpawnNodeType.Cover, SpawnNodeType.Empty);
+    //    _cat.position.x=
+    //    _cat.position.z
+    //}
+
+    private void InstantiateCover(Transform prefab, SpawnNode spawnNode)
     {
         Direction dir = spawnNode.Direction1;
 

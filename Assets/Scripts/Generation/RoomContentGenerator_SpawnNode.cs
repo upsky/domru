@@ -181,7 +181,7 @@ public partial class RoomContentGenerator
     {
         foreach (var node in _allNodes) //_emptyNodes)
         {
-            if (node.NodeType != SpawnNodeType.Empty)
+            if (node.NodeType == SpawnNodeType.Empty)
                 Debug.DrawLine(node.GridNode.Position, node.GridNode.Position + Vector3.up*2, Color.red, 100f);
         }
     }
