@@ -64,9 +64,6 @@ public partial class RoomContentGenerator
         }
     }
 
-
-
-
     /// <summary>
     /// Наиболее удаленная свободная нода от types
     /// </summary>
@@ -162,12 +159,23 @@ public partial class RoomContentGenerator
         return null;
     }
 
-
-
-
-
-
-
+    private SpawnNode RandomFindFarEmptyNodeFrom(int maxCountBetweenNodes, int minCountBetweenNodes, string nameForDebug, params SpawnNodeType[] types)
+    {
+        for (int i = maxCountBetweenNodes; minCountBetweenNodes > 0; i--)
+        {
+            for (int j = 0; j < 100; j++)
+            {
+                var node = RandomUtils.GetRandomItem(_emptyNodes);
+                int dist = GetNearNodeDistance(node, types);
+                if (dist > i && node.NodeType == SpawnNodeType.Empty)
+                {
+                    return node;
+                }
+            }
+            Debug.LogWarning(nameForDebug + ": not found node with maxCountBetweenNodes=" + i);
+        }
+        return null;
+    }
 
     private void RemoveNodeFromEmptyNodes(SpawnNode node, SpawnNodeType newType)
     {

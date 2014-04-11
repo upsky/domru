@@ -35,10 +35,21 @@ public class Connector : MonoBehaviour
 
     public bool IsConnected { get; private set; }
 
+    private Device Device
+    {
+        get
+        {
+            if (_device == null)
+                FindNearestDevice();
+            return _device;
+        }
+    }
+
     private void Awake()
     {
         //автоустановка правильного значения CurrentDirection при старте игры
         CurrentDirection = DirectionUtils.EulerAngleToDirection(transform.rotation.eulerAngles.y);//.GetNext(); //.GetNext() - т.к. модель повернута не так, как нужно
+        //EventMessenger.Subscribe(GameEvent.StartGameProcess, this, FindNearestDevice);
     }
 
     // Use this for initialization
@@ -49,8 +60,6 @@ public class Connector : MonoBehaviour
 
         if (!IsStartConnector)
             renderer.material.color = Color.red;
-
-        EventMessenger.Subscribe(GameEvent.StartGameProcess, this, FindNearestDevice);
     }
 
 #if UNITY_EDITOR
@@ -84,10 +93,8 @@ public class Connector : MonoBehaviour
         renderer.material.color = Color.green;
         IsConnected = true;
 
-        if (_device==null)
-            Debug.LogWarning("device not found",this);
-        else
-            _device.SwitchToOn();
+        if (Device!=null)
+            Device.SwitchToOn();
 
         EventMessenger.SendMessage(GameEvent.ConnetorSwitchToOn, this);
     }
@@ -98,10 +105,9 @@ public class Connector : MonoBehaviour
             return;
         renderer.material.color = Color.red;
         IsConnected = false;
-        if (_device == null)
-            Debug.LogWarning("device not found", this);
-        else
-            _device.SwitchToOff();
+
+        if (Device!=null)
+            Device.SwitchToOff();
     }
 
     private void FindNearestDevice()

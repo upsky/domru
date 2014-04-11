@@ -156,7 +156,6 @@ public partial class RoomContentGenerator
     {
         var prefab = RandomUtils.GetRandomItem(_windowPrefabs);
         int winCount = (Random.Range(1, 4) == 3) ? 1 : 2;
-        
         //winCount = 2;//Test only
 
         int prevDir = -1;
@@ -202,7 +201,9 @@ public partial class RoomContentGenerator
 
     private void CreateComp()
     {
-        var compSpawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector, SpawnNodeType.CornerConnector);
+        SpawnNode compSpawnNode = RandomFindFarEmptyNodeFrom(5, 3, "Comp",SpawnNodeType.Connector, SpawnNodeType.CornerConnector);
+        if (compSpawnNode==null)
+            compSpawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector, SpawnNodeType.CornerConnector);
 
         var compPrefab = RandomUtils.GetRandomItem(_compPrefabs);
         var comp = (Transform)Instantiate(compPrefab, compSpawnNode.GridNode.Position, DirectionUtils.DirectionToQuaternion(compSpawnNode.MainDirection));
@@ -217,8 +218,10 @@ public partial class RoomContentGenerator
 
     private void CreatePhone()
     {
-        var spawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector, SpawnNodeType.CornerConnector);
         //spawnNode = GetEmptyCornerNodes(_emptyNodes).First(); //TEST only 
+        SpawnNode spawnNode = RandomFindFarEmptyNodeFrom(5, 3, "Phone", SpawnNodeType.Connector, SpawnNodeType.CornerConnector);
+        if (spawnNode == null)
+            spawnNode = GetFarEmptyNodeFrom(SpawnNodeType.Connector, SpawnNodeType.CornerConnector);
 
         Vector3 pos = spawnNode.GridNode.Position;
         pos.y = _phonePrefab.position.y + 10f;
@@ -242,20 +245,21 @@ public partial class RoomContentGenerator
         CreateConnector(spawnNode, spawnNode.MainDirection);
     }
 
-    private void CreateCovers(int count, Transform prefab)
+    private void CreateCovers(int targetCount, Transform prefab)
     {
+        int count = 0;
         var cornerNodes = GetEmptyCornerNodes(_emptyNodes);
         foreach (var spawnNode in cornerNodes)
         {
+            count++;
+            if (count > targetCount)
+                return;
             InstantiateCover(prefab, spawnNode);
         }
 
-        count -= cornerNodes.Count;
-
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < targetCount; i++)
         {
             SpawnNode spawnNode = null;
-
             for (int j = 0; j < 100; j++)
             {
                 var node = RandomUtils.GetRandomItem(_emptyNodes);
@@ -271,8 +275,15 @@ public partial class RoomContentGenerator
                 }
             }
 
-            if (spawnNode==null)
-                continue;
+            if (spawnNode == null)
+            {
+                Debug.LogWarning(prefab.name + ": not found node with maxCountBetweenNodes=" + _nodesBetweenCorners);
+                return;
+            }
+
+            count++;
+            if (count > targetCount)
+                return;
             InstantiateCover(prefab, spawnNode);
         }
     }
