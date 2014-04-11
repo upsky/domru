@@ -246,9 +246,16 @@ public partial class RoomContentGenerator
 
         for (int i = 0; i < count; i++)
         {
+            var spawnNode = RandomUtils.GetRandomItem(_emptyNodes);//GetFarEmptyNode();//_emptyNodes.
+            //todo для кота и cover юзать аналог GetFarEmptyNodeFromConnectors()
+            //Для cover юзать GetFarEmptyNodeFrom(excmudeNodetype = cover)
+            //Для cover юзать GetFarEmptyNodeFrom(excmudeNodetype = device)
+            //todo подумать, может на очередь заменить списки индексов
+
+
             var prefab = RandomUtils.GetRandomItem(_coversPrefabs);
 
-            var spawnNode = GetFarEmptyNode();//_emptyNodes.
+            
             Direction dir = spawnNode.Direction1;
 
             Vector3 pos = spawnNode.GridNode.Position;

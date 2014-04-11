@@ -8,6 +8,16 @@ using Random = UnityEngine.Random;
 
 public partial class RoomContentGenerator
 {
+    //private enum SpawnNodeType
+    //{
+    //   Empty,
+    //   Connector,
+    //   Device,
+    //   Cover,
+    //   BusyNode
+    //}
+
+
     private class SpawnNode
     {
         public bool IsConnectorNode;
@@ -117,8 +127,8 @@ public partial class RoomContentGenerator
             farIndex = indexes[indexes.Count - 1] + maxDist / 2;
         }
 
-        var pos = _allNodes[farIndex].GridNode.Position;
-        Debug.DrawLine(pos, pos + Vector3.up * 4, Color.green, 100f);
+        //var pos = _allNodes[farIndex].GridNode.Position;
+        //Debug.DrawLine(pos, pos + Vector3.up * 4, Color.green, 100f);
 
         if (!_allNodes[farIndex].IsEmpty)
             return GetNearEmptyNode(_allNodes[farIndex]);
@@ -147,8 +157,8 @@ public partial class RoomContentGenerator
          int targetIndex = (k1 <= k2) ?  index + k1 : index - k2;
          //if (targetIndex<0)
 
-         var pos = _allNodes[targetIndex].GridNode.Position;
-         Debug.DrawLine(pos, pos + Vector3.up*4, Color.blue, 100f);
+         //var pos = _allNodes[targetIndex].GridNode.Position;
+         //Debug.DrawLine(pos, pos + Vector3.up*4, Color.blue, 100f);
 
 
          return _allNodes[targetIndex];
