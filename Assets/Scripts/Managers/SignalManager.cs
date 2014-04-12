@@ -63,9 +63,9 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
             EventMessenger.Subscribe(GameEvent.StartGameProcess, this, OnStartGameProcess);
             EventMessenger.Subscribe(GameEvent.CompleteNodesGeneration, this, OnCompleteNodesGeneration);
             EventMessenger.Subscribe(GameEvent.InvokeAdjuster, this, () => InvokeSignal(1f));
-            EventMessenger.Subscribe(GameEvent.OnCreateSignal, this, OnCreateSignal);
-            EventMessenger.Subscribe(GameEvent.OnDestroySignal, this, OnDestroySignal);
         }
+        EventMessenger.Subscribe(GameEvent.OnCreateSignal, this, OnCreateSignal);
+        EventMessenger.Subscribe(GameEvent.OnDestroySignal, this, OnDestroySignal);
     }
 
     private void OnCreateSignal()
