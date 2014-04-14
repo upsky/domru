@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿//using System.Linq;
+
+using System;
 
 public static class ObjectExt
 {
@@ -8,6 +10,7 @@ public static class ObjectExt
     /// </summary>
     public static bool In<T>(this T value, params T[] array)
     {
-        return array.Contains(value);
+        int index = Array.IndexOf( array, value );
+        return (index>-1);
     }
 }
