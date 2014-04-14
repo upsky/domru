@@ -69,6 +69,7 @@ public partial class RoomContentGenerator
     /// </summary>
     private SpawnNode GetFarEmptyNodeFrom(params SpawnNodeType[] types)
     {
+        Debug.LogWarning("generation: call GetFarEmptyNodeFrom() function");
         //индексы, нод c types
         var indexes = _allNodes.Where(n => n.NodeType.In(types)).Select(n => n.Index).ToList();
 
