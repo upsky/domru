@@ -2,7 +2,7 @@
 {
 	public enum SceneNames
 	{
-        Title= 1,
+        TitleTestGPG= 1,
         Level1 = 2,
         Records = 3,
         Registration = 4,

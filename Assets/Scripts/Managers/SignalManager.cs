@@ -56,7 +56,7 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
 
     private void Start()
     {
-        if (Application.loadedLevelName == Consts.SceneNames.Title.ToString())
+        if (Application.loadedLevelName == Consts.SceneNames.TitleTestGPG.ToString())
             InvokeRepeating("CreateSignal", _firstSpawnTime, _repeatSpawnInerval);
         else
         {
