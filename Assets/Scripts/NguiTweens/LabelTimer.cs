@@ -4,18 +4,22 @@ using System.Collections;
 public class LabelTimer : MonoBehaviour
 {
     private UILabel _label;
+    private int _startTime = 30;
+    public int RemainTime { get; private set; }
 
-	void Start ()
+    void Start ()
 	{
 	    _label = this.GetSafeComponent<UILabel>();
+	    RemainTime = _startTime;
 	}
 
     void Update()
     {
-        int seconds = (int)Time.timeSinceLevelLoad;
-        int minutes = (int)(seconds / 60);
-        seconds = seconds - minutes * 60;
+        if (RemainTime <= 0)
+            return;
 
-        _label.text = string.Format("{0}{1}{2}", minutes, seconds > 9 ? ":" : ":0", seconds);
+        int seconds = (int)Time.timeSinceLevelLoad;
+        RemainTime = _startTime-seconds;
+        _label.text = string.Format("{0}", RemainTime < 10 ? "0" + RemainTime.ToString() : RemainTime.ToString());
     }
 }
