@@ -33,6 +33,9 @@ public class ButtonTestGPG : MonoBehaviour
             case Methods.ShowingConcreteLeaderboardUI:
                 _label.text = MySocial.ShowingConcreteLeaderboardUI();
                 break;
+            case Methods.LoadScores:
+                _label.text = MySocial.LoadScores();
+                break;
                 //case Methods.Init:
                 //    break;
         }
@@ -46,6 +49,7 @@ public class ButtonTestGPG : MonoBehaviour
         PostingScoreToLeaderboard = 3,
         ShowingAllLeaderboardUI = 4,
         ShowingConcreteLeaderboardUI = 5,
+        LoadScores = 6,
         //UnlockingAchievement = 7,
         //IncrementingAchievement = 8,
         //ShowingAchievementsUI = 9

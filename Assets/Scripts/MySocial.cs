@@ -3,7 +3,10 @@ using System.Collections;
 using GooglePlayGames;
 using UnityEngine.SocialPlatforms;
 
-public class MySocial : MonoBehaviour {
+public class MySocial : MonoBehaviour
+{
+    private const string LeaderboardID = "CgkIuaqBk6sCEAIQAA";
+
 
 	// Use this for initialization
 	void Start ()
@@ -38,6 +41,58 @@ public class MySocial : MonoBehaviour {
         return ret;
     }
 
+    public static string PostingScoreToLeaderboard()
+    {
+        string ret = "";
+        // post score 12345 to leaderboard ID "Cfji293fjsie_QA")
+        Social.ReportScore(995, LeaderboardID, (bool success) =>
+        {
+            // handle success or failure
+            if (success)
+                ret = "PostingScoreToLeaderboard true";
+            else
+                ret = "PostingScoreToLeaderboard FALSE";
+        });
+        return ret;
+    }
+
+    public static string ShowingAllLeaderboardUI()
+    {
+        string ret = "ShowingAllLeaderboardUI";
+        // show leaderboard UI
+        Social.ShowLeaderboardUI();
+        return ret;
+    }
+
+    public static string ShowingConcreteLeaderboardUI()
+    {
+        string ret = "ShowLeaderboardUI";
+        // show leaderboard UI
+        ((PlayGamesPlatform)Social.Active).ShowLeaderboardUI(LeaderboardID);
+        return ret;
+    }
+
+    public static string LoadScores()
+    {
+        string ret = "LoadScores";
+        // show leaderboard UI
+        ((PlayGamesPlatform) Social.Active).LoadScores(LeaderboardID, scores =>
+            {
+                if (scores.Length > 0)
+                {
+                    Debug.Log("Got " + scores.Length + " scores");
+                    string myScores = "Leaderboard:\n";
+                    foreach (IScore score in scores)
+                        myScores += "\t" + score.userID + " " + score.formattedValue + " " + score.date + "\n";
+                    ret = myScores;
+                }
+                else
+                    ret = "No scores loaded";
+            });
+        return ret;
+    }
+
+
     //public static string UnlockingAchievement()
     //{
     //    string ret = "";
@@ -69,20 +124,6 @@ public class MySocial : MonoBehaviour {
     //    return ret;
     //}
 
-    public static string PostingScoreToLeaderboard()
-    {
-        string ret = "";
-        // post score 12345 to leaderboard ID "Cfji293fjsie_QA")
-        Social.ReportScore(999, "CgkIuaqBk6sCEAIQAA", (bool success) =>
-            {
-                // handle success or failure
-                if (success)
-                    ret = "PostingScoreToLeaderboard true";
-                else
-                    ret = "PostingScoreToLeaderboard FALSE";
-            });
-        return ret;
-    }
 
 
     //public static string ShowingAchievementsUI()
@@ -93,20 +134,6 @@ public class MySocial : MonoBehaviour {
     //    return ret;
     //}
 
-    public static string ShowingAllLeaderboardUI()
-    {
-        string ret = "ShowingAllLeaderboardUI";
-        // show leaderboard UI
-        Social.ShowLeaderboardUI();
-        return ret;
-    }
 
-    public static string ShowingConcreteLeaderboardUI()
-    {
-        string ret = "ShowLeaderboardUI";
-        // show leaderboard UI
-        ((PlayGamesPlatform)Social.Active).ShowLeaderboardUI("CgkIuaqBk6sCEAIQAA");
-        return ret;
-    }
 
 }
