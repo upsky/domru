@@ -11,7 +11,7 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 
 		// we always want to call init as soon as possible after launch. Be sure to pass your own clientId to init on iOS!
 		// This call is not required on Android.
-		PlayGameServices.init( "160040154367.apps.googleusercontent.com", true );
+		PlayGameServices.init( "160040154367.apps.googleusercontent.com", true );//только для IOS
 	}
 
 
@@ -67,24 +67,24 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 		}
 
 
-		GUILayout.Label( "Achievements" );
+        //GUILayout.Label( "Achievements" );
 
-		if( GUILayout.Button( "Show Achievements" ) )
-		{
-			PlayGameServices.showAchievements();
-		}
-
-
-		if( GUILayout.Button( "Increment Achievement" ) )
-		{
-			PlayGameServices.incrementAchievement( "CgkI_-mLmdQEEAIQAQ", 2 );
-		}
+        //if( GUILayout.Button( "Show Achievements" ) )
+        //{
+        //    PlayGameServices.showAchievements();
+        //}
 
 
-		if( GUILayout.Button( "Unlock Achievment" ) )
-		{
-			PlayGameServices.unlockAchievement( "CgkI_-mLmdQEEAIQAw" );
-		}
+        //if( GUILayout.Button( "Increment Achievement" ) )
+        //{
+        //    PlayGameServices.incrementAchievement( "CgkI_-mLmdQEEAIQAQ", 2 );
+        //}
+
+
+        //if( GUILayout.Button( "Unlock Achievment" ) )
+        //{
+        //    PlayGameServices.unlockAchievement( "CgkI_-mLmdQEEAIQAw" );
+        //}
 
 
 		endColumn( true );
@@ -106,7 +106,7 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 
 		if( GUILayout.Button( "Show Leaderboard" ) )
 		{
-			PlayGameServices.showLeaderboard( "CgkI_-mLmdQEEAIQBQ", GPGLeaderboardTimeScope.AllTime );
+            PlayGameServices.showLeaderboard("CgkIuaqBk6sCEAIQAA", GPGLeaderboardTimeScope.AllTime);
 		}
 
 
@@ -118,13 +118,13 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 
 		if( GUILayout.Button( "Submit Score" ) )
 		{
-			PlayGameServices.submitScore( "CgkI_-mLmdQEEAIQBQ", 567 );
+            PlayGameServices.submitScore("CgkIuaqBk6sCEAIQAA", 1567);
 		}
 
 
 		if( GUILayout.Button( "Load Raw Score Data" ) )
 		{
-			PlayGameServices.loadScoresForLeaderboard( "CgkI_-mLmdQEEAIQBQ", GPGLeaderboardTimeScope.AllTime, false, false );
+            PlayGameServices.loadScoresForLeaderboard("CgkIuaqBk6sCEAIQAA", GPGLeaderboardTimeScope.AllTime, false, false);
 		}
 
 
@@ -150,7 +150,7 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 
 
 	private void cloudSaveButtons()
-	{
+	{/*
 		GUILayout.Label( "Cloud Data" );
 
 
@@ -195,6 +195,7 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 		{
 			PlayGameServices.showShareDialog( "I LOVE this game!", "http://prime31.com" );
 		}
+      * */
 	}
 
 #endif
