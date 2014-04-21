@@ -1,30 +1,13 @@
 fileFormatVersion: 2
-guid: 034f96e89e5620e4d84934bbedc3763e
+guid: 251334984fef5754bb642c9664c42e39
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
     100000: //RootNode
-    100002: PhoneRetroUV
-    100004: LampGreen
-    100006: LampRed
-    100008: PhoneRetro
     400000: //RootNode
-    400002: PhoneRetroUV
-    400004: LampGreen
-    400006: LampRed
-    400008: PhoneRetro
-    2300000: PhoneRetroUV
-    2300002: LampGreen
-    2300004: LampRed
-    2300006: PhoneRetro
-    3300000: PhoneRetroUV
-    3300002: LampGreen
-    3300004: LampRed
-    3300006: PhoneRetro
-    4300000: PhoneRetroUV
-    4300002: LampRed
-    4300004: LampGreen
-    4300006: PhoneRetro
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: turnV1
     9500000: //RootNode
   materials:
     importMaterials: 0

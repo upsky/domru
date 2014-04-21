@@ -2,7 +2,7 @@
 
 <!-- META-DATA -->
 	<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 80302069049"/>
-	<meta-data android:name="com.google.android.gms.appstate.APP_ID" android:value="\ YOUR_APPSTATE_APP_ID"/>
+	<meta-data android:name="com.google.android.gms.appstate.APP_ID" android:value="\ 80302069049"/>
 	<meta-data android:name="com.prime31.PlayGameServicesPlugin" android:value="UnityPlayerActivityProxy"/>
 	<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
 
