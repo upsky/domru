@@ -1,3 +1,0 @@
-lastUpgrade=00900
-proj.AppId=80302069049
-android.SetupDone=true

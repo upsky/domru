@@ -1,66 +1,71 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using System.Collections;
-using GooglePlayGames;
 using UnityEngine.SocialPlatforms;
 
-public class MySocial : MonoBehaviour
-{
+public class MySocial : MonoSingleton<MySocial>
+{   
+    #if UNITY_IPHONE || UNITY_ANDROID
+
     private const string LeaderboardID = "CgkIuaqBk6sCEAIQAA";
 
-
+    private string text = "123";
 	// Use this for initialization
 	void Start ()
 	{
 	    Init();
+        PlayGameServices.attemptSilentAuthentication();
 	}
+
+    public static void LoadScoresForLeaderboard()
+    {
+        PlayGameServices.loadScoresForLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime, false, false);
+    }
+
+    void loadScoresSucceededEvent(List<GPGScore> scores)
+    {
+        text = "";
+        Debug.Log("loadScoresSucceededEvent");
+        Prime31.Utils.logObject(scores);
+
+        foreach (var score in scores)
+        {
+            text += score.displayName + "\t";
+            //text += score.formattedScore + "\t";
+            text += score.rank + "\t";
+            text += score.value + "\t";
+            text += "\n";
+        }
+    }
+	
+
 
     public static string Init()
     {
-        // recommended for debugging:
-        PlayGamesPlatform.DebugLogEnabled = true;
+        PlayGameServices.enableDebugLog(true);
 
-        // Activate the Google Play Games platform
-        PlayGamesPlatform.Activate();
+        // we always want to call init as soon as possible after launch. Be sure to pass your own clientId to init on iOS!
+        // This call is not required on Android.
+        PlayGameServices.init("160040154367.apps.googleusercontent.com", true);//только для IOS
 
-        return "Inited";
+        GPGManager.loadScoresSucceededEvent += Instance.loadScoresSucceededEvent;
+        return "inited";
     }
-	
+
+
 
     public static string SignIn()
     {
         string ret = "";
         // authenticate user:
-        Social.localUser.Authenticate((bool success) =>
-            {
-                if (success)
-                    ret= "SignIn true";
-                else
-                    ret = "SignIn FALSE";
-                // handle success or failure
-            });
+
         return ret;
     }
 
     public static string PostingScoreToLeaderboard()
     {
         string ret = "";
-        // post score 12345 to leaderboard ID "Cfji293fjsie_QA")
-        Social.ReportScore(995, LeaderboardID, (bool success) =>
-        {
-            // handle success or failure
-            if (success)
-                ret = "PostingScoreToLeaderboard true";
-            else
-                ret = "PostingScoreToLeaderboard FALSE";
-        });
-        return ret;
-    }
 
-    public static string ShowingAllLeaderboardUI()
-    {
-        string ret = "ShowingAllLeaderboardUI";
-        // show leaderboard UI
-        Social.ShowLeaderboardUI();
         return ret;
     }
 
@@ -68,72 +73,39 @@ public class MySocial : MonoBehaviour
     {
         string ret = "ShowLeaderboardUI";
         // show leaderboard UI
-        ((PlayGamesPlatform)Social.Active).ShowLeaderboardUI(LeaderboardID);
+        PlayGameServices.showLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime);
         return ret;
     }
 
-    public static string LoadScores()
-    {
-        string ret = "LoadScores";
-        // show leaderboard UI
-        ((PlayGamesPlatform) Social.Active).LoadScores(LeaderboardID, scores =>
-            {
-                if (scores.Length > 0)
-                {
-                    Debug.Log("Got " + scores.Length + " scores");
-                    string myScores = "Leaderboard:\n";
-                    foreach (IScore score in scores)
-                        myScores += "\t" + score.userID + " " + score.formattedValue + " " + score.date + "\n";
-                    ret = myScores;
-                }
-                else
-                    ret = "No scores loaded";
-            });
-        return ret;
-    }
-
-
-    //public static string UnlockingAchievement()
+    //public static string ShowingAllLeaderboardUI()
     //{
-    //    string ret = "";
-    //    // unlock achievement (achievement ID "Cfjewijawiu_QA")
-    //    Social.ReportProgress("Cfjewijawiu_QA", 100.0f, (bool success) =>
+    //    string ret = "ShowingAllLeaderboardUI";
+    //    // show leaderboard UI
+    //    Social.ShowLeaderboardUI();
+    //    return ret;
+    //}
+
+
+
+    //public static string LoadScores()
+    //{
+    //    string ret = "LoadScores";
+    //    // show leaderboard UI
+    //    ((PlayGamesPlatform) Social.Active).LoadScores(LeaderboardID, scores =>
     //        {
-    //            // handle success or failure
-    //            if (success)
-    //                ret = "UnlockingAchievement true";
+    //            if (scores.Length > 0)
+    //            {
+    //                Debug.Log("Got " + scores.Length + " scores");
+    //                string myScores = "Leaderboard:\n";
+    //                foreach (IScore score in scores)
+    //                    myScores += "\t" + score.userID + " " + score.formattedValue + " " + score.date + "\n";
+    //                ret = myScores;
+    //            }
     //            else
-    //                ret ="UnlockingAchievement FALSE";
+    //                ret = "No scores loaded";
     //        });
     //    return ret;
     //}
 
-    //public static string IncrementingAchievement()
-    //{
-    //    string ret = "";
-    //    // increment achievement (achievement ID "Cfjewijawiu_QA") by 5 steps
-    //    ((PlayGamesPlatform)Social.Active).IncrementAchievement(
-    //        "Cfjewijawiu_QA", 5, (bool success) =>
-    //        {
-    //            // handle success or failure
-    //            if (success)
-    //                ret ="IncrementingAchievement true";
-    //            else
-    //                ret = "IncrementingAchievement FALSE";
-    //        });
-    //    return ret;
-    //}
-
-
-
-    //public static string ShowingAchievementsUI()
-    //{
-    //    string ret = "ShowingAchievementsUI";
-    //    // show achievements UI //This will show a standard UI appropriate for the look and feel of the platform (Android or iOS).
-    //    Social.ShowAchievementsUI();
-    //    return ret;
-    //}
-
-
-
+#endif
 }

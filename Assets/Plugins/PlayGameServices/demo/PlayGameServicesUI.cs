@@ -16,7 +16,7 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 		// This call is not required on Android.
 		PlayGameServices.init( "160040154367.apps.googleusercontent.com", true );//только для IOS
 
-        GPGManager.loadScoresSucceededEvent += loadScoresSucceededEvent;
+        //GPGManager.loadScoresSucceededEvent += loadScoresSucceededEvent;
 	}
 
 
@@ -47,29 +47,29 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 		}
 
 
-		if( GUILayout.Button( "Sign Out" ) )
-		{
-			PlayGameServices.signOut();
-		}
+        //if( GUILayout.Button( "Sign Out" ) )
+        //{
+        //    PlayGameServices.signOut();
+        //}
 
 
-		if( GUILayout.Button( "Is Signed In" ) )
-		{
-			// Please note that the isSignedIn method is a total hack that was added to work around a current bug where Google
-			// does not properly notify an app that the user signed out
-			Debug.Log( "is signed in? " + PlayGameServices.isSignedIn() );
-		}
+        //if( GUILayout.Button( "Is Signed In" ) )
+        //{
+        //    // Please note that the isSignedIn method is a total hack that was added to work around a current bug where Google
+        //    // does not properly notify an app that the user signed out
+        //    Debug.Log( "is signed in? " + PlayGameServices.isSignedIn() );
+        //}
 
 
-		if( GUILayout.Button( "Get Player Info" ) )
-		{
-			var playerInfo = PlayGameServices.getLocalPlayerInfo();
-			Prime31.Utils.logObject( playerInfo );
+        //if( GUILayout.Button( "Get Player Info" ) )
+        //{
+        //    var playerInfo = PlayGameServices.getLocalPlayerInfo();
+        //    Prime31.Utils.logObject( playerInfo );
 
-			// if we are on Android and have an avatar image available, lets download the profile pic
-			if( Application.platform == RuntimePlatform.Android && playerInfo.avatarUrl != null )
-				PlayGameServices.loadProfileImageForUri( playerInfo.avatarUrl );
-		}
+        //    // if we are on Android and have an avatar image available, lets download the profile pic
+        //    if( Application.platform == RuntimePlatform.Android && playerInfo.avatarUrl != null )
+        //        PlayGameServices.loadProfileImageForUri( playerInfo.avatarUrl );
+        //}
 
 
         //GUILayout.Label( "Achievements" );
@@ -108,18 +108,18 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 
     void loadScoresSucceededEvent(List<GPGScore> scores)
     {
-        text = "";
-        Debug.Log("loadScoresSucceededEvent");
-        Prime31.Utils.logObject(scores);
+        //text = "";
+        //Debug.Log("loadScoresSucceededEvent");
+        //Prime31.Utils.logObject(scores);
 
-        foreach (var score in scores)
-        {
-            text += score.displayName + "\t";
-            //text += score.formattedScore + "\t";
-            text += score.rank + "\t";
-            text += score.value + "\t";
-            text += "\n";
-        }
+        //foreach (var score in scores)
+        //{
+        //    text += score.displayName + "\t";
+        //    //text += score.formattedScore + "\t";
+        //    text += score.rank + "\t";
+        //    text += score.value + "\t";
+        //    text += "\n";
+        //}
     }
 
 	private void secondColumnButtions()
@@ -147,7 +147,6 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 		if( GUILayout.Button( "Load Raw Score Data" ) )
 		{
             PlayGameServices.loadScoresForLeaderboard("CgkIuaqBk6sCEAIQAA", GPGLeaderboardTimeScope.AllTime, false, false);
-
 		}
 
 
@@ -181,7 +180,8 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 
 
 
-	private void cloudSaveButtons()
+
+    private void cloudSaveButtons()
 	{/*
 		GUILayout.Label( "Cloud Data" );
 
