@@ -5,11 +5,26 @@ ModelImporter:
   fileIDToRecycleName:
     100000: //RootNode
     100002: PhoneRadioUV
+    100004: LampGreen
+    100006: LampRed
+    100008: Phone
     400000: //RootNode
     400002: PhoneRadioUV
+    400004: LampGreen
+    400006: LampRed
+    400008: Phone
     2300000: PhoneRadioUV
+    2300002: LampGreen
+    2300004: LampRed
+    2300006: Phone
     3300000: PhoneRadioUV
+    3300002: LampGreen
+    3300004: LampRed
+    3300006: Phone
     4300000: PhoneRadioUV
+    4300002: LampGreen
+    4300004: LampRed
+    4300006: Phone
     9500000: //RootNode
   materials:
     importMaterials: 0

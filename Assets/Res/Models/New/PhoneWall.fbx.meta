@@ -5,11 +5,26 @@ ModelImporter:
   fileIDToRecycleName:
     100000: PhoneUV
     100002: //RootNode
+    100004: LampGreen
+    100006: LampRed
+    100008: PhoneWall
     400000: PhoneUV
     400002: //RootNode
+    400004: LampGreen
+    400006: LampRed
+    400008: PhoneWall
     2300000: PhoneUV
+    2300002: LampGreen
+    2300004: LampRed
+    2300006: PhoneWall
     3300000: PhoneUV
+    3300002: LampGreen
+    3300004: LampRed
+    3300006: PhoneWall
     4300000: PhoneUV
+    4300002: LampRed
+    4300004: LampGreen
+    4300006: PhoneWall
     9500000: //RootNode
   materials:
     importMaterials: 0
