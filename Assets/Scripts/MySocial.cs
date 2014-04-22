@@ -22,7 +22,7 @@ public class MySocial : MonoSingleton<MySocial>
         PlayGameServices.loadScoresForLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime, false, false);
     }
 
-    void loadScoresSucceededEvent(List<GPGScore> scores)
+    /*void loadScoresSucceededEvent(List<GPGScore> scores)
     {
         text = "";
         Debug.Log("loadScoresSucceededEvent");
@@ -36,7 +36,7 @@ public class MySocial : MonoSingleton<MySocial>
             text += score.value + "\t";
             text += "\n";
         }
-    }
+    }*/
 	
 
 
@@ -48,7 +48,7 @@ public class MySocial : MonoSingleton<MySocial>
         // This call is not required on Android.
         PlayGameServices.init("160040154367.apps.googleusercontent.com", true);//только для IOS
 
-        GPGManager.loadScoresSucceededEvent += Instance.loadScoresSucceededEvent;
+        ///GPGManager.loadScoresSucceededEvent += Instance.loadScoresSucceededEvent;
         return "inited";
     }
 

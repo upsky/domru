@@ -2,22 +2,28 @@
 using UnityEngine;
 using System.Collections;
 
-public class ScoreResults : MonoBehaviour 
+public class ScoreResults : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject _linePrefab;
+
     private Transform _grid;
 
     #if UNITY_IPHONE || UNITY_ANDROID
 	// Use this for initialization
 	void Start ()
     {
-        GPGManager.loadScoresSucceededEvent += FillTable;
-	    //MySocial.ShowingConcreteLeaderboardUI();
-
 	    _grid = GetComponent<UIGrid>().transform;
 
-	    MySocial.LoadScoresForLeaderboard();
+        GPGManager.loadScoresSucceededEvent += FillTable;
+	    //MySocial.LoadScoresForLeaderboard();
 
-	    FillTable(FillTableTest());
+
+        //MySocial.ShowingConcreteLeaderboardUI();
+
+	    FillTable(FillTableTest(60));
+
+        //todo после 28-го протестить на >1000 игроков
     }
 
 
@@ -27,11 +33,27 @@ public class ScoreResults : MonoBehaviour
         Prime31.Utils.logObject(scores);
 
         int index = 0;
+        //int yPos = 0;
         foreach (var score in scores)
         {
-            FillTableItem(score, _grid.GetChild(index).GetChild(0));
+            var lineItemGO = NGUITools.AddChild(_grid.gameObject, _linePrefab);
+            //var lineItemUI = lineItemGO.GetComponent<UIWidget>();
+
             index++;
+
+            if (index < 10)
+            lineItemGO.name = "00"+index.ToString();
+            else if (index > 9 && index < 100)
+                lineItemGO.name = "0" + index.ToString();
+            else if (index > 99)// && yPos < 1000)
+                lineItemGO.name = index.ToString();
+
+            FillTableItem(score, lineItemGO.transform.GetChild(0));//_grid.GetChild(index).GetChild(0));
+            
         }
+        //_grid.GetComponent<UIGrid>();
+        _grid.GetComponent<UIGrid>().Reposition();
+
     }
 
     private void FillTableItem(GPGScore score, Transform line)
@@ -46,11 +68,11 @@ public class ScoreResults : MonoBehaviour
         lbl3.text = score.value.ToString();
     }
 
-    private List<GPGScore> FillTableTest()
+    private List<GPGScore> FillTableTest(int n)
     {
         List<GPGScore> scores = new List<GPGScore>();
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < n; i++)
         {
             var sc = new GPGScore();
             sc.displayName = "Name"+i;
