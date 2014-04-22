@@ -6,7 +6,7 @@ public class ScoreResults : MonoBehaviour
 {
     private Transform _grid;
 
-
+    #if UNITY_IPHONE || UNITY_ANDROID
 	// Use this for initialization
 	void Start ()
     {
@@ -17,7 +17,7 @@ public class ScoreResults : MonoBehaviour
 
 	    MySocial.LoadScoresForLeaderboard();
 
-	    //FillTable(FillTableTest());
+	    FillTable(FillTableTest());
     }
 
 
@@ -50,17 +50,14 @@ public class ScoreResults : MonoBehaviour
     {
         List<GPGScore> scores = new List<GPGScore>();
 
-        var sc1 = new GPGScore();
-        sc1.displayName = "Name1";
-        sc1.rank = 1f;
-        sc1.value = 1111;
-        scores.Add(sc1);
-
-        var sc2 = new GPGScore();
-        sc2.displayName = "Name2";
-        sc2.rank = 2f;
-        sc2.value = 2222;
-        scores.Add(sc2);
+        for (int i = 0; i < 6; i++)
+        {
+            var sc = new GPGScore();
+            sc.displayName = "Name"+i;
+            sc.rank = i;
+            sc.value = i+i;
+            scores.Add(sc);
+        }
         return scores;
     }
 
@@ -68,4 +65,5 @@ public class ScoreResults : MonoBehaviour
     {
         GPGManager.loadScoresSucceededEvent -= FillTable;
     }
+#endif
 }
