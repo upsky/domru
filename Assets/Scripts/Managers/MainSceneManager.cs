@@ -81,7 +81,11 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
 
         var victoryPanel = _UIRoot.transform.Find("VictoryPanel");
         NGUITools.SetActive(victoryPanel.gameObject, true);
-        _UIRoot.GetComponentsInChildren<LabelTimer>().First().enabled = false;
+        var timer = _UIRoot.GetComponentsInChildren<LabelTimer>().First();
+        timer.enabled = false;
+
+        long score = timer.RemainTime*100;
+        MySocial.SubmitScore(score);
     }
 
     private bool CheckVictoryCondition()

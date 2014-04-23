@@ -16,14 +16,12 @@ public class ScoreResults : MonoBehaviour
 	    _grid = GetComponent<UIGrid>().transform;
 
         GPGManager.loadScoresSucceededEvent += FillTable;
-	    //MySocial.LoadScoresForLeaderboard();
-
 
         //MySocial.ShowingConcreteLeaderboardUI();
 
-	    FillTable(FillTableTest(60));
+	    //FillTable(FillTableTest(3));
 
-        //todo после 28-го протестить на >1000 игроков
+        //todo после 28-го протестить на >1000 игроков. Хотя не надо, т.к. всего 25 за раз присылается и больше 100 не отобразиться.
     }
 
 
@@ -31,6 +29,11 @@ public class ScoreResults : MonoBehaviour
     {
         Debug.Log("loadScoresSucceededEvent");
         Prime31.Utils.logObject(scores);
+
+        foreach (Transform tr in _grid)
+            Destroy(tr);
+
+        countScores = scores.Count;
 
         int index = 0;
         //int yPos = 0;
@@ -48,24 +51,36 @@ public class ScoreResults : MonoBehaviour
             else if (index > 99)// && yPos < 1000)
                 lineItemGO.name = index.ToString();
 
-            FillTableItem(score, lineItemGO.transform.GetChild(0));//_grid.GetChild(index).GetChild(0));
+            AddGridLine(score, lineItemGO.transform.GetChild(0));
             
         }
-        //_grid.GetComponent<UIGrid>();
         _grid.GetComponent<UIGrid>().Reposition();
-
     }
 
-    private void FillTableItem(GPGScore score, Transform line)
+    private int countScores = 0;
+
+    private void AddGridLine(GPGScore score, Transform line)
     {
         var lbl1 = line.GetChild(0).GetComponent<UILabel>();
         lbl1.text = score.rank.ToString();
 
         var lbl2 = line.GetChild(1).GetComponent<UILabel>();
-        lbl2.text = score.displayName;
+        lbl2.text = countScores.ToString();//score.displayName;
 
         var lbl3 = line.GetChild(2).GetComponent<UILabel>();
         lbl3.text = score.value.ToString();
+
+
+        var sprite = line.GetSafeComponent<UISprite>();
+        if (MySocial.GetLocalPlayerInfo()!=null && score.playerId == MySocial.GetLocalPlayerInfo().playerId)
+        {
+            sprite.spriteName = "06_line_red";
+        }
+        else
+        {
+             sprite.spriteName = "05_line";
+        }
+
     }
 
     private List<GPGScore> FillTableTest(int n)

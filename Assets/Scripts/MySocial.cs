@@ -17,28 +17,10 @@ public class MySocial : MonoSingleton<MySocial>
         PlayGameServices.attemptSilentAuthentication();
 	}
 
-    public static void LoadScoresForLeaderboard()
+    public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts)
     {
-        PlayGameServices.loadScoresForLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime, false, false);
+        PlayGameServices.loadScoresForLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankreuslts);
     }
-
-    /*void loadScoresSucceededEvent(List<GPGScore> scores)
-    {
-        text = "";
-        Debug.Log("loadScoresSucceededEvent");
-        Prime31.Utils.logObject(scores);
-
-        foreach (var score in scores)
-        {
-            text += score.displayName + "\t";
-            //text += score.formattedScore + "\t";
-            text += score.rank + "\t";
-            text += score.value + "\t";
-            text += "\n";
-        }
-    }*/
-	
-
 
     public static string Init()
     {
@@ -54,19 +36,17 @@ public class MySocial : MonoSingleton<MySocial>
 
 
 
-    public static string SignIn()
+    //public static string SignIn()
+    //{
+    //    string ret = "";
+    //    // authenticate user:
+
+    //    return ret;
+    //}
+
+    public static void SubmitScore(long score)
     {
-        string ret = "";
-        // authenticate user:
-
-        return ret;
-    }
-
-    public static string PostingScoreToLeaderboard()
-    {
-        string ret = "";
-
-        return ret;
+        PlayGameServices.submitScore(LeaderboardID, score);
     }
 
     public static string ShowingConcreteLeaderboardUI()
@@ -75,6 +55,17 @@ public class MySocial : MonoSingleton<MySocial>
         // show leaderboard UI
         PlayGameServices.showLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime);
         return ret;
+    }
+
+    public static GPGPlayerInfo GetLocalPlayerInfo()
+    {
+        var playerInfo = PlayGameServices.getLocalPlayerInfo();
+        Prime31.Utils.logObject(playerInfo);
+
+        // if we are on Android and have an avatar image available, lets download the profile pic
+        if (Application.platform == RuntimePlatform.Android && playerInfo.avatarUrl != null)
+            PlayGameServices.loadProfileImageForUri(playerInfo.avatarUrl);
+        return playerInfo;
     }
 
     //public static string ShowingAllLeaderboardUI()
