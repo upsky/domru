@@ -48,8 +48,18 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
             ShapesGenerator.Generate();
             EventMessenger.SendMessage(GameEvent.CompleteNodesGeneration, this);
         }
-        StartGameProcess();       
+        StartGameProcess();   
 	}
+
+    //private void OnDrawGizmos()
+    //{
+    //    for (float i = 30; i >= 0; i-=0.2f)
+    //    {
+    //        int x = (int) Mathf.Pow(1.2589254117941672104239541063958f, i);
+    //        Debug.LogWarning(1000-x);
+    //    }
+    //}
+
 
     private void StartGameProcess()
     {
@@ -84,8 +94,12 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         var timer = _UIRoot.GetComponentsInChildren<LabelTimer>().First();
         timer.enabled = false;
 
-        long score = timer.RemainTime*100;
+        long score = ScoreCounter.TimeToStore(timer.RemainTime);
         MySocial.SubmitScore(score);
+
+
+        var scoreLabel = _UIRoot.transform.FindChild("MainGamePanel/02_lblScore");
+        scoreLabel.GetComponent<UILabel>().text = score.ToString();
     }
 
     private bool CheckVictoryCondition()
