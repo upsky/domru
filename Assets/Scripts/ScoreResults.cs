@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using System.Collections;
 
@@ -19,21 +20,21 @@ public class ScoreResults : MonoBehaviour
 
         //MySocial.ShowingConcreteLeaderboardUI();
 
-	    //FillTable(FillTableTest(3));
+	    //FillTable(CreateTestItems(3));
 
         //todo после 28-го протестить на >1000 игроков. Хотя не надо, т.к. всего 25 за раз присылается и больше 100 не отобразиться.
     }
 
 
-    private void FillTable(List<GPGScore> scores)
+    public void FillTable(List<GPGScore> scores)
     {
         Debug.Log("loadScoresSucceededEvent");
         Prime31.Utils.logObject(scores);
 
-        foreach (Transform tr in _grid)
-            Destroy(tr);
+        List<GameObject> destroyedItems= (from Transform tr in _grid select tr.gameObject).ToList();
 
-        countScores = scores.Count;
+        foreach (GameObject go in destroyedItems)
+            DestroyImmediate(go);
 
         int index = 0;
         //int yPos = 0;
@@ -51,13 +52,10 @@ public class ScoreResults : MonoBehaviour
             else if (index > 99)// && yPos < 1000)
                 lineItemGO.name = index.ToString();
 
-            AddGridLine(score, lineItemGO.transform.GetChild(0));
-            
+            AddGridLine(score, lineItemGO.transform.GetChild(0));  
         }
         _grid.GetComponent<UIGrid>().Reposition();
     }
-
-    private int countScores = 0;
 
     private void AddGridLine(GPGScore score, Transform line)
     {
@@ -65,25 +63,20 @@ public class ScoreResults : MonoBehaviour
         lbl1.text = score.rank.ToString();
 
         var lbl2 = line.GetChild(1).GetComponent<UILabel>();
-        lbl2.text = countScores.ToString();//score.displayName;
+        lbl2.text = score.displayName;//countScores.ToString();//
 
         var lbl3 = line.GetChild(2).GetComponent<UILabel>();
-        lbl3.text = score.value.ToString();
+        lbl3.text = score.value.ToString(); //destroedLines.ToString()+"            "; //
 
 
         var sprite = line.GetSafeComponent<UISprite>();
-        if (MySocial.GetLocalPlayerInfo()!=null && score.playerId == MySocial.GetLocalPlayerInfo().playerId)
-        {
+        if (MySocial.GetLocalPlayerInfo() != null && score.playerId == MySocial.GetLocalPlayerInfo().playerId)
             sprite.spriteName = "06_line_red";
-        }
         else
-        {
-             sprite.spriteName = "05_line";
-        }
-
+            sprite.spriteName = "05_line";
     }
 
-    private List<GPGScore> FillTableTest(int n)
+    public List<GPGScore> CreateTestItems(int n)
     {
         List<GPGScore> scores = new List<GPGScore>();
 
