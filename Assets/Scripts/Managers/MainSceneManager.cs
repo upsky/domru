@@ -98,7 +98,7 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         MySocial.SubmitScore(score);
 
 
-        var scoreLabel = _UIRoot.transform.FindChild("MainGamePanel/02_lblScore");
+        var scoreLabel = _UIRoot.transform.FindChild("MainGamePanel/01_spriteForText/02_lblScore");
         scoreLabel.GetComponent<UILabel>().text = score.ToString();
     }
 

@@ -17,21 +17,17 @@ public class GuiScreenUpBackFix : MonoBehaviour
 
 	    if (res > 1.55) //16:10
 	    {
-
-            _uiItem.bottomAnchor.Set(1f, -136f);
+            _uiItem.bottomAnchor.Set(1f, -385f);
 	    }
 
         if (res > 1.45 && res < 1.55) //3:2
         {
             _uiItem.bottomAnchor.Set(1f, -121f);
-
         }
 
         if (res < 1.45) //4:3
         {
-
-            _uiItem.bottomAnchor.Set(1f, -91f);
-            //_uiItem.bottomAnchor.Set(-90f, 0f);
+            _uiItem.bottomAnchor.Set(1f, -256f);
         }
 	}
 

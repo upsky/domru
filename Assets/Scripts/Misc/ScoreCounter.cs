@@ -10,7 +10,7 @@ public static class ScoreCounter
     /// <returns></returns>
     public static int TimeToStore(float time)
     {
-        float x = Mathf.Pow(1.2589254117941672104239541063958f, time);
+        float x = Mathf.Pow(1.2545117989873634979779716841611f, time)+100;// 1.2589254117941672104239541063958f
         return (int)x;
     }
 
