@@ -17,22 +17,23 @@ public class GuiScreenDomruIconFix : MonoBehaviour
 
 	    if (res > 1.55) //16:10
 	    {
-
-            _uiItem.bottomAnchor.Set(1f, -136f);
+            _uiItem.leftAnchor.Set(1f, -277f);
+            _uiItem.rightAnchor.Set(1f, -25f);
+            _uiItem.bottomAnchor.Set(0.5f, -126f);
+            _uiItem.topAnchor.Set(0.5f, 126f);
 	    }
 
+        //228
         if (res > 1.45 && res < 1.55) //3:2
         {
-
-
+            _uiItem.leftAnchor.Set(1f, -253f);
+            _uiItem.rightAnchor.Set(1f, -25f);
+            _uiItem.bottomAnchor.Set(0.5f, -114f);
+            _uiItem.topAnchor.Set(0.5f, 114f);
         }
 
-        if (res < 1.45) //4:3
-        {
-
-            _uiItem.bottomAnchor.Set(1f, -91f);
-            //_uiItem.bottomAnchor.Set(-90f, 0f);
-        }
+        //не нужно
+        //if (res < 1.45) //4:3
 	}
 
    
