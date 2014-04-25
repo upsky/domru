@@ -21,17 +21,7 @@ public class GuiScreenRecordLineFix : MonoBehaviour
 	    _uiItem.rightAnchor.Set(1f, 0f);
 
         _uiItem.ResetAnchors();
-     
-	    //_uiItem.leftAnchor.
 	}
-
-    private void Update()
-    {
-        ////_uiItem.leftAnchor.Set(0f, 1f);
-        ////_uiItem.rightAnchor.Set(1f, 1f);
-        //_uiItem.UpdateAnchors();
-        
-    }
 
 
 }

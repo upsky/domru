@@ -12,7 +12,7 @@ public class ShowMyResult : MonoBehaviour
         MySocial.LoadScoresForLeaderboard(true);
 
         //test only
-        var sr = FindObjectOfType<ScoreResults>();
-        sr.FillTable(sr.CreateTestItems(30));
+        //var sr = FindObjectOfType<ScoreResults>();
+        //sr.FillTable(sr.CreateTestItems(30));
     }
 }

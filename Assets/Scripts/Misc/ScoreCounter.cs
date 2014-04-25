@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class ScoreCounter 
+public static class ScoreCounter
 {
     /// <summary>
-    /// Функция принимает значения time в диапазоне от 0 до 30, а также рассчитана на то, что 1000 - максимальное значение
+    /// Функция рассчитана на то, что 1000 - максимальное значение очков
     /// </summary>
     /// <param name="time"></param>
     /// <returns></returns>
-    public static int TimeToStore(float time)
+    public static int TimeToStore(float startTime, float remainTime)
     {
-        float x = Mathf.Pow(1.2545117989873634979779716841611f, time)+100;// 1.2589254117941672104239541063958f
-        return (int)x;
-    }
+        const float baseStartTime = 30f;//величина времени, относительно которой рассчитывается во сколько раз отличается стартовое время уровня
+        float k = startTime / baseStartTime;
+        float a = 1f / k / k;
 
+        float v = a * remainTime * remainTime;
+        return (int)(v + 100);
+    }
 }

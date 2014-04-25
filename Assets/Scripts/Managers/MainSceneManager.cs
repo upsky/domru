@@ -94,12 +94,14 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         var timer = _UIRoot.GetComponentsInChildren<LabelTimer>().First();
         timer.enabled = false;
 
-        long score = ScoreCounter.TimeToStore(timer.RemainTime);
+        long score = ScoreCounter.TimeToStore(30f, timer.RemainTime);
         MySocial.SubmitScore(score);
 
 
         var scoreLabel = _UIRoot.transform.FindChild("MainGamePanel/01_spriteForText/02_lblScore");
         scoreLabel.GetComponent<UILabel>().text = score.ToString();
+        var scoreLabelInVictoryPanel = _UIRoot.transform.FindChild("VictoryPanel/02_spriteTop/03_lblScore");
+        scoreLabelInVictoryPanel.GetComponent<UILabel>().text = score.ToString();
     }
 
     private bool CheckVictoryCondition()
