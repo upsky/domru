@@ -10,6 +10,8 @@ public class LabelTimer : MonoBehaviour
 
     public float RemainTime { get; private set; }
 
+    public float StartTime { get { return _startTime; } }
+
     //private float remainTimeMS;
 
     void Start ()

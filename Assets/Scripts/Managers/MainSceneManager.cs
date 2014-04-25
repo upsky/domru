@@ -84,7 +84,9 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
 
 
     private void Victory()
-    {        
+    {
+        bool isUsedHelp = (CurrentGameMode == GameMode.InvokeAdjuster);
+
         //Debug.LogWarning("<color=green>VICTORY</color>");
         CurrentGameMode = GameMode.Victory;
         EventMessenger.SendMessage(GameEvent.EngGameProcess, this);
@@ -94,7 +96,7 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         var timer = _UIRoot.GetComponentsInChildren<LabelTimer>().First();
         timer.enabled = false;
 
-        long score = ScoreCounter.TimeToStore(30f, timer.RemainTime);
+        long score = isUsedHelp ? 100 : ScoreCounter.TimeToStore(timer.StartTime, timer.RemainTime);
         MySocial.SubmitScore(score);
 
 

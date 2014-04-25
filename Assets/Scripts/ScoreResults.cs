@@ -18,6 +18,7 @@ public class ScoreResults : MonoBehaviour
 
         GPGManager.loadScoresSucceededEvent += FillTable;
 
+        MySocial.LoadScoresForLeaderboard(true);
         //MySocial.ShowingConcreteLeaderboardUI();
 
 	    //FillTable(CreateTestItems(3));

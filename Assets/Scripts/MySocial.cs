@@ -9,7 +9,7 @@ public class MySocial : MonoSingleton<MySocial>
 
     private const string LeaderboardID = "CgkIuaqBk6sCEAIQAA";
 
-    private string text = "123";
+    //private string text = "123";
 	// Use this for initialization
 	void Start ()
 	{
@@ -19,6 +19,7 @@ public class MySocial : MonoSingleton<MySocial>
 
     public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts)
     {
+        Debug.LogWarning("call LoadScoresForLeaderboard");
         PlayGameServices.loadScoresForLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankreuslts);
     }
 

@@ -5,7 +5,7 @@ public class GuiScreenUpBackFix : MonoBehaviour
 {
     private UIRect _uiItem;
 
-	void Start ()
+	void Awake ()
 	{
         _uiItem = this.GetSafeComponent<UIRect>();
 
@@ -17,12 +17,12 @@ public class GuiScreenUpBackFix : MonoBehaviour
 
 	    if (res > 1.55) //16:10
 	    {
-            _uiItem.bottomAnchor.Set(1f, -385f);
+            _uiItem.bottomAnchor.Set(1f, -385f-12f);
 	    }
 
         if (res > 1.45 && res < 1.55) //3:2
         {
-            _uiItem.bottomAnchor.Set(1f, -342f);
+            _uiItem.bottomAnchor.Set(1f, -342f-12f);
         }
 
         if (res < 1.45) //4:3

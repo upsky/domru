@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GuiScreenFixCamera : MonoBehaviour
 {
-	void Start ()
+    void Awake()
 	{
         float w = Screen.width ;
         float h = Screen.height;
@@ -13,12 +13,12 @@ public class GuiScreenFixCamera : MonoBehaviour
 
 	    if (res > 1.55) //16:10
 	    {
-            camera.transform.SetY(22.7f);
+            camera.transform.SetY(22.7f+0.2f);
 	    }
 
         if (res > 1.45 && res < 1.55) //3:2
         {
-            camera.transform.SetY(22.08f);
+            camera.transform.SetY(22.08f+0.2f);
         }
 
         if (res < 1.45) //4:3

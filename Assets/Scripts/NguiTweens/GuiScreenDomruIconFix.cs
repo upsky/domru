@@ -5,7 +5,7 @@ public class GuiScreenDomruIconFix : MonoBehaviour
 {
     private UIRect _uiItem;
 
-	void Start ()
+    void Awake()
 	{
         _uiItem = this.GetSafeComponent<UIRect>();
 
