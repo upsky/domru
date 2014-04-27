@@ -8,5 +8,6 @@
     ConnetorSwitchToOn,
     OnCreateSignal,
     OnDestroySignal,
+    OnFillRecordsTable,
     //OnShapeRotateStart, (shape)
 }

@@ -56,6 +56,8 @@ public class ScoreResults : MonoBehaviour
             AddGridLine(score, lineItemGO.transform.GetChild(0));  
         }
         _grid.GetComponent<UIGrid>().Reposition();
+
+        EventMessenger.SendMessage(GameEvent.OnFillRecordsTable, this);
     }
 
     private void AddGridLine(GPGScore score, Transform line)
