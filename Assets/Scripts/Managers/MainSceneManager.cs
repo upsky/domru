@@ -96,14 +96,38 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         var timer = _UIRoot.GetComponentsInChildren<LabelTimer>().First();
         timer.enabled = false;
 
+
         long score = isUsedHelp ? 100 : ScoreCounter.TimeToStore(timer.StartTime, timer.RemainTime);
         MySocial.SubmitScore(score);
+
+        var prevScore = PlayerPrefs.GetInt(Application.loadedLevelName + "_score");
+        //Debug.LogWarning(Application.loadedLevelName + "_score = " + prevScore);
+
+        if (prevScore<score)
+            PlayerPrefs.SetInt(Application.loadedLevelName + "_score", (int)score);
 
 
         var scoreLabel = _UIRoot.transform.FindChild("MainGamePanel/01_spriteForText/02_lblScore");
         scoreLabel.GetComponent<UILabel>().text = score.ToString();
-        var scoreLabelInVictoryPanel = _UIRoot.transform.FindChild("VictoryPanel/02_spriteTop/03_lblScore");
+
+        var victorySpriteTransform = _UIRoot.transform.FindChild("VictoryPanel/02_spriteTop");
+        var scoreLabelInVictoryPanel = victorySpriteTransform.FindChild("03_lblScore");
         scoreLabelInVictoryPanel.GetComponent<UILabel>().text = score.ToString();
+
+        var victorySprite = victorySpriteTransform.GetComponent<UISprite>();
+
+        switch (ScoreCounter.GetCountStars((int)score))
+        {
+            case 1:
+                victorySprite.spriteName = "08_result_1_star";
+                break;
+            case 2:
+                victorySprite.spriteName = "09_result_2_star";
+                break;
+            case 3:
+                victorySprite.spriteName = "10_result_3_star";
+                break;
+        }
     }
 
     private bool CheckVictoryCondition()
