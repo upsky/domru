@@ -9,5 +9,7 @@
     OnCreateSignal,
     OnDestroySignal,
     OnFillRecordsTable,
+
+    OnTutorialCompleteShowText
     //OnShapeRotateStart, (shape)
 }

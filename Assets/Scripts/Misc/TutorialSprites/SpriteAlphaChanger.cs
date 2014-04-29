@@ -4,7 +4,7 @@ using System.Collections;
 public class SpriteAlphaChanger : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 1f;
+    private float _time = 2f;
 
     private const string _colorPropertyName = "_Color";
 
@@ -15,37 +15,30 @@ public class SpriteAlphaChanger : MonoBehaviour
         renderer.material.SetColor(_colorPropertyName, c);
     }
 
-
-    // Use this for initialization
-	void Start () {
-	
-	}
-
+	void Start () {}
 
     public void StartAlphaChanging()
     {
         StartCoroutine(ChangeAlphaCoroutine());
     }
 
-    //private void ChangeAlpha()
-    //{
-    //    var c = renderer.material.GetColor(_colorPropertyName);
-    //    if (c.a>=255)
-    //        return;
-
-    //    c.a += _speed * Time.deltaTime;
-    //    renderer.material.SetColor(_colorPropertyName, c);
-    //}
-
     private IEnumerator ChangeAlphaCoroutine()
     {
+        System.DateTime t1 = default(System.DateTime), t2 = default(System.DateTime);
+        t1 = System.DateTime.Now;
         var c = renderer.material.GetColor(_colorPropertyName);
-        while (c.a < 255)
+        //Debug.LogWarning("t1");
+        while (c.a < 1f)
         {
-            c.a += _speed * Time.deltaTime;
+            var speed = Time.deltaTime / _time;  //speed=путь*Time.deltaTime/time
+            c.a += speed;
             renderer.material.SetColor(_colorPropertyName, c);
             yield return null;
         }
+        //t2 = System.DateTime.Now;
+        //Debug.LogWarning("time: "+(t2 - t1).TotalMilliseconds);
+
+        EventMessenger.SendMessage(GameEvent.OnTutorialCompleteShowText, this);
     }
 
 }
