@@ -38,8 +38,14 @@ public class EventMessenger : MonoSingleton<EventMessenger>
     private List<EventSubscribersPair> _eventSubscribersPairs = new List<EventSubscribersPair>();
 
 
+    /// <summary>
+    /// Очищает до Awake, но перед Start
+    /// </summary>
     private void OnLevelWasLoaded(int level)
     {
+        //var a=_eventSubscribersPairs.Any(p => p.SubscriberActionPairs.Any(p2 => p2.Subscriber != null && p2.Subscriber.GetType() == typeof (UIPanelFix)));
+        //if (a)
+        //    Debug.LogWarning("UIPanelFix");
         _eventSubscribersPairs.Clear();
     }
 
