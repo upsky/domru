@@ -10,6 +10,7 @@
     OnDestroySignal,
     OnFillRecordsTable,
 
-    OnTutorialCompleteShowText
+    OnTutorialCompleteShowText,
+    OnTutorial2_ClickToTarget
     //OnShapeRotateStart, (shape)
 }

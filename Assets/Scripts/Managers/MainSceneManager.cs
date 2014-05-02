@@ -91,9 +91,13 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         CurrentGameMode = GameMode.Victory;
         EventMessenger.SendMessage(GameEvent.EngGameProcess, this);
 
+        if (Application.loadedLevelName.Contains("Tutorial"))
+            return;
+
+
         var victoryPanel = _UIRoot.transform.Find("VictoryPanel");
         NGUITools.SetActive(victoryPanel.gameObject, true);
-        var timer = _UIRoot.GetComponentsInChildren<LabelTimer>().First();
+        var timer = _UIRoot.GetComponentsInChildren<LabelTimer>().FirstOrDefault();
         timer.enabled = false;
 
 

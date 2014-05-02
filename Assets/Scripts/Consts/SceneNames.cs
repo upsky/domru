@@ -16,5 +16,10 @@
         Room7 = 70,
         Room8 = 80,
         Room9 = 90,
+
+        Tutorial1 = 100,
+        Tutorial2 = 110,
+        Tutorial3 = 120,
+        Tutorial4 = 130,
 	}
 }

@@ -4,7 +4,12 @@ using System.Collections;
 
 public class ClickHandler : RequiredMonoSingleton<ClickHandler>
 {
+    [SerializeField]
+    private bool _isAcrive = true;
+
     private LayerMask _clickableMmask = int.MaxValue;
+    
+
 
     private void Start()
     {
@@ -15,6 +20,9 @@ public class ClickHandler : RequiredMonoSingleton<ClickHandler>
 
     private void Update()
     {
+        if (!_isAcrive)
+            return;
+
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;

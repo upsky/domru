@@ -5,8 +5,7 @@ public class HandController : MonoBehaviour
 {
     private const float _clickInterval = 3f;
 
-	// Use this for initialization
-	void Awake ()
+	void Start ()
 	{
         EventMessenger.Subscribe(GameEvent.OnTutorialCompleteShowText, this, () => Invoke("ShowSprite", _clickInterval));
 	}

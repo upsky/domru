@@ -82,18 +82,18 @@ public class ConnectorsManager : RequiredMonoSingleton<ConnectorsManager>
     public static int GetConnectedCount()
     {
         CheckAllConnections();
-        return Instance._targetConnectors.Length - Instance._unConnectedConnectors.Count;
+        return TargetConnectors.Length - Instance._unConnectedConnectors.Count;
     }
 
     public static void CheckAllConnections()
     {
         Instance._unConnectedConnectors.Clear();
-        Instance._unConnectedConnectors.AddRange(Instance._targetConnectors);
+        Instance._unConnectedConnectors.AddRange(TargetConnectors);
 
         //if Has Start Connection
-        if (Instance._startConnector.NearestNode.Shape.HasConnection(Instance._startConnector.CurrentDirection))
+        if (StartConnector.NearestNode.Shape.HasConnection(StartConnector.CurrentDirection))
         {
-            Instance.CheckConnectRecursively(Instance._startConnector.NearestNode.Shape);
+            Instance.CheckConnectRecursively(StartConnector.NearestNode.Shape);
             Instance._traversedShapes.Clear();
         }
         foreach (var c in Instance._unConnectedConnectors)
