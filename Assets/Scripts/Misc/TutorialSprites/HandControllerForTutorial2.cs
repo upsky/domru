@@ -42,13 +42,13 @@ public class HandControllerForTutorial2 : MonoBehaviour
         if (res > 1.45 && res < 1.55) //3:2
             _startAnchor = new Vector4(-664f, -516f, 417f, 581f);
 
-        if (res > 1.45f)
-        {
-            _uiItem.leftAnchor.Set(0.5f, _startAnchor.x);
-            _uiItem.rightAnchor.Set(0.5f, _startAnchor.y);
-            _uiItem.bottomAnchor.Set(0.5f, _startAnchor.z);
-            _uiItem.topAnchor.Set(0.5f, _startAnchor.w);
-        }
+        if (res < 1.45f)
+            _startAnchor = new Vector4(_uiItem.leftAnchor.absolute, _uiItem.rightAnchor.absolute, _uiItem.bottomAnchor.absolute, _uiItem.topAnchor.absolute);
+
+        _uiItem.leftAnchor.Set(0.5f, _startAnchor.x);
+        _uiItem.rightAnchor.Set(0.5f, _startAnchor.y);
+        _uiItem.bottomAnchor.Set(0.5f, _startAnchor.z);
+        _uiItem.topAnchor.Set(0.5f, _startAnchor.w);
     }
 
     private IEnumerator MoveToButtonCoroutine()
