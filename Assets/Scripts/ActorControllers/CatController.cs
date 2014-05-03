@@ -41,6 +41,12 @@ public class CatController : MonoBehaviour
 
     private Transform[] _targets;
 
+    [SerializeField]
+    private Transform[] _tutorialTargets;
+
+    [SerializeField]
+    private Transform _tutorialTargetAfterClick;
+
 
     private void Start()
     {
@@ -96,11 +102,17 @@ public class CatController : MonoBehaviour
 
     private void OnStartGameProcess()
     {
-        _targets = FindObjectsOfType<SeekerTarget>().Select(t => t.transform).ToArray();
+        if (Application.loadedLevelName != Consts.SceneNames.Tutorial3.ToString())
+            _targets = FindObjectsOfType<SeekerTarget>().Where(c => c.enabled == true).Select(t => t.transform).ToArray();
+        else
+            _targets = _tutorialTargets;
 
 
         //установка ближашей цели в качестве стартовой позиции для исключения при следующем поиске целей 
-        _lastTargetIndex = GetNearestTargetIndex();
+        if (Application.loadedLevelName != Consts.SceneNames.Tutorial3.ToString())
+            _lastTargetIndex = GetNearestTargetIndex();
+        else
+            _lastTargetIndex = 0;
 
         _waitTime = _firstWaitInterval;
     }
@@ -133,7 +145,13 @@ public class CatController : MonoBehaviour
     {
         _currentActivityType = ActivityType.PathFinderMovement;
         var currentTarget = SelectTarget();
-        _pathFinderMovement.StartMovement(currentTarget, () => _animator.SetInteger("state", (int)CatAnimState.Move), StopWalk);
+        _pathFinderMovement.StartMovement(currentTarget, () => _animator.SetInteger("state", (int) CatAnimState.Move),
+                                          () =>
+                                              {
+                                                  RotateShape();
+                                                  StopWalk();
+
+                                              });
     }
 
     private void StopWalk()
@@ -151,8 +169,13 @@ public class CatController : MonoBehaviour
         _rndPlayAudio.Play();
         _currentActivityType = ActivityType.DirectMovement;
         _animator.SetInteger("state", (int)CatAnimState.Move);
+        
+        Transform currentTarget;
+        if (Application.loadedLevelName != Consts.SceneNames.Tutorial3.ToString())
+            currentTarget=SelectTarget();
+        else
+            currentTarget = _tutorialTargetAfterClick;
 
-        var currentTarget = SelectTarget();
         _directMovement.StartMovement(currentTarget, () =>
         {
             StopWalk();
@@ -175,7 +198,14 @@ public class CatController : MonoBehaviour
 
     private Transform SelectTarget()
     {
-        _lastTargetIndex = RandomUtils.RangeWithExclude(0, _targets.Length, _lastTargetIndex);
+        if (Application.loadedLevelName != Consts.SceneNames.Tutorial3.ToString())
+            _lastTargetIndex = RandomUtils.RangeWithExclude(0, _targets.Length, _lastTargetIndex);
+        else
+        {
+            _lastTargetIndex++;
+            if (_lastTargetIndex > 3)
+                _lastTargetIndex = 0;
+        }
         return _targets[_lastTargetIndex];
     }
 

@@ -10,6 +10,9 @@ public class SeekerTarget : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        if (!enabled)
+            return;
+
         Gizmos.color = ColorUtils.CreateWithAlpha(Color.blue, 0.5f);
 
         Vector3 pos = transform.position;
