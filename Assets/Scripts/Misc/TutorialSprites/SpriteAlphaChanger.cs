@@ -24,8 +24,8 @@ public class SpriteAlphaChanger : MonoBehaviour
 
     private IEnumerator ChangeAlphaCoroutine()
     {
-        System.DateTime t1 = default(System.DateTime), t2 = default(System.DateTime);
-        t1 = System.DateTime.Now;
+        //System.DateTime t1 = default(System.DateTime), t2 = default(System.DateTime);
+        //t1 = System.DateTime.Now;
         var c = renderer.material.GetColor(_colorPropertyName);
         //Debug.LogWarning("t1");
         while (c.a < 1f)

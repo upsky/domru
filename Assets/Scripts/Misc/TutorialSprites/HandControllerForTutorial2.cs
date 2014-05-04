@@ -81,7 +81,7 @@ public class HandControllerForTutorial2 : MonoBehaviour
         var sprite = GetComponent<UISprite>();
         sprite.spriteName = "07_finger_red";
 
-        var btn = transform.parent.GetComponent<UIButton>();
+        //var btn = transform.parent.GetComponent<UIButton>();
         _target.SendMessage("OnClick");
         EventMessenger.SendMessage(GameEvent.OnTutorial2_ClickToTarget, this);
     }

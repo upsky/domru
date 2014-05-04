@@ -12,7 +12,7 @@ public class GuiScreenRecordLineFix : MonoBehaviour
         float w = Screen.width ;
         float h = Screen.height;
 
-	    float res = h/w;
+	    //float res = h/w;
         //Debug.LogWarning(res);
 
         _uiItem.leftAnchor.target = _uiItem.rightAnchor.target = transform.root.Find("Panel1");
