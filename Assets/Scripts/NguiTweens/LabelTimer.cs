@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class LabelTimer : MonoBehaviour
@@ -12,35 +13,32 @@ public class LabelTimer : MonoBehaviour
 
     public float StartTime { get { return _startTime; } }
 
-    //private float remainTimeMS;
-
     void Start ()
 	{
 	    _label = this.GetSafeComponent<UILabel>();
 	    RemainTime = _startTime;
+
+        EventMessenger.Subscribe(GameEvent.StartGameProcess, this, () => StartCoroutine(UpdateTimeCoroutine(0.1f)));
+        EventMessenger.Subscribe(GameEvent.EngGameProcess, this, StopAllCoroutines);
 	}
 
-    void Update()
+    IEnumerator UpdateTimeCoroutine(float frequency)//0.1f
     {
-        if (RemainTime <= 0)
+        RemainTime = _startTime;
+        _label.text = string.Format("{0}:{1}", RemainTime < 10 ? "0" + RemainTime.ToString() : RemainTime.ToString(), 0);
+
+        while (RemainTime>0)
         {
-            _label.text = "00";
-            return;
+            yield return new WaitForSeconds(frequency);
+            RemainTime -= frequency;
+            int remainSec = (int)Mathf.Floor(RemainTime + 0.01f);//+0.01f для исправления погрешности float
+            int remainMs = MathfUtils.FracDecimalToCeil(RemainTime);
+            _label.text = string.Format("{0}:{1}", remainSec < 10 ? "0" + remainSec.ToString() : remainSec.ToString(), remainMs);
         }
-        float seconds = Time.timeSinceLevelLoad;
 
-        int ms = Mathf.FloorToInt(seconds * 10.0f) - ((int)seconds * 10);//10-ые доли секунды
-        ms= 9-ms;
-
-
-
-        RemainTime = _startTime-seconds;
-        int remainSec = Mathf.CeilToInt(RemainTime);
-        //remainTimeMS = _startTime - seconds;
-
-        //_label.text = ms.ToString();
-
-        //_label.text = string.Format("{0}:{1}", RemainTime < 10 ? "0" + ((int) RemainTime).ToString() : ((int) RemainTime).ToString(), ms);
-        _label.text = string.Format("{0}", remainSec < 10 ? "0" + remainSec.ToString() : remainSec.ToString());
+         if (RemainTime <= 0)
+         {
+             _label.text = "00:0";
+         }
     }
 }
