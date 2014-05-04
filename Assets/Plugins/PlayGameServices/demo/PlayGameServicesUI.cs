@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 {
-    private string text = "123";
-
-
 #if UNITY_IPHONE || UNITY_ANDROID
 	void Start()
 	{
@@ -14,9 +11,7 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 
 		// we always want to call init as soon as possible after launch. Be sure to pass your own clientId to init on iOS!
 		// This call is not required on Android.
-		PlayGameServices.init( "160040154367.apps.googleusercontent.com", true );//только для IOS
-
-        //GPGManager.loadScoresSucceededEvent += loadScoresSucceededEvent;
+		PlayGameServices.init( "160040154367.apps.googleusercontent.com", true );
 	}
 
 
@@ -47,51 +42,49 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 		}
 
 
-        //if( GUILayout.Button( "Sign Out" ) )
-        //{
-        //    PlayGameServices.signOut();
-        //}
+		if( GUILayout.Button( "Sign Out" ) )
+		{
+			PlayGameServices.signOut();
+		}
 
 
-        //if( GUILayout.Button( "Is Signed In" ) )
-        //{
-        //    // Please note that the isSignedIn method is a total hack that was added to work around a current bug where Google
-        //    // does not properly notify an app that the user signed out
-        //    Debug.Log( "is signed in? " + PlayGameServices.isSignedIn() );
-        //}
+		if( GUILayout.Button( "Is Signed In" ) )
+		{
+			// Please note that the isSignedIn method is a total hack that was added to work around a current bug where Google
+			// does not properly notify an app that the user signed out
+			Debug.Log( "is signed in? " + PlayGameServices.isSignedIn() );
+		}
 
 
-        //if (GUILayout.Button("Get Player Info"))
-        //{
-        //    var playerInfo = PlayGameServices.getLocalPlayerInfo();
-        //    Prime31.Utils.logObject(playerInfo);
+		if( GUILayout.Button( "Get Player Info" ) )
+		{
+			var playerInfo = PlayGameServices.getLocalPlayerInfo();
+			Prime31.Utils.logObject( playerInfo );
 
-        //    // if we are on Android and have an avatar image available, lets download the profile pic
-        //    if (Application.platform == RuntimePlatform.Android && playerInfo.avatarUrl != null)
-        //        PlayGameServices.loadProfileImageForUri(playerInfo.avatarUrl);
-
-        //    //playerInfo
-        //}
+			// if we are on Android and have an avatar image available, lets download the profile pic
+			if( Application.platform == RuntimePlatform.Android && playerInfo.avatarUrl != null )
+				PlayGameServices.loadProfileImageForUri( playerInfo.avatarUrl );
+		}
 
 
-        //GUILayout.Label( "Achievements" );
+		GUILayout.Label( "Achievements" );
 
-        //if( GUILayout.Button( "Show Achievements" ) )
-        //{
-        //    PlayGameServices.showAchievements();
-        //}
-
-
-        //if( GUILayout.Button( "Increment Achievement" ) )
-        //{
-        //    PlayGameServices.incrementAchievement( "CgkI_-mLmdQEEAIQAQ", 2 );
-        //}
+		if( GUILayout.Button( "Show Achievements" ) )
+		{
+			PlayGameServices.showAchievements();
+		}
 
 
-        //if( GUILayout.Button( "Unlock Achievment" ) )
-        //{
-        //    PlayGameServices.unlockAchievement( "CgkI_-mLmdQEEAIQAw" );
-        //}
+		if( GUILayout.Button( "Increment Achievement" ) )
+		{
+			PlayGameServices.incrementAchievement( "CgkI_-mLmdQEEAIQAQ", 2 );
+		}
+
+
+		if( GUILayout.Button( "Unlock Achievment" ) )
+		{
+			PlayGameServices.unlockAchievement( "CgkI_-mLmdQEEAIQAw" );
+		}
 
 
 		endColumn( true );
@@ -99,30 +92,13 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 		// toggle to show two different sets of buttons
 		if( toggleButtonState( "Show Cloud Save and Sharing Buttons" ) )
 			secondColumnButtions();
-        //else
-        //    cloudSaveButtons();
+		else
+			cloudSaveButtons();
 		toggleButton( "Show Cloud Save and Sharing Buttons", "Toggle Buttons" );
 
 		endColumn( false );
-
-        GUI.Label(new Rect(0,500,500,300), text);
 	}
 
-    void loadScoresSucceededEvent(List<GPGScore> scores)
-    {
-        //text = "";
-        //Debug.Log("loadScoresSucceededEvent");
-        //Prime31.Utils.logObject(scores);
-
-        //foreach (var score in scores)
-        //{
-        //    text += score.displayName + "\t";
-        //    //text += score.formattedScore + "\t";
-        //    text += score.rank + "\t";
-        //    text += score.value + "\t";
-        //    text += "\n";
-        //}
-    }
 
 	private void secondColumnButtions()
 	{
@@ -130,61 +106,51 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 
 		if( GUILayout.Button( "Show Leaderboard" ) )
 		{
-            PlayGameServices.showLeaderboard("CgkIuaqBk6sCEAIQAA", GPGLeaderboardTimeScope.AllTime);
+			PlayGameServices.showLeaderboard( "CgkI_-mLmdQEEAIQBQ", GPGLeaderboardTimeScope.AllTime );
 		}
 
 
-        //if( GUILayout.Button( "Show All Leaderboards" ) )
-        //{
-        //    PlayGameServices.showLeaderboards();
-        //}
+		if( GUILayout.Button( "Show All Leaderboards" ) )
+		{
+			PlayGameServices.showLeaderboards();
+		}
 
 
 		if( GUILayout.Button( "Submit Score" ) )
 		{
-            PlayGameServices.submitScore("CgkIuaqBk6sCEAIQAA", 1567);
+			PlayGameServices.submitScore( "CgkI_-mLmdQEEAIQBQ", 567 );
 		}
 
-        //возвращает то, что нужно
+
 		if( GUILayout.Button( "Load Raw Score Data" ) )
 		{
-            PlayGameServices.loadScoresForLeaderboard("CgkIuaqBk6sCEAIQAA", GPGLeaderboardTimeScope.AllTime, false, false);
+			PlayGameServices.loadScoresForLeaderboard( "CgkI_-mLmdQEEAIQBQ", GPGLeaderboardTimeScope.AllTime, false, false );
 		}
 
 
-        //if( GUILayout.Button( "Get Leaderboard Metadata" ) )
-        //{
-        //    text = "";
-        //    var info = PlayGameServices.getAllLeaderboardMetadata();
-        //    Prime31.Utils.logObject( info );
-        //    foreach (var data in info)
-        //    {
-        //        text += data.order.ToString();
-        //        text += data.title;
-        //        text += "\n";
-        //    }
-            
-        //}
+		if( GUILayout.Button( "Get Leaderboard Metadata" ) )
+		{
+			var info = PlayGameServices.getAllLeaderboardMetadata();
+			Prime31.Utils.logObject( info );
+		}
 
 
-        //if( GUILayout.Button( "Get Achievement Metadata" ) )
-        //{
-        //    var info = PlayGameServices.getAllAchievementMetadata();
-        //    Prime31.Utils.logObject( info );
-        //}
+		if( GUILayout.Button( "Get Achievement Metadata" ) )
+		{
+			var info = PlayGameServices.getAllAchievementMetadata();
+			Prime31.Utils.logObject( info );
+		}
 
 
-        //if( GUILayout.Button( "Reload All Metadata" ) )
-        //{
-        //    PlayGameServices.reloadAchievementAndLeaderboardData();
-        //}
+		if( GUILayout.Button( "Reload All Metadata" ) )
+		{
+			PlayGameServices.reloadAchievementAndLeaderboardData();
+		}
 	}
 
 
-
-
-    private void cloudSaveButtons()
-	{/*
+	private void cloudSaveButtons()
+	{
 		GUILayout.Label( "Cloud Data" );
 
 
@@ -229,7 +195,6 @@ public class PlayGameServicesUI : Prime31.MonoBehaviourGUI
 		{
 			PlayGameServices.showShareDialog( "I LOVE this game!", "http://prime31.com" );
 		}
-      * */
 	}
 
 #endif

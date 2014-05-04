@@ -5,7 +5,8 @@ public class RecordsSceneCameraController : MonoBehaviour
 {
     void Start()
     {
-        gameObject.SetActive(false);
+        if (!Application.isEditor)
+            gameObject.SetActive(false);
         EventMessenger.Subscribe(GameEvent.OnFillRecordsTable, this, () => gameObject.SetActive(true));
 	}
 }
