@@ -16,15 +16,5 @@ public class HandController : MonoBehaviour
     {
         var sprite = GetComponent<UISprite>();
         sprite.enabled = true;
-        Invoke("Click", 1f);
-    }
-
-    private void Click()
-    {
-        var sprite = GetComponent<UISprite>();
-        sprite.spriteName = "07_finger_red";
-
-        var btn=transform.parent.GetComponent<UIButton>();
-        btn.SendMessage("OnClick");
     }
 }

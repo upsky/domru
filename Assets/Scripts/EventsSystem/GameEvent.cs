@@ -11,6 +11,6 @@
     OnFillRecordsTable,
 
     OnTutorialCompleteShowText,
-    OnTutorial2_ClickToTarget
+    OnTutorial_ClickByTarget
     //OnShapeRotateStart, (shape)
 }

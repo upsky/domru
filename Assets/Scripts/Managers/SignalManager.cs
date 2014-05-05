@@ -60,7 +60,7 @@ public class SignalManager : RequiredMonoSingleton<SignalManager>
             InvokeRepeating("CreateSignal", _firstSpawnTime, _repeatSpawnInerval);
         else if (Application.loadedLevelName==Consts.SceneNames.Tutorial2.ToString())
         {
-            EventMessenger.Subscribe(GameEvent.OnTutorial2_ClickToTarget, this, OnStartGameProcess);
+            EventMessenger.Subscribe(GameEvent.OnTutorial_ClickByTarget, this, OnStartGameProcess);
         }
         else
         {
