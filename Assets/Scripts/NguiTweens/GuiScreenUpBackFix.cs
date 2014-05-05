@@ -22,7 +22,7 @@ public class GuiScreenUpBackFix : MonoBehaviour
 
         if (res > 1.45 && res < 1.55) //3:2
         {
-            _uiItem.bottomAnchor.Set(1f, -342f-15f);
+            _uiItem.bottomAnchor.Set(1f, -342f);//-15f);
         }
 
         if (res < 1.45) //4:3

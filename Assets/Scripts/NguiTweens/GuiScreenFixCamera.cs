@@ -18,7 +18,7 @@ public class GuiScreenFixCamera : MonoBehaviour
 
         if (res > 1.45 && res < 1.55) //3:2
         {
-            camera.transform.SetY(22.08f+0.2f);
+            camera.transform.SetY(22.08f);//+0.2f);
         }
 
         if (res < 1.45) //4:3
