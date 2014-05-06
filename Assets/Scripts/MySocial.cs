@@ -15,22 +15,24 @@ public class MySocial : MonoSingleton<MySocial>
 	{
 	    Init();
         PlayGameServices.attemptSilentAuthentication();
+        Debug.LogWarning("MySocial Inited");
 	}
 
     public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts)
     {
         Debug.LogWarning("call LoadScoresForLeaderboard");
         PlayGameServices.loadScoresForLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankreuslts);
+        Debug.LogWarning("call LoadScoresForLeaderboard_2");
     }
 
     public static string Init()
     {
         PlayGameServices.enableDebugLog(true);
-
-        // we always want to call init as soon as possible after launch. Be sure to pass your own clientId to init on iOS!
-        // This call is not required on Android.
+#if UNITY_IPHONE 
+    // we always want to call init as soon as possible after launch. Be sure to pass your own clientId to init on iOS!
+    // This call is not required on Android.
         PlayGameServices.init("160040154367.apps.googleusercontent.com", true);//только для IOS.  Надо вставить clientID
-
+#endif
         ///GPGManager.loadScoresSucceededEvent += Instance.loadScoresSucceededEvent;
         return "inited";
     }

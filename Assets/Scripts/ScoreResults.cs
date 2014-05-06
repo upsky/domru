@@ -58,6 +58,7 @@ public class ScoreResults : MonoBehaviour
         _grid.GetComponent<UIGrid>().Reposition();
 
         EventMessenger.SendMessage(GameEvent.OnFillRecordsTable, this);
+        Debug.Log("loadScoresSucceededEvent_end");
     }
 
     private void AddGridLine(GPGScore score, Transform line)
