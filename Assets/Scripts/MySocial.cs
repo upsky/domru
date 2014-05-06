@@ -64,8 +64,8 @@ public class MySocial : MonoSingleton<MySocial>
         Prime31.Utils.logObject(playerInfo);
 
         // if we are on Android and have an avatar image available, lets download the profile pic
-        if (Application.platform == RuntimePlatform.Android && playerInfo.avatarUrl != null)
-            PlayGameServices.loadProfileImageForUri(playerInfo.avatarUrl);
+        //if (Application.platform == RuntimePlatform.Android && playerInfo.avatarUrl != null)
+        //    PlayGameServices.loadProfileImageForUri(playerInfo.avatarUrl);
         return playerInfo;
     }
 

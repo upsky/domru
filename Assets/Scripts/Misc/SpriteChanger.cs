@@ -4,21 +4,23 @@ using System.Collections;
 public class SpriteChanger : MonoBehaviour
 {
     [SerializeField]
-    private Sprite[] _sprites;
+    private float _changeInterval;
 
     [SerializeField]
-    private float _changeInterval;
+    private Renderer _targetRenderer;
+
+    [SerializeField]
+    private Texture[] _sprites;
 
     private float _waitTime;
     private int _currentSpriteIndex;
 
-    private SpriteRenderer _spriteRenderer;
 
     private void Start()
     {
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        if (_spriteRenderer==null)
-            Debug.LogError("SpriteRenderer not found", this);
+        //_spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (_targetRenderer == null)
+            Debug.LogError("targetRenderer not found", this);
         enabled = false;
     }
 
@@ -32,12 +34,12 @@ public class SpriteChanger : MonoBehaviour
 
         _waitTime = _changeInterval;
         _currentSpriteIndex = RandomUtils.RangeWithExclude(0, _sprites.Length, _currentSpriteIndex);
-        _spriteRenderer.sprite = _sprites[_currentSpriteIndex];
+        _targetRenderer.material.mainTexture = _sprites[_currentSpriteIndex];
     }
 
     private void OnDisable()
     {
-        _spriteRenderer.sprite = null;
+        _targetRenderer.material.mainTexture = null;
         _waitTime = 0f;
     }
 

@@ -34,8 +34,14 @@ public class LabelTimer : MonoBehaviour
             int remainSec = (int)Mathf.Floor(RemainTime + 0.01f);//+0.01f для исправления погрешности float
             int remainMs = MathfUtils.FracDecimalToCeil(RemainTime);
             _label.text = string.Format("{0}:{1}", remainSec < 10 ? "0" + remainSec.ToString() : remainSec.ToString(), remainMs);
-        }
 
+
+            float w = Screen.width;
+            float h = Screen.height;
+
+            float res = h / w;
+            _label.text = res.ToString();
+        }        
          if (RemainTime <= 0)
          {
              _label.text = "00:0";
