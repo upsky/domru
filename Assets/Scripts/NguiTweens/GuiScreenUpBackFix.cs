@@ -3,33 +3,27 @@ using System.Collections;
 
 public class GuiScreenUpBackFix : MonoBehaviour
 {
+    [SerializeField]
+    private Transform _topMarker;
+
+    [SerializeField]
+    private float _yOffset;
+
     private UIRect _uiItem;
 
-	void Awake ()
-	{
+    private void Start()
+    {
+        SetToTarget();
+    }
+
+    private void SetToTarget()
+    {
+        var uiCamera = transform.root.GetComponentInChildren<Camera>();
+
         _uiItem = this.GetSafeComponent<UIRect>();
-
-        float w = Screen.width ;
-        float h = Screen.height;
-
-	    float res = h/w;
-        //Debug.LogWarning(res);
-
-	    if (res > 1.55) //16:10
-	    {
-            _uiItem.bottomAnchor.Set(1f, -385f-15f);
-	    }
-
-        if (res > 1.45 && res < 1.55) //3:2
-        {
-            _uiItem.bottomAnchor.Set(1f, -342f);//-15f);
-        }
-
-        if (res < 1.45) //4:3
-        {
-            _uiItem.bottomAnchor.Set(1f, -256f);
-        }
-	}
-
-   
+        Vector3 offset = new Vector3(0, _yOffset, 0);
+        Vector3 pos = uiCamera.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(_topMarker.position + offset));
+        _uiItem.transform.position = pos;
+        _uiItem.transform.SetLocalZ(0);
+    }
 }
