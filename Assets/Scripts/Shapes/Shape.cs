@@ -32,6 +32,11 @@ namespace Shapes
 
         private const Direction _defaultStartDirection = Direction.Up;
 
+
+        [SerializeField]
+        protected Mesh[] _randomMeshs;
+
+
         private float _rotationRemain;
         
         /// <summary>
@@ -68,6 +73,9 @@ namespace Shapes
         {
             //автоустановка правильного значения _currentDirection при старте игры
             _currentDirection = DirectionUtils.EulerAngleToDirection(transform.rotation.eulerAngles.y);
+
+            var meshFilter = transform.GetComponentInChildren<MeshFilter>();
+            meshFilter.mesh = RandomUtils.GetRandomItem(_randomMeshs);
         }
 
         private void Update()

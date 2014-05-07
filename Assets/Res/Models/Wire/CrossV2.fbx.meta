@@ -11,10 +11,13 @@ ModelImporter:
     400004: v
     2300000: g
     2300002: v
+    2300004: //RootNode
     3300000: g
     3300002: v
+    3300004: //RootNode
     4300000: g
     4300002: v
+    4300004: CrossV2
     9500000: //RootNode
   materials:
     importMaterials: 0
