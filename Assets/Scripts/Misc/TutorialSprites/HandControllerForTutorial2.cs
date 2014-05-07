@@ -18,37 +18,43 @@ public class HandControllerForTutorial2 : MonoBehaviour
     [SerializeField]
     private Vector3 _offset;
 
-    private Vector4 _startPos;
+    private Vector3 _startPos;
     private UIRect _uiItem;
 
     private bool _isWasClickByTarget;
 
     private void Start()
     {
-        _startPos = transform.position;
+        
         _uiItem = this.GetSafeComponent<UIRect>();
         _uiItem.enabled = false;
 
         EventMessenger.Subscribe(GameEvent.OnTutorialCompleteShowText, this, () => Invoke("ShowSprite", _clickInterval));
         EventMessenger.Subscribe(GameEvent.OnTutorial_ClickByTarget, this, () => Invoke("MoveToButtonStart", 0f));
+
+        Invoke("SetStartPos", 2f);
+    }
+
+    private void SetStartPos()
+    {
+        _startPos = transform.position;
     }
 
     private void Update()
     {
-        if (!_isWasClickByTarget)
+        if (!_isWasClickByTarget && _uiItem.enabled==true)
             SetToTarget();
     }
+
 
     private void ShowSprite()
     {
         SetToTarget();
-        var sprite = GetComponent<UISprite>();
-        sprite.enabled = true;
-        //Invoke("ClickToTarget", 1f);
+        _uiItem.enabled = true;
     }
 
     private void SetToTarget()
-    {        
+    {
         //Vector3 offset = new Vector3(-0.41f, -1f, 0);
         Vector3 pos = _uiCamera.ScreenToWorldPoint(Camera.main.WorldToScreenPoint(_target.position + _offset));
         _uiItem.transform.position = pos;
