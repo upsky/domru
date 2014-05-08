@@ -21,9 +21,14 @@ public class ScoreResults : MonoBehaviour
         MySocial.LoadScoresForLeaderboard(true);
         //MySocial.ShowingConcreteLeaderboardUI();//todo повесить на отдельную кнопку эту функцию
 
-	    //FillTable(CreateTestItems(3));
+        //Invoke("FillTest",1.5f);
 
         //todo после 28-го протестить на >1000 игроков. Хотя не надо, т.к. всего 25 за раз присылается и больше 100 не отобразиться.
+    }
+
+    void FillTest()
+    {
+        FillTable(CreateTestItems(3));
     }
 
 
@@ -67,7 +72,8 @@ public class ScoreResults : MonoBehaviour
         lbl1.text = score.rank.ToString();
 
         var lbl2 = line.GetChild(1).GetComponent<UILabel>();
-        lbl2.text = score.displayName;//countScores.ToString();//
+        lbl2.text = score.displayName;//countScores.ToString();
+        lbl2.text = lbl2.text.Remove(20); //удаление избыточных символов
 
         var lbl3 = line.GetChild(2).GetComponent<UILabel>();
         lbl3.text = score.value.ToString(); //destroedLines.ToString()+"            "; //
@@ -87,9 +93,9 @@ public class ScoreResults : MonoBehaviour
         for (int i = 0; i < n; i++)
         {
             var sc = new GPGScore();
-            sc.displayName = "Name"+i;
-            sc.rank = i;
-            sc.value = i+i;
+            sc.displayName = "Full Name Full Name Full Name Full Name Full Name Full Name" + i;
+            sc.rank = i+99999;
+            sc.value = i+i+888;
             scores.Add(sc);
         }
         return scores;

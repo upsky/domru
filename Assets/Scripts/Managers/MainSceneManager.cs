@@ -48,7 +48,9 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
             ShapesGenerator.Generate();
             EventMessenger.SendMessage(GameEvent.CompleteNodesGeneration, this);
         }
-        StartGameProcess();   
+
+        Invoke("StartGameProcess",0.3f);
+        //StartGameProcess();   
 	}
 
     //private void OnDrawGizmos()

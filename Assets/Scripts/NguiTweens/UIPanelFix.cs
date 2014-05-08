@@ -13,8 +13,18 @@ public class UIPanelFix : MonoBehaviour
 
     private void Start()
     {
-        EventMessenger.Subscribe(GameEvent.StartGameProcess, this, () => panel.alpha=1f);
+        if (Application.loadedLevelName != Consts.SceneNames.Records.ToString())
+            EventMessenger.Subscribe(GameEvent.StartGameProcess, this, Show);
+        else
+        {
+            EventMessenger.Subscribe(GameEvent.OnFillRecordsTable, this, Show);
+            Invoke("Show", 0.3f);
+        }
     }
 
+    private void Show()
+    {
+        panel.alpha = 1f;
+    }
 	
 }
