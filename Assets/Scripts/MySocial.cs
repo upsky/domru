@@ -12,17 +12,21 @@ public class MySocial : MonoSingleton<MySocial>
     //private string text = "123";
 	// Use this for initialization
 	void Start ()
-	{
+    {
+        string s = MySocialEventListener.Instance.name;
+
 	    Init();
         PlayGameServices.attemptSilentAuthentication();
+
+        //PlayGameServices.authenticate();//authenticate with browser
+
         Debug.LogWarning("MySocial Inited");
 	}
 
     public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts)
     {
-        Debug.LogWarning("call LoadScoresForLeaderboard");
         PlayGameServices.loadScoresForLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankreuslts);
-        Debug.LogWarning("call LoadScoresForLeaderboard_2");
+        Debug.LogWarning("call LoadScoresForLeaderboard");
     }
 
     public static string Init()
@@ -33,19 +37,10 @@ public class MySocial : MonoSingleton<MySocial>
     // This call is not required on Android.
         PlayGameServices.init("160040154367.apps.googleusercontent.com", true);//только для IOS.  Надо вставить clientID
 #endif
-        ///GPGManager.loadScoresSucceededEvent += Instance.loadScoresSucceededEvent;
+        //GPGManager.loadScoresSucceededEvent += Instance.loadScoresSucceededEvent;
+
         return "inited";
     }
-
-
-
-    //public static string SignIn()
-    //{
-    //    string ret = "";
-    //    // authenticate user:
-
-    //    return ret;
-    //}
 
     public static void SubmitScore(long score)
     {
@@ -71,34 +66,12 @@ public class MySocial : MonoSingleton<MySocial>
         return playerInfo;
     }
 
-    //public static string ShowingAllLeaderboardUI()
+    //private static void EventsSubscibe()
     //{
-    //    string ret = "ShowingAllLeaderboardUI";
-    //    // show leaderboard UI
-    //    Social.ShowLeaderboardUI();
-    //    return ret;
-    //}
+        
+    //    GPGManager.authenticationFailedEvent
 
 
-
-    //public static string LoadScores()
-    //{
-    //    string ret = "LoadScores";
-    //    // show leaderboard UI
-    //    ((PlayGamesPlatform) Social.Active).LoadScores(LeaderboardID, scores =>
-    //        {
-    //            if (scores.Length > 0)
-    //            {
-    //                Debug.Log("Got " + scores.Length + " scores");
-    //                string myScores = "Leaderboard:\n";
-    //                foreach (IScore score in scores)
-    //                    myScores += "\t" + score.userID + " " + score.formattedValue + " " + score.date + "\n";
-    //                ret = myScores;
-    //            }
-    //            else
-    //                ret = "No scores loaded";
-    //        });
-    //    return ret;
     //}
 
 #endif

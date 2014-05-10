@@ -73,7 +73,8 @@ public class ScoreResults : MonoBehaviour
 
         var lbl2 = line.GetChild(1).GetComponent<UILabel>();
         lbl2.text = score.displayName;//countScores.ToString();
-        lbl2.text = lbl2.text.Remove(20); //удаление избыточных символов
+        if (lbl2.text.Length>20)
+            lbl2.text = lbl2.text.Remove(20); //удаление избыточных символов
 
         var lbl3 = line.GetChild(2).GetComponent<UILabel>();
         lbl3.text = score.value.ToString(); //destroedLines.ToString()+"            "; //
