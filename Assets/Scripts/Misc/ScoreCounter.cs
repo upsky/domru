@@ -21,7 +21,7 @@ public static class ScoreCounter
 
         float a = 1f / k / k;
         float v = a * remainTime * remainTime; //f(x)=a*x^2
-        return (int)(v + 100);
+        return (int)(v + 99);
     }
 
     public static int GetCountStars(int score)
