@@ -65,6 +65,13 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
 
     private void StartGameProcess()
     {
+        if (!Application.loadedLevelName.Contains("Tutorial"))
+        {
+            var totalScore = PlayerPrefs.GetInt("totalScore");
+            var scoreLabel = _UIRoot.transform.FindChild("MainGamePanel/01_spriteForText/02_lblScore");
+            scoreLabel.GetComponent<UILabel>().text = totalScore.ToString();
+        }
+
         //Debug.LogWarning("StartGame");
         CurrentGameMode = GameMode.Normal;
         EventMessenger.SendMessage(GameEvent.StartGameProcess, this);
@@ -103,18 +110,17 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         timer.enabled = false;
 
 
-        long score = isUsedHelp ? 100 : ScoreCounter.TimeToStore(timer.StartTime, timer.RemainTime);
+        int score = isUsedHelp ? 0 : ScoreCounter.TimeToStore(timer.StartTime, timer.RemainTime);
         MySocial.SubmitScore(score);
 
         var prevScore = PlayerPrefs.GetInt(Application.loadedLevelName + "_score");
         //Debug.LogWarning(Application.loadedLevelName + "_score = " + prevScore);
 
         if (prevScore<score)
-            PlayerPrefs.SetInt(Application.loadedLevelName + "_score", (int)score);
+            PlayerPrefs.SetInt(Application.loadedLevelName + "_score", score);
 
 
         var scoreLabel = _UIRoot.transform.FindChild("MainGamePanel/01_spriteForText/02_lblScore");
-        scoreLabel.GetComponent<UILabel>().text = score.ToString();
 
         var victorySpriteTransform = _UIRoot.transform.FindChild("VictoryPanel/02_spriteTop");
         var scoreLabelInVictoryPanel = victorySpriteTransform.FindChild("03_lblScore");
@@ -122,7 +128,7 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
 
         var victorySprite = victorySpriteTransform.GetComponent<UISprite>();
 
-        switch (ScoreCounter.GetCountStars((int)score))
+        switch (ScoreCounter.GetCountStars(score))
         {
             case 1:
                 victorySprite.spriteName = "08_result_1_star";
@@ -134,7 +140,33 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
                 victorySprite.spriteName = "10_result_3_star";
                 break;
         }
+
+        StartCoroutine(
+            SumScoreCoroutine(scoreLabel.GetComponent<UILabel>(), scoreLabelInVictoryPanel.GetComponent<UILabel>(), score));
     }
+
+    private IEnumerator SumScoreCoroutine(UILabel totalScoreLabel, UILabel scoreLabelInVictoryPanel, int currentScore)
+    {
+        yield return new WaitForSeconds(1f);//пауза перед началом перетекания счета
+        var totalScore = PlayerPrefs.GetInt("totalScore");
+        int score = currentScore;
+        while (score > 0)
+        {
+            score--;//можно умножить на K для ускорения перетекания, чтобы за раз изменялось не на 1, а на 5 например
+            totalScore++;
+            totalScore = Mathf.Clamp(totalScore, 0, 999999);
+            totalScoreLabel.text = totalScore.ToString();
+            scoreLabelInVictoryPanel.text = score.ToString();
+
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        if (totalScore != currentScore+PlayerPrefs.GetInt("totalScore"))
+            Debug.LogWarning("totalScore != currentScore+prevTotalScore");
+
+        PlayerPrefs.SetInt("totalScore", totalScore);
+    }
+
 
     private bool CheckVictoryCondition()
     {
