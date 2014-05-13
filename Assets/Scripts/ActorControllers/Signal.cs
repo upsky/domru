@@ -27,6 +27,8 @@ public class Signal : MonoBehaviour
 
     private bool _isClonedInCurrentShape;
 
+    private List<Shape> _traversedShapes = new List<Shape>();
+
     /// <summary>
     /// Максимальное расстояние от объекта до точки пути, к которой он движется, при достижении которого он может двигаться к следующей точке.
     /// </summary>
@@ -50,6 +52,7 @@ public class Signal : MonoBehaviour
         }
         VectorInt2 nodeIndex = transform.position;
         _currentShape = NodesGrid.Grid[nodeIndex.x, nodeIndex.y].Shape;
+        TryAddShapeToList(_currentShape);
 
         if (_currentShape.IsInRotateProcess)
             DestroySelf();
@@ -83,7 +86,11 @@ public class Signal : MonoBehaviour
             if (!_isClonedInCurrentShape)
                 _prevOutDirection = _currentShape.GetOutDirection(_prevOutDirection);//получение направления выхода из текущей shape
 
+            var prevShape = _currentShape;
             _currentShape = NodesGrid.GetNextShape(_currentShape, _prevOutDirection);
+            if (prevShape != _currentShape)
+                TryAddShapeToList(_currentShape);
+
             if (_currentShape == null || _currentShape.IsInRotateProcess || !_currentShape.HasConnection(_prevOutDirection))
             {
                 DestroySelf();
@@ -123,6 +130,13 @@ public class Signal : MonoBehaviour
         }
     }
 
+    private void TryAddShapeToList(Shape currentShape)
+    {
+        if (_traversedShapes.Contains(currentShape))
+            DestroySelf();
+        _traversedShapes.Add(currentShape);
+    }
+
     private void TryClone()
     {
         if (!SignalManager.IsAllowedCreateSignal)
@@ -149,6 +163,8 @@ public class Signal : MonoBehaviour
             signal._isClonedInCurrentShape = true;
             signal._parentSignal = this;
             signal._prefab = _prefab;
+
+            signal._traversedShapes.AddRange(_traversedShapes);
         }
     }
 
@@ -220,17 +236,10 @@ public class Signal : MonoBehaviour
     public void DestroySelf()
     {
         /*//чтобы не удалялся сразу, а исчезал постепенно
-         * ParticleSystem[] psArray = GetComponentsInChildren<ParticleSystem>();
+        ParticleSystem[] psArray = GetComponentsInChildren<ParticleSystem>();
         foreach (var ps in psArray)
-        {
             ps.emissionRate = 0f;
-        }
-        
-        Destroy(gameObject,1f);
-        Destroy(rigidbody);
-        Destroy(collider);
-        Destroy(this);*/
-
+        */
 
         Destroy(gameObject);
     }
