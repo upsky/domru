@@ -146,25 +146,29 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
     }
 
     private IEnumerator SumScoreCoroutine(UILabel totalScoreLabel, UILabel scoreLabelInVictoryPanel, int currentScore)
-    {
+    {        
+        var prevTotalScore = PlayerPrefs.GetInt("totalScore");
+        PlayerPrefs.SetInt("totalScore", prevTotalScore + currentScore);//здесь, чтобы сохранить до начала перетекания
+
         yield return new WaitForSeconds(1f);//пауза перед началом перетекания счета
-        var totalScore = PlayerPrefs.GetInt("totalScore");
+        
         int score = currentScore;
+        var totalScore = prevTotalScore;
+        const int k = 3;
         while (score > 0)
         {
-            score--;//можно умножить на K для ускорения перетекания, чтобы за раз изменялось не на 1, а на 5 например
-            totalScore++;
+            score -= k;
+            totalScore+=k;
+
             totalScore = Mathf.Clamp(totalScore, 0, 999999);
+            totalScore = Mathf.Clamp(totalScore, 0, prevTotalScore + currentScore);
+            score = Mathf.Clamp(score, 0, currentScore);
+
             totalScoreLabel.text = totalScore.ToString();
             scoreLabelInVictoryPanel.text = score.ToString();
 
             yield return new WaitForSeconds(0.01f);
         }
-
-        if (totalScore != currentScore+PlayerPrefs.GetInt("totalScore"))
-            Debug.LogWarning("totalScore != currentScore+prevTotalScore");
-
-        PlayerPrefs.SetInt("totalScore", totalScore);
     }
 
 
