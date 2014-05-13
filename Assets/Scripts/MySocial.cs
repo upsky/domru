@@ -14,14 +14,18 @@ public class MySocial : MonoSingleton<MySocial>
 	void Start ()
     {
         string s = MySocialEventListener.Instance.name;
-
 	    Init();
-        PlayGameServices.attemptSilentAuthentication();
+	    Authenticate();
+	    //Invoke("Authenticate",3f);
+    }
 
-        //PlayGameServices.authenticate();//authenticate with browser
+    private void Authenticate()
+    {
+        PlayGameServices.setAchievementToastSettings(GPGToastPlacement.Center, 50);
+        PlayGameServices.authenticate();
+        Debug.LogWarning("MySocial authenticate");
+    }
 
-        Debug.LogWarning("MySocial Inited");
-	}
 
     public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts)
     {
