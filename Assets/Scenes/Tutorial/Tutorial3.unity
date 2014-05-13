@@ -5803,7 +5803,7 @@ MonoBehaviour:
   minAreaSize: 10
   limitGraphUpdates: 0
   maxGraphUpdateFreq: .200000003
-  lastScanTime: .00400019996
+  lastScanTime: .00500029977
   inGameDebugPath: 
   isScanning: 0
   showGraphs: 1
@@ -7094,7 +7094,7 @@ MonoBehaviour:
     absolute: 70
   mColor: {r: 0, g: 0, b: 0, a: 1}
   mPivot: 4
-  mWidth: 552
+  mWidth: 2131
   mHeight: 160
   mDepth: 6
   autoResizeBoxCollider: 0
@@ -8632,7 +8632,7 @@ MonoBehaviour:
     absolute: -18
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 315
+  mWidth: 1105
   mHeight: 170
   mDepth: 4
   autoResizeBoxCollider: 0
@@ -8804,7 +8804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefab: {fileID: 100000, guid: c1c38c89be5ace64ba4e57319abf8c48, type: 2}
   _firstSpawnTime: 1
-  _repeatSpawnInerval: 7
+  _repeatSpawnInerval: 3
   _spawnItems:
   - Shape: {fileID: 594490542}
     Side: 0
@@ -9011,7 +9011,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &892525432
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9020,13 +9020,13 @@ AudioSource:
   m_GameObject: {fileID: 892525431}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: 4f3edfe691c3ce6448b191be3b19a775, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 772df8b9ae0c08d45b38cad96853df20, type: 3}
   m_PlayOnAwake: 1
   m_Volume: .200000003
   m_Pitch: 1
   Loop: 1
   Mute: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -12589,7 +12589,7 @@ MonoBehaviour:
     absolute: -16
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 317
+  mWidth: 1107
   mHeight: 172
   mDepth: 4
   autoResizeBoxCollider: 0
@@ -14856,7 +14856,7 @@ MonoBehaviour:
     absolute: -1792
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 1
-  mWidth: 1152
+  mWidth: 2731
   mHeight: 128
   mDepth: 2
   autoResizeBoxCollider: 0
@@ -17100,7 +17100,7 @@ MonoBehaviour:
     absolute: 0
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 7
-  mWidth: 1152
+  mWidth: 2731
   mHeight: 128
   mDepth: 1
   autoResizeBoxCollider: 0
@@ -19915,7 +19915,7 @@ MonoBehaviour:
     absolute: 88
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 519
+  mWidth: 1309
   mHeight: 188
   mDepth: 3
   autoResizeBoxCollider: 1
@@ -21304,7 +21304,7 @@ MonoBehaviour:
     absolute: 88
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 519
+  mWidth: 1309
   mHeight: 188
   mDepth: 3
   autoResizeBoxCollider: 1

@@ -5790,7 +5790,7 @@ MonoBehaviour:
   minAreaSize: 10
   limitGraphUpdates: 0
   maxGraphUpdateFreq: .200000003
-  lastScanTime: .00500020012
+  lastScanTime: .00700040022
   inGameDebugPath: 
   isScanning: 0
   showGraphs: 1
@@ -8752,7 +8752,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prefab: {fileID: 100000, guid: c1c38c89be5ace64ba4e57319abf8c48, type: 2}
   _firstSpawnTime: 1
-  _repeatSpawnInerval: 7
+  _repeatSpawnInerval: 3
   _spawnItems:
   - Shape: {fileID: 594490542}
     Side: 0
@@ -8968,13 +8968,13 @@ AudioSource:
   m_GameObject: {fileID: 892525431}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: 4f3edfe691c3ce6448b191be3b19a775, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 772df8b9ae0c08d45b38cad96853df20, type: 3}
   m_PlayOnAwake: 1
   m_Volume: .200000003
   m_Pitch: 1
   Loop: 1
   Mute: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

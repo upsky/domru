@@ -7,35 +7,35 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Title.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsWithoutShapes/Level1.unity
   - enabled: 1
     path: Assets/Scenes/Records.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsSelect.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsWithoutShapes/Room1.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsWithoutShapes/Room2.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsWithoutShapes/Room3.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsWithoutShapes/Room4.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsWithoutShapes/Room5.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsWithoutShapes/Room6.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsWithoutShapes/Room7.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsWithoutShapes/Room8.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/LevelsWithoutShapes/Room9.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Tutorial/Tutorial1.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Tutorial/Tutorial2.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Tutorial/Tutorial3.unity
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Tutorial/Tutorial4.unity
