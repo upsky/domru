@@ -26,4 +26,9 @@ public class RandomPlayAudio : MonoBehaviour {
         audio.clip = _clips[Random.Range(0, _clips.Length)];
         audio.Play();
     }
+
+    public void Stop()
+    {
+        audio.Stop();
+    }
 }

@@ -1484,7 +1484,7 @@ MonoBehaviour:
   minAreaSize: 10
   limitGraphUpdates: 0
   maxGraphUpdateFreq: .200000003
-  lastScanTime: .00500029977
+  lastScanTime: .00500020012
   inGameDebugPath: 
   isScanning: 0
   showGraphs: 1

@@ -1494,27 +1494,27 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400048, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 472
+      value: 2376
       objectReference: {fileID: 0}
     - target: {fileID: 11400022, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 841
+      value: 2730
       objectReference: {fileID: 0}
     - target: {fileID: 11400024, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 841
+      value: 2731
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 297
+      value: 1780
       objectReference: {fileID: 0}
     - target: {fileID: 11400026, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 395
+      value: 1301
       objectReference: {fileID: 0}
     - target: {fileID: 11400036, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 399
+      value: 1303
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1532,6 +1532,18 @@ Prefab:
       propertyPath: _topMarker
       value: 
       objectReference: {fileID: 2024177616}
+    - target: {fileID: 11400024, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
+      propertyPath: mHeight
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400054, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
+      propertyPath: mWidth
+      value: 1097
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400052, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
+      propertyPath: mWidth
+      value: 1089
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
   m_RootGameObject: {fileID: 1876678701}
@@ -1747,6 +1759,7 @@ GameObject:
   - 136: {fileID: 547143947}
   - 114: {fileID: 547143946}
   - 114: {fileID: 547143948}
+  - 82: {fileID: 547143949}
   m_Layer: 13
   m_Name: NotebookUV
   m_TagString: nodeDevice
@@ -1812,6 +1825,65 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 11af3c6a96e5c644dbf281ac43193584, type: 3}
   - {fileID: 2800000, guid: 4af084067d5a53a4b967cc14393d512e, type: 3}
   - {fileID: 2800000, guid: 076dc0a21e484794bb7256520db09b55, type: 3}
+--- !u!82 &547143949
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 2a880b8f4adf9d24292f49e1f57bac60,
+    type: 2}
+  m_PrefabInternal: {fileID: 1325712177}
+  m_GameObject: {fileID: 547143944}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d8b8af0fa285742499b3c409c45939ef, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &557333049
 GameObject:
   m_ObjectHideFlags: 0
@@ -2112,7 +2184,7 @@ MonoBehaviour:
   minAreaSize: 10
   limitGraphUpdates: 0
   maxGraphUpdateFreq: .200000003
-  lastScanTime: .00400019996
+  lastScanTime: .00600040006
   inGameDebugPath: 
   isScanning: 0
   showGraphs: 1
@@ -2799,6 +2871,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 833858621}
   - 136: {fileID: 833858622}
+  - 82: {fileID: 833858624}
+  - 114: {fileID: 833858623}
   m_Layer: 13
   m_Name: Projector
   m_TagString: nodeDevice
@@ -2832,6 +2906,77 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: -.200000003, z: 0}
+--- !u!114 &833858623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 2b082b0307e257e4ca12e0ffafd2c256,
+    type: 2}
+  m_PrefabInternal: {fileID: 1524941909}
+  m_GameObject: {fileID: 833858620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3390c515f24b1834f866777423d5e783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!82 &833858624
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 2b082b0307e257e4ca12e0ffafd2c256,
+    type: 2}
+  m_PrefabInternal: {fileID: 1524941909}
+  m_GameObject: {fileID: 833858620}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 0bb5ac92ddf885842868cdb0cb0d8589, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &842118216
 GameObject:
   m_ObjectHideFlags: 0
@@ -5076,6 +5221,8 @@ GameObject:
   - 4: {fileID: 1480590673}
   - 136: {fileID: 1480590677}
   - 114: {fileID: 1480590676}
+  - 114: {fileID: 1480590679}
+  - 82: {fileID: 1480590678}
   m_Layer: 13
   m_Name: PhoneRadio
   m_TagString: nodeDevice
@@ -5151,6 +5298,82 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: -.150000006, z: 0}
+--- !u!82 &1480590678
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 0675fbf98b9aadc4aba99e23f57206cc,
+    type: 2}
+  m_PrefabInternal: {fileID: 1538313231}
+  m_GameObject: {fileID: 1480590672}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!114 &1480590679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: 0675fbf98b9aadc4aba99e23f57206cc,
+    type: 2}
+  m_PrefabInternal: {fileID: 1538313231}
+  m_GameObject: {fileID: 1480590672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ad48e577c5ceb4dba36ad92854faa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 8300000, guid: aa6446f768c04b643a135da815eee857, type: 3}
+  - {fileID: 8300000, guid: 65de2c30540a0f046a893be0b7c57431, type: 3}
+  - {fileID: 8300000, guid: 8a4e8e3af43bd884197c37330fa4e104, type: 3}
+  _playOnStart: 0
 --- !u!1 &1495439458
 GameObject:
   m_ObjectHideFlags: 0

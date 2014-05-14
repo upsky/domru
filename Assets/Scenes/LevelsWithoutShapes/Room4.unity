@@ -362,6 +362,8 @@ GameObject:
   - 4: {fileID: 97494273}
   - 114: {fileID: 97494275}
   - 136: {fileID: 97494274}
+  - 114: {fileID: 97494277}
+  - 82: {fileID: 97494276}
   m_Layer: 13
   m_Name: PhoneVintage
   m_TagString: nodeDevice
@@ -407,6 +409,82 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3390c515f24b1834f866777423d5e783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &97494276
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: dd236ae5741ed1347b0dec9f9176d2b0,
+    type: 2}
+  m_PrefabInternal: {fileID: 232002978}
+  m_GameObject: {fileID: 97494272}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!114 &97494277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: dd236ae5741ed1347b0dec9f9176d2b0,
+    type: 2}
+  m_PrefabInternal: {fileID: 232002978}
+  m_GameObject: {fileID: 97494272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ad48e577c5ceb4dba36ad92854faa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 8300000, guid: aa6446f768c04b643a135da815eee857, type: 3}
+  - {fileID: 8300000, guid: 65de2c30540a0f046a893be0b7c57431, type: 3}
+  - {fileID: 8300000, guid: 8a4e8e3af43bd884197c37330fa4e104, type: 3}
+  _playOnStart: 0
 --- !u!1 &98277311
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,7 +820,7 @@ MonoBehaviour:
     absolute: -54
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 299
+  mWidth: 1089
   mHeight: 78
   mDepth: 4
   autoResizeBoxCollider: 0
@@ -1033,8 +1111,8 @@ MonoBehaviour:
     absolute: 0
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 7
-  mWidth: 841
-  mHeight: 256
+  mWidth: 2731
+  mHeight: 128
   mDepth: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -1531,7 +1609,7 @@ MonoBehaviour:
     absolute: 88
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 399
+  mWidth: 1303
   mHeight: 186
   mDepth: 3
   autoResizeBoxCollider: 1
@@ -2117,7 +2195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   astarData:
     hasBeenReverted: 0
-    data: 504b030414000008080033839544d60f026be9010000c60300000b0024006772617068302e6a736f6e0a002000000000000100180096b907a9435dcf0196b907a9435dcf0196b907a9435dcf017553516fda3010fe2b939f539400a5c05b07824dead6aa6cdac3b4878b7321168e1dd9ce0a54fcf79d8d43a0d214c971eefbeebecf77ce3bdbb6a260f377f617648b6cce8698cfa6390eb1cc799915d3bbf104b2319fa465914e4793f1949d1206b641ee5ec109cde659c28c767eaf7ca13d9ba7093b84f5482bd1392a872682a30066e9200bf888f05671097583c5461c31d21e02ed8150a50b3c0394c1b594c246297768bce54d53a14196b042408d418998158a6de5d87c7895f45c96165db066e0b014864e116ab1cfda5554a106bbbbeac6349b0d4f5da96fb7d87de6a1d2e8fa4b54ca52aaeb2ac177af70e060295482b4781b5c5e9b6c9b9b96657dcb3acb8b0a39c93ad36267248662ed56bd81dc412ef15785eabb5e1bddaaa2872d0e97f1ebe40fb85f4851e7a43218f79f8f7b61833c053652fbb6cec8121aeafd57321ba66b834d8a795f3f2dfe80adbde8c4f04a18eb0808c5a075fa49a8ddda88a26776d1a5b0ee49d422748ec6eccf96ebd61093ade84de3e0ad5b68a3d0f4d90d2a90eef0426aee76a21f90ff65ac803b7dee7e441ed556e2477a085eb87eb242513ec897331e24a951aa9b8da2b192737fd64f6b038dbf4e8581b7b538d6da762ca14abde106513d87dc285a8333627fb95d44ff9d25697c6e7777e9e03e09bfcf79f7e774fa07504b030414000008080033839544287e18aa4300000048000000120024006772617068305f656469746f722e6a736f6e0a0020000000000001001800a6e007a9435dcf01a6e007a9435dcf01a6e007a9435dcf01ab56cac94fce4e4d51b22a292a4dd5512acec82f77ad28294a54b24a4bcc29068a94a456949416a58665166726e5a4c2d4156496e59728592939a7e695a41629d50200504b03041400000808003383954436677fc37700000085000000090024006d6574612e6a736f6e0a0020000000000001001800a6e007a9435dcf01a6e007a9435dcf01a6e007a9435dcf011d8cb10ec2201400ffe5cd95408b04bb3a7433eea603f43dda37080da526c6f8ef16b71beeee032fca1ba7083d74420b29ced0c09cddba6cd0ab0377c6831ed092bf584f2d053f0585f6a48d537a3232a0b49dd116c606ca7ba59b7bd2bfb8bbb2048ec8711643661ceab55a31215dd31e4bd5e4f8fd01504b01022d0014000008080033839544d60f026be9010000c60300000b00240000000000000000000000000000006772617068302e6a736f6e0a002000000000000100180096b907a9435dcf0196b907a9435dcf0196b907a9435dcf01504b01022d0014000008080033839544287e18aa43000000480000001200240000000000000000000000360200006772617068305f656469746f722e6a736f6e0a0020000000000001001800a6e007a9435dcf01a6e007a9435dcf01a6e007a9435dcf01504b01022d001400000808003383954436677fc377000000850000000900240000000000000000000000cd0200006d6574612e6a736f6e0a0020000000000001001800a6e007a9435dcf01a6e007a9435dcf01a6e007a9435dcf01504b050600000000030003001c0100008f0300000000
+    data: 504b0304140000080800711eaf44d60f026be9010000c60300000b0024006772617068302e6a736f6e0a002000000000000100180081bb694ab66fcf0181bb694ab66fcf0181bb694ab66fcf017553516fda3010fe2b939f539400a5c05b07824dead6aa6cdac3b4878b7321168e1dd9ce0a54fcf79d8d43a0d214c971eefbeebecf77ce3bdbb6a260f377f617648b6cce8698cfa6390eb1cc799915d3bbf104b2319fa465914e4793f1949d1206b641ee5ec109cde659c28c767eaf7ca13d9ba7093b84f5482bd1392a872682a30066e9200bf888f05671097583c5461c31d21e02ed8150a50b3c0394c1b594c246297768bce54d53a14196b042408d418998158a6de5d87c7895f45c96165db066e0b014864e116ab1cfda5554a106bbbbeac6349b0d4f5da96fb7d87de6a1d2e8fa4b54ca52aaeb2ac177af70e060295482b4781b5c5e9b6c9b9b96657dcb3acb8b0a39c93ad36267248662ed56bd81dc412ef15785eabb5e1bddaaa2872d0e97f1ebe40fb85f4851e7a43218f79f8f7b61833c053652fbb6cec8121aeafd57321ba66b834d8a795f3f2dfe80adbde8c4f04a18eb0808c5a075fa49a8ddda88a26776d1a5b0ee49d422748ec6eccf96ebd61093ade84de3e0ad5b68a3d0f4d90d2a90eef0426aee76a21f90ff65ac803b7dee7e441ed556e2477a085eb87eb242513ec897331e24a951aa9b8da2b192737fd64f6b038dbf4e8581b7b538d6da762ca14abde106513d87dc285a8333627fb95d44ff9d25697c6e7777e9e03e09bfcf79f7e774fa07504b0304140000080800711eaf44287e18aa4300000048000000120024006772617068305f656469746f722e6a736f6e0a002000000000000100180092e2694ab66fcf0192e2694ab66fcf0192e2694ab66fcf01ab56cac94fce4e4d51b22a292a4dd5512acec82f77ad28294a54b24a4bcc29068a94a456949416a58665166726e5a4c2d4156496e59728592939a7e695a41629d50200504b0304140000080800711eaf4436677fc37700000085000000090024006d6574612e6a736f6e0a002000000000000100180092e2694ab66fcf0192e2694ab66fcf0192e2694ab66fcf011d8cb10ec2201400ffe5cd95408b04bb3a7433eea603f43dda37080da526c6f8ef16b71beeee032fca1ba7083d74420b29ced0c09cddba6cd0ab0377c6831ed092bf584f2d053f0585f6a48d537a3232a0b49dd116c606ca7ba59b7bd2bfb8bbb2048ec8711643661ceab55a31215dd31e4bd5e4f8fd01504b01022d00140000080800711eaf44d60f026be9010000c60300000b00240000000000000000000000000000006772617068302e6a736f6e0a002000000000000100180081bb694ab66fcf0181bb694ab66fcf0181bb694ab66fcf01504b01022d00140000080800711eaf44287e18aa43000000480000001200240000000000000000000000360200006772617068305f656469746f722e6a736f6e0a002000000000000100180092e2694ab66fcf0192e2694ab66fcf0192e2694ab66fcf01504b01022d00140000080800711eaf4436677fc377000000850000000900240000000000000000000000cd0200006d6574612e6a736f6e0a002000000000000100180092e2694ab66fcf0192e2694ab66fcf0192e2694ab66fcf01504b050600000000030003001c0100008f0300000000
     data_backup: 
     data_cachedStartup: 
     revertData: 
@@ -2185,7 +2263,7 @@ MonoBehaviour:
   minAreaSize: 10
   limitGraphUpdates: 0
   maxGraphUpdateFreq: .200000003
-  lastScanTime: .00400019996
+  lastScanTime: .00500029977
   inGameDebugPath: 
   isScanning: 0
   showGraphs: 1
@@ -2537,7 +2615,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400022, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 841
+      value: 2730
       objectReference: {fileID: 0}
     - target: {fileID: 400014, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: m_LocalPosition.x
@@ -2549,7 +2627,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400024, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 841
+      value: 2731
       objectReference: {fileID: 0}
     - target: {fileID: 400016, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: m_LocalPosition.x
@@ -2589,19 +2667,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400048, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 472
+      value: 2376
       objectReference: {fileID: 0}
     - target: {fileID: 11400036, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 399
+      value: 1303
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 297
+      value: 1780
       objectReference: {fileID: 0}
     - target: {fileID: 11400026, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 395
+      value: 1301
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: m_LocalPosition.y
@@ -2619,6 +2697,22 @@ Prefab:
       propertyPath: _topMarker
       value: 
       objectReference: {fileID: 1954282611}
+    - target: {fileID: 11400052, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
+      propertyPath: mWidth
+      value: 1089
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400024, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
+      propertyPath: mHeight
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400022, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
+      propertyPath: mHeight
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400054, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
+      propertyPath: mWidth
+      value: 1097
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
   m_RootGameObject: {fileID: 604196895}
@@ -2984,7 +3078,7 @@ MonoBehaviour:
     absolute: 58
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 472
+  mWidth: 2376
   mHeight: 124
   mDepth: 4
   autoResizeBoxCollider: 0
@@ -3413,6 +3507,7 @@ GameObject:
   - 114: {fileID: 919897423}
   - 65: {fileID: 919897422}
   - 114: {fileID: 919897424}
+  - 82: {fileID: 919897425}
   m_Layer: 0
   m_Name: PlasmaUV
   m_TagString: Untagged
@@ -3477,6 +3572,65 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 54d486e3c68ee4546aaee7baecc4fafd, type: 3}
   - {fileID: 2800000, guid: c9931ac36686c084a9ce11e5f48127bb, type: 3}
   - {fileID: 2800000, guid: b5fbbe1a8caf8104db0d53b18301e03b, type: 3}
+--- !u!82 &919897425
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 10492c3648197674e87b176f82971b91,
+    type: 2}
+  m_PrefabInternal: {fileID: 1719588111}
+  m_GameObject: {fileID: 919897420}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 79966ab1dfa7c1f4f888a77454a06f0d, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &933281877
 GameObject:
   m_ObjectHideFlags: 0
@@ -3944,8 +4098,8 @@ MonoBehaviour:
     absolute: 257
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 1
-  mWidth: 841
-  mHeight: 257
+  mWidth: 2730
+  mHeight: 128
   mDepth: 2
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4247,7 +4401,7 @@ MonoBehaviour:
     absolute: -27
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 297
+  mWidth: 1780
   mHeight: 82
   mDepth: 5
   autoResizeBoxCollider: 0
@@ -5271,6 +5425,7 @@ GameObject:
   - 4: {fileID: 1377833719}
   - 65: {fileID: 1377833721}
   - 114: {fileID: 1377833720}
+  - 82: {fileID: 1377833722}
   m_Layer: 10
   m_Name: MonitorUV
   m_TagString: nodeDevice
@@ -5316,6 +5471,65 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .639999986, y: 1, z: .649895668}
   m_Center: {x: -.00594902039, y: -.300000012, z: .150000006}
+--- !u!82 &1377833722
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: b4bc0726f86cafa4d83750131187e317,
+    type: 2}
+  m_PrefabInternal: {fileID: 1624618996}
+  m_GameObject: {fileID: 1377833718}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d8b8af0fa285742499b3c409c45939ef, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1001 &1378812747
 Prefab:
   m_ObjectHideFlags: 0
@@ -5969,7 +6183,7 @@ MonoBehaviour:
     absolute: 90
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 395
+  mWidth: 1301
   mHeight: 188
   mDepth: 3
   autoResizeBoxCollider: 1
@@ -6690,7 +6904,7 @@ MonoBehaviour:
     absolute: -54
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 307
+  mWidth: 1097
   mHeight: 80
   mDepth: 4
   autoResizeBoxCollider: 0
@@ -7402,6 +7616,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1971387960}
   - 136: {fileID: 1971387961}
+  - 82: {fileID: 1971387962}
   m_Layer: 13
   m_Name: Fireplace
   m_TagString: nodeFurniture
@@ -7435,6 +7650,65 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: .5, z: 0}
+--- !u!82 &1971387962
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 61def8bb76bd89d46845e06880ccf5c1,
+    type: 2}
+  m_PrefabInternal: {fileID: 1203639777}
+  m_GameObject: {fileID: 1971387959}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 472d0c98e631c674f8dc9499a73c7ef7, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1990947409
 GameObject:
   m_ObjectHideFlags: 0
