@@ -201,7 +201,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6cde4f603e917924593f4bfa93082d31, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _changeInterval: 1
-  _targetRenderer: {fileID: 0}
+  _targetRenderer: {fileID: 2300004}
   _sprites:
   - {fileID: 2800000, guid: 6790f74a296642f4a822a593408c64b1, type: 3}
   - {fileID: 2800000, guid: 11af3c6a96e5c644dbf281ac43193584, type: 3}
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sprites:
   - {fileID: 2800000, guid: 9162bb34d99a77040a1b0fe0f89e4ac4, type: 3}
-  _targetRenderer: {fileID: 0}
+  _targetRenderer: {fileID: 2300004}
   _duration: 1
 --- !u!136 &13600000
 CapsuleCollider:

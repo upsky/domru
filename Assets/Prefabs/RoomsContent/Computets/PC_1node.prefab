@@ -397,7 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _changeInterval: 1
-  _targetRenderer: {fileID: 0}
+  _targetRenderer: {fileID: 2300006}
   _sprites:
   - {fileID: 2800000, guid: 6790f74a296642f4a822a593408c64b1, type: 3}
   - {fileID: 2800000, guid: 11af3c6a96e5c644dbf281ac43193584, type: 3}
