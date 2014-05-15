@@ -300,6 +300,8 @@ GameObject:
   - 65: {fileID: 42765357}
   - 114: {fileID: 42765359}
   - 82: {fileID: 42765360}
+  - 114: {fileID: 42765362}
+  - 114: {fileID: 42765361}
   m_Layer: 0
   m_Name: PlasmaUV
   m_TagString: Untagged
@@ -345,6 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3390c515f24b1834f866777423d5e783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playAudioOnSwitchToON: 0
 --- !u!114 &42765359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +426,37 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+--- !u!114 &42765361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: 10492c3648197674e87b176f82971b91,
+    type: 2}
+  m_PrefabInternal: {fileID: 793383193}
+  m_GameObject: {fileID: 42765355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76cfba4296ab38e4d84dc253c39ddd73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sprites:
+  - {fileID: 2800000, guid: abd4ba657af3b3b4e93bb4034929e5bc, type: 3}
+  - {fileID: 2800000, guid: 0754a234479a9d14c985241080c99005, type: 3}
+  _targetRenderer: {fileID: 1567193551}
+  _duration: 1
+--- !u!114 &42765362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400004, guid: 10492c3648197674e87b176f82971b91,
+    type: 2}
+  m_PrefabInternal: {fileID: 793383193}
+  m_GameObject: {fileID: 42765355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e21f3e6a066c9b843b9e34a216b8b945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 8300000, guid: 79966ab1dfa7c1f4f888a77454a06f0d, type: 3}
 --- !u!1 &79818887
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,7 +1059,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 202509793}
   - 136: {fileID: 202509794}
-  - 114: {fileID: 202509796}
   - 114: {fileID: 202509795}
   m_Layer: 13
   m_Name: Safe
@@ -1072,22 +1105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e21f3e6a066c9b843b9e34a216b8b945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &202509796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: 784bc8843a142c64db09ec16b0738df0,
-    type: 2}
-  m_PrefabInternal: {fileID: 1991739011}
-  m_GameObject: {fileID: 202509792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4ad48e577c5ceb4dba36ad92854faa0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   _clips:
   - {fileID: 8300000, guid: c5a88d7c1226d9744ad66d1482602d5e, type: 3}
   - {fileID: 8300000, guid: 52284f0fff6b6a74fb83ce9b95747df6, type: 3}
-  _playOnStart: 0
 --- !u!1 &293529440
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,6 +1178,7 @@ GameObject:
   - 114: {fileID: 303839958}
   - 82: {fileID: 303839957}
   - 114: {fileID: 303839959}
+  - 114: {fileID: 303839960}
   m_Layer: 13
   m_Name: PhoneRetro
   m_TagString: nodeDevice
@@ -1204,7 +1225,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Priority: 128
   DopplerLevel: 1
@@ -1279,6 +1300,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3390c515f24b1834f866777423d5e783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playAudioOnSwitchToON: 1
+--- !u!114 &303839960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400004, guid: 6c9d29f1bf80a7942a57523b3e85f9d9,
+    type: 2}
+  m_PrefabInternal: {fileID: 584328867}
+  m_GameObject: {fileID: 303839954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e21f3e6a066c9b843b9e34a216b8b945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 8300000, guid: fcab39c2a5986f04b9e2ecdf4c22dd88, type: 3}
 --- !u!1 &324270440
 GameObject:
   m_ObjectHideFlags: 0
@@ -1807,7 +1843,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6cde4f603e917924593f4bfa93082d31, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -1836,6 +1872,7 @@ GameObject:
   - 114: {fileID: 411868746}
   - 82: {fileID: 411868745}
   - 114: {fileID: 411868747}
+  - 114: {fileID: 411868748}
   m_Layer: 13
   m_Name: PhoneRetro
   m_TagString: nodeDevice
@@ -1882,7 +1919,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Priority: 128
   DopplerLevel: 1
@@ -1957,6 +1994,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3390c515f24b1834f866777423d5e783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playAudioOnSwitchToON: 1
+--- !u!114 &411868748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400004, guid: 6c9d29f1bf80a7942a57523b3e85f9d9,
+    type: 2}
+  m_PrefabInternal: {fileID: 631520705}
+  m_GameObject: {fileID: 411868742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e21f3e6a066c9b843b9e34a216b8b945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 8300000, guid: fcab39c2a5986f04b9e2ecdf4c22dd88, type: 3}
 --- !u!1 &420250072
 GameObject:
   m_ObjectHideFlags: 0
@@ -2183,7 +2235,7 @@ MonoBehaviour:
   minAreaSize: 10
   limitGraphUpdates: 0
   maxGraphUpdateFreq: .200000003
-  lastScanTime: .00300009991
+  lastScanTime: .0170009993
   inGameDebugPath: 
   isScanning: 0
   showGraphs: 1
@@ -4677,7 +4729,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400022, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 4155
+      value: 2730
       objectReference: {fileID: 0}
     - target: {fileID: 400014, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: m_LocalPosition.x
@@ -4689,7 +4741,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400024, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 4156
+      value: 2731
       objectReference: {fileID: 0}
     - target: {fileID: 400016, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: m_LocalPosition.x
@@ -4721,19 +4773,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400048, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 3801
+      value: 2376
       objectReference: {fileID: 0}
     - target: {fileID: 11400026, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 2014
+      value: 1301
       objectReference: {fileID: 0}
     - target: {fileID: 11400036, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 2016
+      value: 1303
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 3205
+      value: 1780
       objectReference: {fileID: 0}
     - target: {fileID: 400020, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: m_LocalPosition.y
@@ -4741,11 +4793,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400052, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 1802
+      value: 1089
       objectReference: {fileID: 0}
     - target: {fileID: 11400054, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: mWidth
-      value: 1810
+      value: 1097
       objectReference: {fileID: 0}
     - target: {fileID: 400028, guid: 921503675e10e03418d98e70ce7abb98, type: 2}
       propertyPath: m_LocalPosition.x
@@ -6343,7 +6395,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1a93f9f66f5243240a789b9ea4c372dc, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -7948,7 +8000,9 @@ GameObject:
   - 136: {fileID: 2027227428}
   - 114: {fileID: 2027227427}
   - 114: {fileID: 2027227429}
+  - 114: {fileID: 2027227432}
   - 82: {fileID: 2027227430}
+  - 114: {fileID: 2027227431}
   m_Layer: 13
   m_Name: NotebookUV
   m_TagString: nodeDevice
@@ -7981,6 +8035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3390c515f24b1834f866777423d5e783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playAudioOnSwitchToON: 0
 --- !u!136 &2027227428
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8073,6 +8128,35 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+--- !u!114 &2027227431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: 2a880b8f4adf9d24292f49e1f57bac60,
+    type: 2}
+  m_PrefabInternal: {fileID: 1757474322}
+  m_GameObject: {fileID: 2027227425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76cfba4296ab38e4d84dc253c39ddd73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sprites:
+  - {fileID: 2800000, guid: 9162bb34d99a77040a1b0fe0f89e4ac4, type: 3}
+  _targetRenderer: {fileID: 407967556}
+  _duration: 1
+--- !u!114 &2027227432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400004, guid: 2a880b8f4adf9d24292f49e1f57bac60,
+    type: 2}
+  m_PrefabInternal: {fileID: 1757474322}
+  m_GameObject: {fileID: 2027227425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e21f3e6a066c9b843b9e34a216b8b945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips: []
 --- !u!1 &2053067375
 GameObject:
   m_ObjectHideFlags: 0

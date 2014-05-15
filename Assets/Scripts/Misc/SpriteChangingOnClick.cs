@@ -13,6 +13,7 @@ public class SpriteChangingOnClick : MonoBehaviour
     private float _duration = 1f;
 
     private Texture _defaultSprite;
+    public bool IsPlaing { get; private set; }
 
     private void Start()
     {
@@ -25,6 +26,11 @@ public class SpriteChangingOnClick : MonoBehaviour
 
     private void OnClick()
     {
+        var sc = GetComponent<SpriteChanger>();
+        if (IsPlaing || (sc != null && sc.IsPlaing))
+            return;
+
+            IsPlaing = true;
         if (_sprites.Length == 1)
         {
             _targetRenderer.material.mainTexture = _sprites[0];
@@ -55,6 +61,13 @@ public class SpriteChangingOnClick : MonoBehaviour
     private void SetDefaultSprite()
     {
         _targetRenderer.material.mainTexture = _defaultSprite;
+        IsPlaing = false;
+    }
+
+    public void SwitchToOff()
+    {
+        StopAllCoroutines();
+        SetDefaultSprite();
     }
 
 }

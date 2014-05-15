@@ -79,6 +79,8 @@ GameObject:
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400002}
   - 82: {fileID: 8200000}
+  - 114: {fileID: 11400004}
+  - 114: {fileID: 11400006}
   m_Layer: 13
   m_Name: NotebookUV
   m_TagString: nodeDevice
@@ -312,6 +314,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clips:
   - {fileID: 8300000, guid: d8b8af0fa285742499b3c409c45939ef, type: 3}
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0af73f3a596ff64eaed79fca8ccb75c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _changeInterval: 1
+  _targetRenderer: {fileID: 0}
+  _sprites:
+  - {fileID: 2800000, guid: 6790f74a296642f4a822a593408c64b1, type: 3}
+  - {fileID: 2800000, guid: 11af3c6a96e5c644dbf281ac43193584, type: 3}
+  - {fileID: 2800000, guid: 4af084067d5a53a4b967cc14393d512e, type: 3}
+  - {fileID: 2800000, guid: 076dc0a21e484794bb7256520db09b55, type: 3}
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76cfba4296ab38e4d84dc253c39ddd73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sprites:
+  - {fileID: 2800000, guid: 9162bb34d99a77040a1b0fe0f89e4ac4, type: 3}
+  _targetRenderer: {fileID: 0}
+  _duration: 1
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

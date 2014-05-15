@@ -26,7 +26,7 @@ public class Device : MonoBehaviour
 
         enabled = true;
         if (_spriteChanger != null)
-            _spriteChanger.enabled = true;
+            _spriteChanger.SwitchToOn();//.enabled = true;
 
         if (!_playAudioOnSwitchToON)
             return;
@@ -44,7 +44,7 @@ public class Device : MonoBehaviour
 
         enabled = false;
         if (_spriteChanger != null)
-            _spriteChanger.enabled = false;
+            _spriteChanger.SwitchToOff();//.enabled = false;
 
         if (!_playAudioOnSwitchToON)
             return;

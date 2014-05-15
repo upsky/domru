@@ -12,35 +12,49 @@ public class SpriteChanger : MonoBehaviour
     [SerializeField]
     private Texture[] _sprites;
 
-    private float _waitTime;
     private int _currentSpriteIndex;
+    private Texture _defaultSprite;
 
+    public bool IsPlaing { get; private set; }
 
     private void Start()
     {
         //_spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (_targetRenderer == null)
             Debug.LogError("targetRenderer not found", this);
+
+        _defaultSprite = _targetRenderer.material.mainTexture;
         enabled = false;
     }
 
-    private void Update()
+    private IEnumerator ChangeSpritesCoroutine()
     {
-        if (_waitTime > 0)
+        while (true)
         {
-            _waitTime -= Time.deltaTime;
-            return;
-        }
+            _currentSpriteIndex = RandomUtils.RangeWithExclude(0, _sprites.Length, _currentSpriteIndex);
+            _targetRenderer.material.mainTexture = _sprites[_currentSpriteIndex];
 
-        _waitTime = _changeInterval;
-        _currentSpriteIndex = RandomUtils.RangeWithExclude(0, _sprites.Length, _currentSpriteIndex);
-        _targetRenderer.material.mainTexture = _sprites[_currentSpriteIndex];
+            yield return new WaitForSeconds(_changeInterval);
+        }
     }
 
-    private void OnDisable()
+    public void SwitchToOn()
     {
-        _targetRenderer.material.mainTexture = null;
-        _waitTime = 0f;
+        if (IsPlaing)
+            return;
+        var sc = GetComponent<SpriteChangingOnClick>();
+        if (sc != null && sc.IsPlaing)
+            sc.SwitchToOff();
+
+        StartCoroutine(ChangeSpritesCoroutine());
+        IsPlaing = true;
+    }
+
+    public void SwitchToOff()
+    {
+        StopAllCoroutines();
+        _targetRenderer.material.mainTexture = _defaultSprite;
+        IsPlaing = false;
     }
 
 }
