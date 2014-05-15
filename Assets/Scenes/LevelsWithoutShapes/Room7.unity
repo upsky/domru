@@ -1014,6 +1014,7 @@ GameObject:
   - 4: {fileID: 322831368}
   - 114: {fileID: 322831370}
   - 65: {fileID: 322831369}
+  - 82: {fileID: 322831371}
   m_Layer: 13
   m_Name: TVOldUV
   m_TagString: nodeDevice
@@ -1059,6 +1060,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3390c515f24b1834f866777423d5e783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &322831371
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 3ff024160f5a8fd4882bfe5e97e20b47,
+    type: 2}
+  m_PrefabInternal: {fileID: 1699900092}
+  m_GameObject: {fileID: 322831367}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 79966ab1dfa7c1f4f888a77454a06f0d, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &324270440
 GameObject:
   m_ObjectHideFlags: 0
@@ -2359,7 +2419,7 @@ MonoBehaviour:
     absolute: 58
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 2253
+  mWidth: 2376
   mHeight: 124
   mDepth: 4
   autoResizeBoxCollider: 0
@@ -2781,7 +2841,7 @@ MonoBehaviour:
     absolute: -27
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 1652
+  mWidth: 1780
   mHeight: 82
   mDepth: 5
   autoResizeBoxCollider: 0
@@ -3017,6 +3077,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 754150856}
   - 136: {fileID: 754150857}
+  - 114: {fileID: 754150860}
+  - 82: {fileID: 754150859}
+  - 114: {fileID: 754150858}
   m_Layer: 13
   m_Name: PhoneRetro
   m_TagString: nodeDevice
@@ -3050,6 +3113,94 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: -.419999987, z: 0}
+--- !u!114 &754150858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: 6c9d29f1bf80a7942a57523b3e85f9d9,
+    type: 2}
+  m_PrefabInternal: {fileID: 879763100}
+  m_GameObject: {fileID: 754150855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3390c515f24b1834f866777423d5e783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!82 &754150859
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 6c9d29f1bf80a7942a57523b3e85f9d9,
+    type: 2}
+  m_PrefabInternal: {fileID: 879763100}
+  m_GameObject: {fileID: 754150855}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!114 &754150860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 6c9d29f1bf80a7942a57523b3e85f9d9,
+    type: 2}
+  m_PrefabInternal: {fileID: 879763100}
+  m_GameObject: {fileID: 754150855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ad48e577c5ceb4dba36ad92854faa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 8300000, guid: aa6446f768c04b643a135da815eee857, type: 3}
+  - {fileID: 8300000, guid: 65de2c30540a0f046a893be0b7c57431, type: 3}
+  - {fileID: 8300000, guid: 8a4e8e3af43bd884197c37330fa4e104, type: 3}
+  _playOnStart: 0
 --- !u!1001 &757343968
 Prefab:
   m_ObjectHideFlags: 0
@@ -3890,8 +4041,8 @@ MonoBehaviour:
     absolute: 257
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 1
-  mWidth: 2731
-  mHeight: 257
+  mWidth: 2730
+  mHeight: 128
   mDepth: 2
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -4225,7 +4376,7 @@ MonoBehaviour:
     absolute: -54
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 299
+  mWidth: 1089
   mHeight: 78
   mDepth: 4
   autoResizeBoxCollider: 0
@@ -4889,7 +5040,7 @@ MonoBehaviour:
     absolute: 88
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 1304
+  mWidth: 1303
   mHeight: 186
   mDepth: 3
   autoResizeBoxCollider: 1
@@ -5530,7 +5681,7 @@ MonoBehaviour:
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 7
   mWidth: 2731
-  mHeight: 256
+  mHeight: 128
   mDepth: 1
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
@@ -5598,7 +5749,7 @@ MonoBehaviour:
     absolute: -54
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 307
+  mWidth: 1097
   mHeight: 80
   mDepth: 4
   autoResizeBoxCollider: 0
@@ -6582,6 +6733,7 @@ GameObject:
   - 4: {fileID: 1548992607}
   - 114: {fileID: 1548992609}
   - 136: {fileID: 1548992608}
+  - 82: {fileID: 1548992610}
   m_Layer: 0
   m_Name: PC_1node
   m_TagString: nodeDevice
@@ -6629,6 +6781,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3390c515f24b1834f866777423d5e783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &1548992610
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 495d28f849641a8429cc0b27b0921a55,
+    type: 2}
+  m_PrefabInternal: {fileID: 526396801}
+  m_GameObject: {fileID: 1548992606}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: d8b8af0fa285742499b3c409c45939ef, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1554800913
 GameObject:
   m_ObjectHideFlags: 0
@@ -8273,6 +8484,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2042198771}
   - 65: {fileID: 2042198772}
+  - 114: {fileID: 2042198773}
   m_Layer: 13
   m_Name: Piano
   m_TagString: nodeFurniture
@@ -8305,6 +8517,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .755229115, y: 1, z: 1.79032314}
   m_Center: {x: .121569633, y: .499974251, z: .5}
+--- !u!114 &2042198773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 208b75ecd28a6c84da3f3a5463b62335,
+    type: 2}
+  m_PrefabInternal: {fileID: 420761504}
+  m_GameObject: {fileID: 2042198770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4ad48e577c5ceb4dba36ad92854faa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips:
+  - {fileID: 8300000, guid: 6afd3186292f86a4cb453b46bf480446, type: 3}
+  - {fileID: 8300000, guid: e87e23f1f8561d243bb148ec03eb47f5, type: 3}
+  - {fileID: 8300000, guid: b1155ef0033adf5478a9ed8a740797ee, type: 3}
+  - {fileID: 8300000, guid: f3dc7347acafeb240a37fa5fb4be48ec, type: 3}
+  _playOnStart: 0
 --- !u!1 &2051639881
 GameObject:
   m_ObjectHideFlags: 0
@@ -8369,7 +8599,7 @@ MonoBehaviour:
     absolute: 90
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 1302
+  mWidth: 1301
   mHeight: 188
   mDepth: 3
   autoResizeBoxCollider: 1

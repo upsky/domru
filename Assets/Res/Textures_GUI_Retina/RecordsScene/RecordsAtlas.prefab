@@ -41,8 +41,8 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 301c460d593e9bc42af63e969870a5ef, type: 2}
   mSprites:
   - name: 01_dom.ru_logo_small
-    x: 484
-    y: 74
+    x: 708
+    y: 644
     width: 192
     height: 192
     borderLeft: 0
@@ -55,7 +55,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: 01_plashka
     x: 0
-    y: 163
+    y: 183
     width: 476
     height: 103
     borderLeft: 10
@@ -81,7 +81,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: 02_plashka_click
     x: 0
-    y: 43
+    y: 67
     width: 619
     height: 23
     borderLeft: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: 03_menue
     x: 0
-    y: 648
+    y: 652
     width: 704
     height: 184
     borderLeft: 13
@@ -107,20 +107,20 @@ MonoBehaviour:
     paddingBottom: 0
   - name: 04_enter
     x: 0
-    y: 460
+    y: 468
     width: 704
     height: 180
-    borderLeft: 0
-    borderRight: 0
-    borderTop: 0
-    borderBottom: 0
+    borderLeft: 15
+    borderRight: 192
+    borderTop: 15
+    borderBottom: 25
     paddingLeft: 0
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
   - name: 05_line
     x: 0
-    y: 274
+    y: 290
     width: 1024
     height: 85
     borderLeft: 243
@@ -133,7 +133,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: 06_line_red
     x: 0
-    y: 367
+    y: 379
     width: 1024
     height: 85
     borderLeft: 244
@@ -145,8 +145,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 14_records
-    x: 712
-    y: 640
+    x: 480
+    y: 94
     width: 192
     height: 192
     borderLeft: 0

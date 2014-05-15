@@ -154,7 +154,7 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
         
         int score = currentScore;
         var totalScore = prevTotalScore;
-        const int k = 3;
+        const int k = 9;
         while (score > 0)
         {
             score -= k;

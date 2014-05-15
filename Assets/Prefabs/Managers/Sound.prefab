@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 82: {fileID: 8200000}
+  - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: Sound
@@ -24,7 +25,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.44948483, y: 10.2989349, z: 9.91980362}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -37,10 +38,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: .200000003
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Priority: 0
   DopplerLevel: 1
@@ -101,7 +102,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2d95154a1020ba544878caf1bda6c429, type: 3}
   - {fileID: 8300000, guid: f1ae73b5f3a4c6040a08f908722981fe, type: 3}
   - {fileID: 8300000, guid: f6e1247ac45cd3b4d8323dbd3ba3c4e0, type: 3}
-  _playOnStart: 1
+  _playOnStart: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc74eaccdaf8f8d4da360fcbec1d9eef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _titleClip: {fileID: 8300000, guid: 772df8b9ae0c08d45b38cad96853df20, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
