@@ -25,10 +25,16 @@ public class SpriteChangingOnClick : MonoBehaviour
 
     private void OnClick()
     {
-        StartCoroutine(ChangeAlphaCoroutine());
+        if (_sprites.Length == 1)
+        {
+            _targetRenderer.material.mainTexture = _sprites[0];
+            Invoke("SetDefaultSprite", _duration);
+        }
+        else
+            StartCoroutine(ChangeSpritesCoroutine());
     }
 
-    private IEnumerator ChangeAlphaCoroutine()
+    private IEnumerator ChangeSpritesCoroutine()
     {
         var startTime = Time.time;
         int currentSpriteIndex = 0;
@@ -43,6 +49,11 @@ public class SpriteChangingOnClick : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
+        SetDefaultSprite();
+    }
+
+    private void SetDefaultSprite()
+    {
         _targetRenderer.material.mainTexture = _defaultSprite;
     }
 
