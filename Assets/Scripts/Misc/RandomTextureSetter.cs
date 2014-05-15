@@ -8,7 +8,8 @@ public class RandomTextureSetter : MonoBehaviour
 
     private void Start()
     {
-        renderer.material.mainTexture = RandomUtils.GetRandomItem(_textures);
+        if (Application.loadedLevelName==Consts.SceneNames.Level1.ToString())
+            renderer.material.mainTexture = RandomUtils.GetRandomItem(_textures);
     }
 
 }
