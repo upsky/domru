@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayOnClick : MonoBehaviour
+public class PlayAudioOnClick : MonoBehaviour
 {
     [SerializeField]
     private AudioClip[] _clips;
