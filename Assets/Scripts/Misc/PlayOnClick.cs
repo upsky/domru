@@ -3,19 +3,24 @@ using System.Collections;
 
 public class PlayOnClick : MonoBehaviour
 {
-    private RandomPlayAudio _randomPlayAudio;
+    [SerializeField]
+    private AudioClip[] _clips;
 
     private void Start()
     {
-        _randomPlayAudio = GetComponent<RandomPlayAudio>();    
+        if (audio == null)
+            gameObject.AddComponent<AudioSource>();
     }
 
 
     private void OnClick()
     {
-        if (_randomPlayAudio != null)
-            _randomPlayAudio.Play();
-        else if (audio != null)
-            audio.Play();
+        if (_clips.Length == 0)
+        {
+            audio.PlayOneShot(audio.clip);
+            return;
+        }
+        audio.clip = _clips[Random.Range(0, _clips.Length)];
+        audio.PlayOneShot(audio.clip);
     }
 }

@@ -11,6 +11,7 @@ GameObject:
   - 136: {fileID: 13600000}
   - 82: {fileID: 8200000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 13
   m_Name: Guitar
   m_TagString: nodeFurniture
@@ -92,7 +93,7 @@ AudioSource:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
@@ -150,16 +151,28 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4ad48e577c5ceb4dba36ad92854faa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips: []
+  _playOnStart: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e21f3e6a066c9b843b9e34a216b8b945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _clips:
   - {fileID: 8300000, guid: 015e829df723f754d8381a9f8077f7ca, type: 3}
   - {fileID: 8300000, guid: fb51c2fdb1f45834ea7e7c45933f6b3a, type: 3}
   - {fileID: 8300000, guid: fe97691dbb448f240a9a986926411846, type: 3}
-  _playOnStart: 0
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 136: {fileID: 13600000}
   - 82: {fileID: 8200000}
+  - 114: {fileID: 11400000}
   m_Layer: 13
   m_Name: FireplaceUV
   m_TagString: nodeFurniture
@@ -94,10 +95,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 472d0c98e631c674f8dc9499a73c7ef7, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Priority: 128
   DopplerLevel: 1
@@ -143,6 +144,18 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e21f3e6a066c9b843b9e34a216b8b945, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _clips: []
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

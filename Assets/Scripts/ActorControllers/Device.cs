@@ -3,6 +3,10 @@ using System.Collections;
 
 public class Device : MonoBehaviour
 {
+    [SerializeField]
+    private bool _playAudioOnSwitchToON = true;
+
+
     private float timeForOFF;
     private SpriteChanger _spriteChanger;
 
@@ -24,6 +28,9 @@ public class Device : MonoBehaviour
         if (_spriteChanger != null)
             _spriteChanger.enabled = true;
 
+        if (!_playAudioOnSwitchToON)
+            return;
+
         if (_randomPlayAudio!=null)
             _randomPlayAudio.Play();
         else if (audio!=null)
@@ -38,6 +45,9 @@ public class Device : MonoBehaviour
         enabled = false;
         if (_spriteChanger != null)
             _spriteChanger.enabled = false;
+
+        if (!_playAudioOnSwitchToON)
+            return;
 
         if (_randomPlayAudio != null)
             _randomPlayAudio.Stop();
