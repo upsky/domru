@@ -9,6 +9,6 @@ public class ShowTop10 : MonoBehaviour
 
     private void OnClick()
     {
-        MySocial.LoadScoresForLeaderboard(false);     
+        MySocial.LoadScoresForLeaderboard(false);   
     }
 }

@@ -9,8 +9,8 @@ public class GuiScreenRecordLineFix : MonoBehaviour
 	{
         _uiItem = this.GetSafeComponent<UIRect>();
 
-        float w = Screen.width ;
-        float h = Screen.height;
+        //float w = Screen.width ;
+        //float h = Screen.height;
 
 	    //float res = h/w;
         //Debug.LogWarning(res);

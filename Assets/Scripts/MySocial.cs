@@ -4,8 +4,35 @@ using System.Collections;
 using UnityEngine.SocialPlatforms;
 
 public class MySocial : MonoSingleton<MySocial>
-{   
-    #if UNITY_IPHONE || UNITY_ANDROID
+{
+    public static void SubmitScore(long score)
+    {
+#if UNITY_IPHONE || UNITY_ANDROID
+        PlayGameServices.submitScore(LeaderboardID, score);
+#endif
+    }
+
+    public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts)
+    {
+#if UNITY_IPHONE || UNITY_ANDROID
+        PlayGameServices.loadScoresForLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankreuslts);
+        Debug.LogWarning("call LoadScoresForLeaderboard");
+#endif
+    }
+
+    public static string ShowingConcreteLeaderboardUI()
+    {
+        string ret = "ShowLeaderboardUI";
+#if UNITY_IPHONE || UNITY_ANDROID
+    // show leaderboard UI
+         PlayGameServices.showLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime);
+#endif
+        return ret;
+    }
+
+
+
+#if UNITY_IPHONE || UNITY_ANDROID
 
     private const string LeaderboardID = "CgkIuaqBk6sCEAIQAA";
 
@@ -27,11 +54,7 @@ public class MySocial : MonoSingleton<MySocial>
     }
 
 
-    public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts)
-    {
-        PlayGameServices.loadScoresForLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankreuslts);
-        Debug.LogWarning("call LoadScoresForLeaderboard");
-    }
+   
 
     public static string Init()
     {
@@ -46,29 +69,19 @@ public class MySocial : MonoSingleton<MySocial>
         return "inited";
     }
 
-    public static void SubmitScore(long score)
-    {
-        PlayGameServices.submitScore(LeaderboardID, score);
-    }
 
-    public static string ShowingConcreteLeaderboardUI()
-    {
-        string ret = "ShowLeaderboardUI";
-        // show leaderboard UI
-        PlayGameServices.showLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime);
-        return ret;
-    }
+         public static GPGPlayerInfo GetLocalPlayerInfo()
+     {
+         
+         var playerInfo = PlayGameServices.getLocalPlayerInfo();
+         Prime31.Utils.logObject(playerInfo);
 
-    public static GPGPlayerInfo GetLocalPlayerInfo()
-    {
-        var playerInfo = PlayGameServices.getLocalPlayerInfo();
-        Prime31.Utils.logObject(playerInfo);
-
-        // if we are on Android and have an avatar image available, lets download the profile pic
-        //if (Application.platform == RuntimePlatform.Android && playerInfo.avatarUrl != null)
-        //    PlayGameServices.loadProfileImageForUri(playerInfo.avatarUrl);
-        return playerInfo;
-    }
+         // if we are on Android and have an avatar image available, lets download the profile pic
+         //if (Application.platform == RuntimePlatform.Android && playerInfo.avatarUrl != null)
+         //    PlayGameServices.loadProfileImageForUri(playerInfo.avatarUrl);
+         return playerInfo;
+     }
+  
 
     //private static void EventsSubscibe()
     //{
