@@ -1467,7 +1467,7 @@ MonoBehaviour:
   minAreaSize: 10
   limitGraphUpdates: 0
   maxGraphUpdateFreq: .200000003
-  lastScanTime: .00500029977
+  lastScanTime: .0199999996
   inGameDebugPath: 
   isScanning: 0
   showGraphs: 1
@@ -1868,6 +1868,8 @@ MonoBehaviour:
   _firstWaitInterval: 3
   _waitIntervalAfterWalk: 3
   _waitIntervalAfterClick: 3
+  _rndMinInterval: 2
+  _rndMaxInterval: 5
   _tutorialTargets: []
   _tutorialTargetAfterClick: {fileID: 0}
 --- !u!114 &662090627
@@ -4046,6 +4048,8 @@ MonoBehaviour:
   _firstWaitInterval: 3
   _waitIntervalAfterWalk: 3
   _waitIntervalAfterClick: 3
+  _rndMinInterval: 2
+  _rndMaxInterval: 5
   _tutorialTargets: []
   _tutorialTargetAfterClick: {fileID: 0}
 --- !u!114 &1443936509

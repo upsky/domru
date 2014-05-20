@@ -13,6 +13,7 @@ GameObject:
   - 82: {fileID: 8200000}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400004}
+  - 114: {fileID: 11400006}
   m_Layer: 13
   m_Name: TVOldUV
   m_TagString: nodeDevice
@@ -256,6 +257,24 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 0754a234479a9d14c985241080c99005, type: 3}
   _targetRenderer: {fileID: 2300002}
   _duration: 1
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0af73f3a596ff64eaed79fca8ccb75c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _changeInterval: 1
+  _targetRenderer: {fileID: 2300002}
+  _sprites:
+  - {fileID: 2800000, guid: b4476de3ec71e884eb9e5689ed44dd78, type: 3}
+  - {fileID: 2800000, guid: 54d486e3c68ee4546aaee7baecc4fafd, type: 3}
+  - {fileID: 2800000, guid: c9931ac36686c084a9ce11e5f48127bb, type: 3}
+  - {fileID: 2800000, guid: b5fbbe1a8caf8104db0d53b18301e03b, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

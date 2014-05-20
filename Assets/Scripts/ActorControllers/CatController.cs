@@ -26,6 +26,11 @@ public class CatController : MonoBehaviour
     [SerializeField]
     private float _waitIntervalAfterClick = 7f;
 
+    [SerializeField]
+    private float _rndMinInterval = 2f;
+
+    [SerializeField]
+    private float _rndMaxInterval = 5f;
 
     private IPathFinderMovement _pathFinderMovement;
     private ISimpleMovement _directMovement;
@@ -150,7 +155,6 @@ public class CatController : MonoBehaviour
                                               {
                                                   RotateShape();
                                                   StopWalk();
-
                                               });
     }
 
@@ -161,7 +165,12 @@ public class CatController : MonoBehaviour
             _animator.SetInteger("state", (int) CatAnimState.Sit);
         }
         _currentActivityType = ActivityType.None;
-        _waitTime = _waitIntervalAfterWalk;
+
+        if (Application.loadedLevelName == Consts.SceneNames.Level1.ToString())
+            _waitTime = Random.Range(_rndMinInterval,_rndMaxInterval);
+        else
+            _waitTime = _waitIntervalAfterWalk;
+        //Debug.LogWarning(_waitTime);
     }
 
     private void StartDirectionMovement()
@@ -177,10 +186,14 @@ public class CatController : MonoBehaviour
             currentTarget = _tutorialTargetAfterClick;
 
         _directMovement.StartMovement(currentTarget, () =>
-        {
-            StopWalk();
-            _waitTime = _waitIntervalAfterClick;
-        });
+            {
+                StopWalk();
+                if (Application.loadedLevelName == Consts.SceneNames.Level1.ToString())
+                    _waitTime = Random.Range(_rndMinInterval, _rndMaxInterval);
+                else
+                    _waitTime = _waitIntervalAfterClick;
+                //Debug.LogWarning(_waitTime);
+            });
     }
 
     private void RotateShape()
