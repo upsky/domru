@@ -34,7 +34,7 @@ public class MySocial : MonoSingleton<MySocial>
 
 #if UNITY_IPHONE || UNITY_ANDROID
 
-    private const string LeaderboardID = "CgkIuaqBk6sCEAIQAA";
+    private const string LeaderboardID = "CgkIuaqBk6sCEAIQEQ";
 
     //private string text = "123";
 	// Use this for initialization
