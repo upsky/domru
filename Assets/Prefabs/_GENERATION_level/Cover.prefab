@@ -27,6 +27,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
+  - 114: {fileID: 11400002}
   m_Layer: 10
   m_Name: CoverUV
   m_TagString: Untagged
@@ -96,6 +97,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28993f4418920d14db23ba62ff1c3cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ddbde90182a2604b82e9312c6f2f2ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textures:
+  - {fileID: 2800000, guid: 45276bc7910b7274897080ea783be9e6, type: 3}
+  - {fileID: 2800000, guid: 3338555148a2e50458ec847c4174d85e, type: 3}
+  - {fileID: 2800000, guid: 5448c5cea7fa2b941ba80387195bc465, type: 3}
+  - {fileID: 2800000, guid: c417be6a032372e4594c20d58f720835, type: 3}
+  - {fileID: 2800000, guid: de7a554dcb6d27348a8ece5331cedf6e, type: 3}
+  - {fileID: 2800000, guid: 4e5a776139a62964fa88dc8ae8a40fa8, type: 3}
+  _alwaysGenerate: 0
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

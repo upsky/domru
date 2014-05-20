@@ -790,6 +790,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 68dd1268c72aa5a4e9bd51991a40cda8, type: 3}
   - {fileID: 2800000, guid: e0a1e951df7f92e43ac53c0af9b0970f, type: 3}
   - {fileID: 2800000, guid: 2baf49ca7f41f90479d16e24e79f3bfd, type: 3}
+  _alwaysGenerate: 0
 --- !u!1001 &266917512
 Prefab:
   m_ObjectHideFlags: 0
@@ -1467,7 +1468,7 @@ MonoBehaviour:
   minAreaSize: 10
   limitGraphUpdates: 0
   maxGraphUpdateFreq: .200000003
-  lastScanTime: .0199999996
+  lastScanTime: .00600040006
   inGameDebugPath: 
   isScanning: 0
   showGraphs: 1
@@ -3468,6 +3469,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 6a0ab14d69da2ed48a176f0ebee75606, type: 3}
   - {fileID: 2800000, guid: c2a34d0b510f56e45872726c1173d7e2, type: 3}
   - {fileID: 2800000, guid: 3f92af470fbe45742adf9e335e4101d6, type: 3}
+  _alwaysGenerate: 0
 --- !u!1 &1250537169
 GameObject:
   m_ObjectHideFlags: 0
