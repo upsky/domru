@@ -111,7 +111,6 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
 
 
         int score = isUsedHelp ? 0 : ScoreCounter.TimeToStore(timer.StartTime, timer.RemainTime);
-        MySocial.SubmitScore(score);
 
         var prevScore = PlayerPrefs.GetInt(Application.loadedLevelName + "_score");
         //Debug.LogWarning(Application.loadedLevelName + "_score = " + prevScore);
@@ -149,6 +148,7 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
     {        
         var prevTotalScore = PlayerPrefs.GetInt("totalScore");
         PlayerPrefs.SetInt("totalScore", prevTotalScore + currentScore);//здесь, чтобы сохранить до начала перетекания
+        MySocial.SubmitScore(prevTotalScore + currentScore);
 
         yield return new WaitForSeconds(1f);//пауза перед началом перетекания счета
         
