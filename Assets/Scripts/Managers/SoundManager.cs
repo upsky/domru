@@ -21,6 +21,7 @@ public class SoundManager : MonoSingleton<SoundManager>
     private float _nextClipStartTime = 1f;
 
     private AudioSource _nextAudio = null;
+    private float _startVolume = 0.2f;
 
     private void Start()
     {
@@ -34,6 +35,14 @@ public class SoundManager : MonoSingleton<SoundManager>
             _state1Audio.Play();
         else
             _state2Audio.Play();
+
+
+        int disableSound = PlayerPrefs.GetInt("DisableSound");//при 0 - звук есть, при 1 -нету
+        if (disableSound == 1)
+        {
+            //отключить звук
+            SetSound(false);
+        }
     }
 
     private void Update()
@@ -71,7 +80,7 @@ public class SoundManager : MonoSingleton<SoundManager>
         _nextAudio = null;
     }
 
-    private float _startVolume = 0.2f;
+
     private IEnumerator FadeOutCoroutine(AudioSource target)
     {
         while (target.volume > 0)
@@ -87,6 +96,15 @@ public class SoundManager : MonoSingleton<SoundManager>
     private bool IsState1
     {
         get { return !(Application.loadedLevelName.Contains("Room") || Application.loadedLevelName == Consts.SceneNames.Level1.ToString()); }
+    }
+
+    /// <summary>
+    /// Включает или отключает звук
+    /// </summary>    
+    public static void SetSound(bool enable)
+    {
+        AudioListener.volume = enable ? 1 : 0;
+        //Debug.LogWarning(enable);
     }
 }
 

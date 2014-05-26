@@ -5,6 +5,8 @@ using UnityEngine.SocialPlatforms;
 
 public class MySocial : MonoSingleton<MySocial>
 {
+    public static int MaxVisibleScores {get; private set;}
+
     public static void SubmitScore(long score)
     {
 #if UNITY_IPHONE || UNITY_ANDROID
@@ -12,8 +14,9 @@ public class MySocial : MonoSingleton<MySocial>
 #endif
     }
 
-    public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts)
+    public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts, int count=0)
     {
+        MaxVisibleScores = (count > 0) ? count : int.MaxValue;
 #if UNITY_IPHONE || UNITY_ANDROID
         PlayGameServices.loadScoresForLeaderboard(LeaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankreuslts);
         Debug.LogWarning("call LoadScoresForLeaderboard");

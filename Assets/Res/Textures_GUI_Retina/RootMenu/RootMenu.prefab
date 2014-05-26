@@ -53,9 +53,35 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: 01_sound_off
+    x: 772
+    y: 456
+    width: 192
+    height: 192
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
+  - name: 01_sound_on
+    x: 772
+    y: 260
+    width: 192
+    height: 192
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 0
+    paddingBottom: 0
   - name: 02_play
-    x: 463
-    y: 655
+    x: 0
+    y: 187
     width: 768
     height: 184
     borderLeft: 0
@@ -68,7 +94,7 @@ MonoBehaviour:
     paddingBottom: 0
   - name: 03_records
     x: 0
-    y: 193
+    y: 375
     width: 768
     height: 184
     borderLeft: 0
@@ -80,8 +106,8 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 04_help
-    x: 0
-    y: 378
+    x: 466
+    y: 652
     width: 768
     height: 184
     borderLeft: 0
@@ -93,7 +119,7 @@ MonoBehaviour:
     paddingTop: 0
     paddingBottom: 0
   - name: 05_exit
-    x: 463
+    x: 466
     y: 840
     width: 768
     height: 184

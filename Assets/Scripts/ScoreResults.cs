@@ -34,6 +34,9 @@ public class ScoreResults : MonoBehaviour
 
     public void FillTable(List<GPGScore> scores)
     {
+        UIScrollView sv = UIRoot.list[0].transform.Find("Panel1/Scroll View").GetComponent<UIScrollView>();
+        sv.ResetPosition();
+
         Debug.Log("loadScoresSucceededEvent");
         Prime31.Utils.logObject(scores);
 
@@ -44,7 +47,9 @@ public class ScoreResults : MonoBehaviour
 
         int index = 0;
         //int yPos = 0;
-        foreach (var score in scores)
+        int visibleScores = (MySocial.MaxVisibleScores > 0) ? MySocial.MaxVisibleScores : int.MaxValue;
+
+        foreach (var score in scores.Take(visibleScores))
         {
             var lineItemGO = NGUITools.AddChild(_grid.gameObject, _linePrefab);
             //var lineItemUI = lineItemGO.GetComponent<UIWidget>();
