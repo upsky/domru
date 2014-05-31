@@ -304,6 +304,7 @@ MonoBehaviour:
     target: {fileID: 400002}
     relative: 0
     absolute: 173
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 670
@@ -311,12 +312,15 @@ MonoBehaviour:
   mDepth: 5
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 1
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 12800000, guid: 8324b47bda7d4064eb9c64d47851836f, type: 3}
   mFont: {fileID: 0}
   mText: 2345
   mFontSize: 115
   mFontStyle: 0
+  mAlignment: 0
   mEncoding: 1
   mMaxLineCount: 0
   mEffectStyle: 1
@@ -362,6 +366,7 @@ MonoBehaviour:
     target: {fileID: 400004}
     relative: 1
     absolute: -24
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 672
@@ -369,13 +374,21 @@ MonoBehaviour:
   mDepth: 2
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
-  mAtlas: {fileID: 11400000, guid: bffd980ef7a50dc4ab2483fbc5e530fe, type: 2}
-  mSpriteName: 07_result
-  mFillCenter: 1
+  keepAspectRatio: 0
+  aspectRatio: 1
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: bffd980ef7a50dc4ab2483fbc5e530fe, type: 2}
+  mSpriteName: 07_result
+  mFillCenter: 1
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -403,6 +416,7 @@ MonoBehaviour:
     target: {fileID: 400006}
     relative: .5
     absolute: 460
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 766
@@ -410,13 +424,21 @@ MonoBehaviour:
   mDepth: 0
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
-  mAtlas: {fileID: 11400000, guid: bffd980ef7a50dc4ab2483fbc5e530fe, type: 2}
-  mSpriteName: 04_plashka
-  mFillCenter: 1
+  keepAspectRatio: 0
+  aspectRatio: 1
   mType: 0
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: bffd980ef7a50dc4ab2483fbc5e530fe, type: 2}
+  mSpriteName: 04_plashka
+  mFillCenter: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -444,6 +466,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   showInPanelTool: 1
   generateNormals: 0
   widgetsAreStatic: 0
@@ -452,28 +475,13 @@ MonoBehaviour:
   anchorOffset: 0
   renderQueue: 0
   startingRenderQueue: 3000
-  worldToLocal:
-    e00: 1024
-    e01: 0
-    e02: 0
-    e03: -3072000
-    e10: 0
-    e11: 1024
-    e12: 0
-    e13: -3072000
-    e20: 0
-    e21: 0
-    e22: 1024
-    e23: -3072000
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 1
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
   mClipSoftness: {x: 4, y: 4}
   mDepth: 2
+  mSortingOrder: 0
+  mClipOffset: {x: 0, y: 0}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -517,6 +525,7 @@ MonoBehaviour:
     target: {fileID: 400004}
     relative: .5
     absolute: -225
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 672
@@ -524,13 +533,21 @@ MonoBehaviour:
   mDepth: 3
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
-  mAtlas: {fileID: 11400000, guid: bffd980ef7a50dc4ab2483fbc5e530fe, type: 2}
-  mSpriteName: 06_next
-  mFillCenter: 1
+  keepAspectRatio: 0
+  aspectRatio: 1
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: bffd980ef7a50dc4ab2483fbc5e530fe, type: 2}
+  mSpriteName: 06_next
+  mFillCenter: 1
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -583,9 +600,13 @@ MonoBehaviour:
   tweenTarget: {fileID: 100008}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  duration: .200000003
   disabledColor: {r: .5, g: .5, b: .5, a: 1}
+  duration: .200000003
   dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  pixelSnap: 0
   onClick: []
 --- !u!114 &11400018
 MonoBehaviour:
@@ -636,6 +657,7 @@ MonoBehaviour:
     target: {fileID: 400004}
     relative: .5
     absolute: 5
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 672
@@ -643,13 +665,21 @@ MonoBehaviour:
   mDepth: 3
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
-  mAtlas: {fileID: 11400000, guid: bffd980ef7a50dc4ab2483fbc5e530fe, type: 2}
-  mSpriteName: 05_renew
-  mFillCenter: 1
+  keepAspectRatio: 0
+  aspectRatio: 1
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: bffd980ef7a50dc4ab2483fbc5e530fe, type: 2}
+  mSpriteName: 05_renew
+  mFillCenter: 1
 --- !u!114 &11400024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -702,9 +732,13 @@ MonoBehaviour:
   tweenTarget: {fileID: 100010}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  duration: .200000003
   disabledColor: {r: .5, g: .5, b: .5, a: 1}
+  duration: .200000003
   dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  pixelSnap: 0
   onClick: []
 --- !u!1001 &100100000
 Prefab:

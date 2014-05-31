@@ -65,7 +65,9 @@ public class MySocial : MonoSingleton<MySocial>
 #if UNITY_IPHONE 
     // we always want to call init as soon as possible after launch. Be sure to pass your own clientId to init on iOS!
     // This call is not required on Android.
-        PlayGameServices.init("160040154367.apps.googleusercontent.com", true);//только для IOS.  Надо вставить clientID
+        //PlayGameServices.init("80302069049-5lm6co43b05m3im6usj6c8ccpg7q7570.apps.googleusercontent.com", false);//только для IOS.  Надо вставить clientID
+        //PlayGameServices.init("5lm6co43b05m3im6usj6c8ccpg7q7570.apps.googleusercontent.com", false);
+        PlayGameServices.init("80302069049.apps.googleusercontent.com", false); //так должно быть судя по этому скрину,  https://developers.google.com/games/services/images/consoleLocationOfClientId2.png
 #endif
         //GPGManager.loadScoresSucceededEvent += Instance.loadScoresSucceededEvent;
 

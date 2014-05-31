@@ -4927,9 +4927,13 @@ MonoBehaviour:
   tweenTarget: {fileID: 1912139393}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  duration: .200000003
   disabledColor: {r: .5, g: .5, b: .5, a: 1}
+  duration: .200000003
   dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  pixelSnap: 0
   onClick: []
 --- !u!65 &118570759
 BoxCollider:
@@ -6828,9 +6832,13 @@ MonoBehaviour:
   tweenTarget: {fileID: 1711839390}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  duration: .200000003
   disabledColor: {r: .5, g: .5, b: .5, a: 1}
+  duration: .200000003
   dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  pixelSnap: 0
   onClick: []
 --- !u!65 &169944863
 BoxCollider:
@@ -8564,9 +8572,13 @@ MonoBehaviour:
   tweenTarget: {fileID: 1841059424}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  duration: .200000003
   disabledColor: {r: .5, g: .5, b: .5, a: 1}
+  duration: .200000003
   dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  pixelSnap: 0
   onClick: []
 --- !u!65 &214372637
 BoxCollider:
@@ -23447,7 +23459,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -304
+      value: -303
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: m_LocalPosition.z
@@ -23492,7 +23504,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: rightAnchor.absolute
-      value: 32
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: bottomAnchor.target
@@ -23504,7 +23516,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: bottomAnchor.absolute
-      value: 24
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: topAnchor.target
@@ -23516,27 +23528,39 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: topAnchor.absolute
-      value: 88
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: m_Size.x
-      value: 64
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: 6500000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: m_Size.y
-      value: 64
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: mWidth
-      value: 64
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: mHeight
-      value: 64
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
       propertyPath: leftAnchor.absolute
-      value: -32
+      value: -28
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
+      propertyPath: aspectRatio
+      value: .535714269
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
+      propertyPath: m_Name
+      value: BtnSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
+      propertyPath: pixelSnap
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 27e8f19a61a08314082c5916299bb575, type: 2}
@@ -27888,6 +27912,7 @@ MonoBehaviour:
     target: {fileID: 0}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   showInPanelTool: 1
   generateNormals: 0
   widgetsAreStatic: 0
@@ -27896,28 +27921,13 @@ MonoBehaviour:
   anchorOffset: 0
   renderQueue: 0
   startingRenderQueue: 3000
-  worldToLocal:
-    e00: 360
-    e01: 0
-    e02: 0
-    e03: -1080000
-    e10: 0
-    e11: 360
-    e12: 0
-    e13: -1080000
-    e20: 0
-    e21: 0
-    e22: 360
-    e23: -1080000
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 1
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: 0, y: 0, z: 300, w: 200}
   mClipSoftness: {x: 4, y: 4}
   mDepth: 0
+  mSortingOrder: 0
+  mClipOffset: {x: 0, y: 0}
 --- !u!114 &842118219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27933,6 +27943,8 @@ MonoBehaviour:
   manualHeight: 720
   minimumHeight: 320
   maximumHeight: 1536
+  adjustByDPI: 0
+  shrinkPortraitUI: 0
 --- !u!4 &842118220
 Transform:
   m_ObjectHideFlags: 0
@@ -28387,7 +28399,7 @@ GameObject:
   - 114: {fileID: 861222018}
   - 114: {fileID: 861222019}
   m_Layer: 8
-  m_Name: BtnWhole
+  m_Name: BtnSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28400,7 +28412,7 @@ Transform:
   m_PrefabInternal: {fileID: 695519122}
   m_GameObject: {fileID: 861222011}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -304, z: 0}
+  m_LocalPosition: {x: 0, y: -303, z: 0}
   m_LocalScale: {x: 1.00007999, y: 1.00007999, z: 1.00007999}
   m_Children: []
   m_Father: {fileID: 1470460913}
@@ -28419,33 +28431,42 @@ MonoBehaviour:
   leftAnchor:
     target: {fileID: 1470460913}
     relative: .5
-    absolute: -32
+    absolute: -28
   rightAnchor:
     target: {fileID: 1470460913}
     relative: .5
-    absolute: 32
+    absolute: 28
   bottomAnchor:
     target: {fileID: 1470460913}
     relative: 0
-    absolute: 24
+    absolute: 29
   topAnchor:
     target: {fileID: 1470460913}
     relative: 0
-    absolute: 88
+    absolute: 85
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 64
-  mHeight: 64
+  mWidth: 56
+  mHeight: 56
   mDepth: 3
   autoResizeBoxCollider: 1
   hideIfOffScreen: 0
-  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
-  mSpriteName: 01_sound_on
-  mFillCenter: 1
+  keepAspectRatio: 0
+  aspectRatio: 1
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
+  mSpriteName: 01_sound_on
+  mFillCenter: 1
 --- !u!114 &861222014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28501,9 +28522,13 @@ MonoBehaviour:
   tweenTarget: {fileID: 861222011}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  duration: .200000003
   disabledColor: {r: .5, g: .5, b: .5, a: 1}
+  duration: .200000003
   dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  pixelSnap: 0
   onClick: []
 --- !u!65 &861222017
 BoxCollider:
@@ -28516,7 +28541,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 64, y: 64, z: 0}
+  m_Size: {x: 56, y: 56, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &861222018
 MonoBehaviour:
@@ -33984,9 +34009,13 @@ MonoBehaviour:
   tweenTarget: {fileID: 1302873829}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  duration: .200000003
   disabledColor: {r: .5, g: .5, b: .5, a: 1}
+  duration: .200000003
   dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  pixelSnap: 0
   onClick: []
 --- !u!65 &1026158364
 BoxCollider:
@@ -38469,9 +38498,13 @@ MonoBehaviour:
   tweenTarget: {fileID: 2124772452}
   hover: {r: .882352948, g: .784313738, b: .588235319, a: 1}
   pressed: {r: .717647076, g: .639215708, b: .482352942, a: 1}
-  duration: .200000003
   disabledColor: {r: .5, g: .5, b: .5, a: 1}
+  duration: .200000003
   dragHighlight: 0
+  hoverSprite: 
+  pressedSprite: 
+  disabledSprite: 
+  pixelSnap: 0
   onClick: []
 --- !u!65 &1166477276
 BoxCollider:
@@ -43032,6 +43065,7 @@ MonoBehaviour:
     target: {fileID: 1470460913}
     relative: .5
     absolute: -108
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 240
@@ -43039,13 +43073,21 @@ MonoBehaviour:
   mDepth: 3
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
-  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
-  mSpriteName: 04_help
-  mFillCenter: 1
+  keepAspectRatio: 0
+  aspectRatio: 4.28571415
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
+  mSpriteName: 04_help
+  mFillCenter: 1
 --- !u!1 &1303343670
 GameObject:
   m_ObjectHideFlags: 0
@@ -47135,6 +47177,7 @@ MonoBehaviour:
     target: {fileID: 842118220}
     relative: 1
     absolute: 0
+  updateAnchors: 1
   showInPanelTool: 1
   generateNormals: 0
   widgetsAreStatic: 0
@@ -47143,28 +47186,13 @@ MonoBehaviour:
   anchorOffset: 0
   renderQueue: 0
   startingRenderQueue: 3000
-  worldToLocal:
-    e00: 360
-    e01: 0
-    e02: 0
-    e03: -1080000
-    e10: 0
-    e11: 360
-    e12: 0
-    e13: -1080000
-    e20: 0
-    e21: 0
-    e22: 360
-    e23: -1080000
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 1
   mAlpha: 1
   mClipping: 0
   mClipRange: {x: -1098440.62, y: -1275059.62, z: 207251.062, w: 20}
   mClipSoftness: {x: 4, y: 4}
   mDepth: 2
+  mSortingOrder: 0
+  mClipOffset: {x: 0, y: 0}
 --- !u!1 &1470481459
 GameObject:
   m_ObjectHideFlags: 0
@@ -54517,6 +54545,7 @@ MonoBehaviour:
     target: {fileID: 1470460913}
     relative: .5
     absolute: -190
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 240
@@ -54524,13 +54553,21 @@ MonoBehaviour:
   mDepth: 3
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
-  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
-  mSpriteName: 05_exit
-  mFillCenter: 1
+  keepAspectRatio: 0
+  aspectRatio: 4.28571415
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
+  mSpriteName: 05_exit
+  mFillCenter: 1
 --- !u!1 &1718410429
 GameObject:
   m_ObjectHideFlags: 0
@@ -58689,6 +58726,7 @@ MonoBehaviour:
     target: {fileID: 1470460913}
     relative: .5
     absolute: -26
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 240
@@ -58696,13 +58734,21 @@ MonoBehaviour:
   mDepth: 3
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
-  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
-  mSpriteName: 03_records
-  mFillCenter: 1
+  keepAspectRatio: 0
+  aspectRatio: 4.28571415
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
+  mSpriteName: 03_records
+  mFillCenter: 1
 --- !u!1 &1842482291
 GameObject:
   m_ObjectHideFlags: 0
@@ -61252,6 +61298,7 @@ MonoBehaviour:
     target: {fileID: 1470460913}
     relative: .5
     absolute: 290
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 180
@@ -61259,13 +61306,21 @@ MonoBehaviour:
   mDepth: 3
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
-  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
-  mSpriteName: 01_dom.ru_logo_big
-  mFillCenter: 1
+  keepAspectRatio: 0
+  aspectRatio: 1
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
+  mSpriteName: 01_dom.ru_logo_big
+  mFillCenter: 1
 --- !u!1 &1913385521
 GameObject:
   m_ObjectHideFlags: 0
@@ -67595,6 +67650,7 @@ MonoBehaviour:
     target: {fileID: 1470460913}
     relative: .5
     absolute: 56
+  updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
   mWidth: 240
@@ -67602,13 +67658,21 @@ MonoBehaviour:
   mDepth: 3
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
-  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
-  mSpriteName: 02_play
-  mFillCenter: 1
+  keepAspectRatio: 0
+  aspectRatio: 4.28571415
   mType: 1
   mFillDirection: 4
   mFillAmount: 1
   mInvert: 0
+  mFlip: 0
+  centerType: 1
+  leftType: 1
+  rightType: 1
+  bottomType: 1
+  topType: 1
+  mAtlas: {fileID: 11400000, guid: c9c1e8d0a98e226459fbc8618576dbb8, type: 2}
+  mSpriteName: 02_play
+  mFillCenter: 1
 --- !u!1 &2124794388
 GameObject:
   m_ObjectHideFlags: 0
