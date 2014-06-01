@@ -9,18 +9,23 @@ public class RoomLevelStars : MonoBehaviour
 	void Awake () 
     {
         var score = PlayerPrefs.GetInt(_level + "_score");
-	    var sprite = GetComponent<UISprite>();
+	    //var sprite = GetComponent<UISprite>();
+        var btn = GetComponent<UIButton>();
+
 
         switch (ScoreCounter.GetCountStars((int)score))
         {
             case 1:
-                sprite.spriteName = "04_level_1_star";
+                btn.normalSprite = "04_level_1_star";
+                //sprite.spriteName = "04_level_1_star";
                 break;
             case 2:
-                sprite.spriteName = "05_level_2_star";
+                btn.normalSprite = "05_level_2_star";
+                //sprite.spriteName = "05_level_2_star";
                 break;
             case 3:
-                sprite.spriteName = "06_level_3_star";
+                btn.normalSprite = "06_level_3_star";
+                //sprite.spriteName = "06_level_3_star";
                 break;
         }
 	}

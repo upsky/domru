@@ -19,14 +19,18 @@ public class BtnToggleIcon : MonoBehaviour
         get { return _state2; }
     }
 
+    private void Start()
+    {
+    }
+
     private void OnClick()
     {
-        var sprite = GetComponent<UISprite>();
+        var btn = GetComponent<UIButton>();
 
-        if (sprite.spriteName == _state1)
-            sprite.spriteName = _state2;
-        else if (sprite.spriteName == _state2)
-            sprite.spriteName = _state1;
+        if (btn.normalSprite == _state1)
+            btn.normalSprite = _state2;
+        else if (btn.normalSprite == _state2)
+            btn.normalSprite = _state1;
         else
             Debug.LogError("undefined sprite");
     }

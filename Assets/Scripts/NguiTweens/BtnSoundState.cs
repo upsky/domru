@@ -6,18 +6,18 @@ public class BtnSoundState : MonoBehaviour
 {
     private BtnToggleIcon _btnToggleIcon;
 
-    private UISprite _sprite;
+    private UIButton _btn;
 
 
     private void Start()
     {
         _btnToggleIcon = GetComponent<BtnToggleIcon>();
-        _sprite = GetComponent<UISprite>();
+        _btn = GetComponent<UIButton>();
 
         int disableSound = PlayerPrefs.GetInt("DisableSound");//при 0 - звук есть, при 1 -нету
         if (disableSound == 1)
-        {  
-            _sprite.spriteName = _btnToggleIcon.StateOff;
+        {
+            _btn.normalSprite = _btnToggleIcon.StateOff;
         }
     }
 
