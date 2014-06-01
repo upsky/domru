@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.SocialPlatforms.GameCenter;
 
 public class MySocialNative : MonoSingleton<MySocialNative>
@@ -18,13 +19,19 @@ public class MySocialNative : MonoSingleton<MySocialNative>
 #endif
     }
 
+    private static ILeaderboard _activeLeaderboard;
+
     public static void LoadScoresForLeaderboard(bool aroundMyRankResults, int count = 0)
     {
         MaxVisibleScores = (count > 0) ? count : int.MaxValue;
 #if UNITY_IPHONE
         //PlayGameServices.loadScoresForLeaderboard(_leaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankreuslts);
         Social.LoadScores(_leaderboardID,LoadScoresCallback);
-        //var l = Social.CreateLeaderboard();
+
+        //todo другой вариант LoadScores с указанием range
+        //_activeLeaderboard.range = new Range(0, count);//http://docs.unity3d.com/ScriptReference/Social.CreateLeaderboard.html
+        //Social.Active.LoadScores(_activeLeaderboard, LoadScoresWithRangeCallback); //http://docs.unity3d.com/ScriptReference/Social.Active.html, 
+
         Debug.LogWarning("call LoadScoresForLeaderboard");
 #endif
     }
@@ -42,6 +49,9 @@ public class MySocialNative : MonoSingleton<MySocialNative>
 #if UNITY_IPHONE
         if (!Social.localUser.authenticated)
             Authenticate();
+
+        //_activeLeaderboard = Social.CreateLeaderboard();
+
         //GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
 #endif
     }
@@ -50,6 +60,7 @@ public class MySocialNative : MonoSingleton<MySocialNative>
     {
 
     }
+
 
     public static void Authenticate()
     {
@@ -66,6 +77,11 @@ public class MySocialNative : MonoSingleton<MySocialNative>
 
 
     private static List<GPGScore> _lastLoadedScores;
+
+    private static void LoadScoresWithRangeCallback(bool success)
+    {
+        LoadScoresCallback(_activeLeaderboard.scores);
+    }
 
     private static void LoadScoresCallback(UnityEngine.SocialPlatforms.IScore[] scores)
     {
