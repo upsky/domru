@@ -17,18 +17,18 @@ public class ScoreResults : MonoBehaviour
 	    _grid = GetComponent<UIGrid>().transform;
 
         GPGManager.loadScoresSucceededEvent += FillTable;
+        ScoresNativeManager.loadScoresSucceededEvent += FillTable;
 
         MySocialFacade.LoadScoresForLeaderboard(true);
-        //MySocial.ShowingConcreteLeaderboardUI();//todo повесить на отдельную кнопку эту функцию
 
         //Invoke("FillTest",1.5f);
 
-        //todo после 28-го протестить на >1000 игроков. Хотя не надо, т.к. всего 25 за раз присылается и больше 100 не отобразиться.
+        //todo после 28-го протестить на >100 игроков. Хотя не надо, т.к. всего 25 за раз присылается и больше 100 не отобразиться.
     }
 
     void FillTest()
     {
-        FillTable(CreateTestItems(3));
+        FillTable(CreateTestItems(30));
     }
 
 
@@ -110,6 +110,7 @@ public class ScoreResults : MonoBehaviour
     private void OnDestroy()
     {
         GPGManager.loadScoresSucceededEvent -= FillTable;
+        ScoresNativeManager.loadScoresSucceededEvent -= FillTable;
     }
 #endif
 }

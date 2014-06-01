@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SocialPlatforms.GameCenter;
 
-public class MySocialGM : MonoSingleton<MySocialGM>
+public class MySocialNative : MonoSingleton<MySocialNative>
 {
     public static int MaxVisibleScores { get; private set; }
 
@@ -18,7 +18,7 @@ public class MySocialGM : MonoSingleton<MySocialGM>
 #endif
     }
 
-    public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts, int count = 0)
+    public static void LoadScoresForLeaderboard(bool aroundMyRankResults, int count = 0)
     {
         MaxVisibleScores = (count > 0) ? count : int.MaxValue;
 #if UNITY_IPHONE
@@ -65,9 +65,6 @@ public class MySocialGM : MonoSingleton<MySocialGM>
     }
 
 
-    // Fires when loading scores succeeds
-    public static event Action<List<GPGScore>> loadScoresSucceededEvent;
-
     private static List<GPGScore> _lastLoadedScores;
 
     private static void LoadScoresCallback(UnityEngine.SocialPlatforms.IScore[] scores)
@@ -90,16 +87,8 @@ public class MySocialGM : MonoSingleton<MySocialGM>
             _lastLoadedScores[i].displayName = users[i].userName;
         }
 
-        loadScoresSucceededEvent.Invoke(_lastLoadedScores);
-        //OnLoad
+        ScoresNativeManager.OnLoadScores(_lastLoadedScores);
     }
-
-
-
-
-
-
-
 
 
 //    public void ReportAchievement(string achievementid)
@@ -117,4 +106,19 @@ public class MySocialGM : MonoSingleton<MySocialGM>
 //#endif
 //    }
 
+}
+
+
+public static class ScoresNativeManager
+{
+    // Fires when loading scores succeeds
+    public static event Action<List<GPGScore>> loadScoresSucceededEvent;
+
+    /// <summary>
+    /// Применять только в классе MySocialNative
+    /// </summary>
+    public static void OnLoadScores(List<GPGScore> scores)
+    {
+        loadScoresSucceededEvent.Invoke(scores);
+    }
 }

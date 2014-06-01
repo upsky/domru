@@ -3,9 +3,6 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SocialPlatforms;
 
-
-//public abstract class SocialBase : MonoSingleton<SocialBase>
-//facade 
 public class MySocialPrime31 : MonoSingleton<MySocialPrime31>
 {
     private const string _leaderboardID = "CgkIuaqBk6sCEAIQEQ";
@@ -19,11 +16,11 @@ public class MySocialPrime31 : MonoSingleton<MySocialPrime31>
 #endif
     }
 
-    public static void LoadScoresForLeaderboard(bool aroundMyRankreuslts, int count = 0)
+    public static void LoadScoresForLeaderboard(bool aroundMyRankResults, int count = 0)
     {
         MaxVisibleScores = (count > 0) ? count : int.MaxValue;
 #if UNITY_IPHONE || UNITY_ANDROID
-        PlayGameServices.loadScoresForLeaderboard(_leaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankreuslts);
+        PlayGameServices.loadScoresForLeaderboard(_leaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankResults);
         Debug.LogWarning("call LoadScoresForLeaderboard");
 #endif
     }
@@ -54,7 +51,7 @@ public class MySocialPrime31 : MonoSingleton<MySocialPrime31>
         //Invoke("Authenticate",3f);
     }
 
-    private void Authenticate()
+    public static void Authenticate()
     {
         PlayGameServices.setAchievementToastSettings(GPGToastPlacement.Center, 50);
         PlayGameServices.authenticate();
