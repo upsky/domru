@@ -10,6 +10,6 @@ public class ShowLeaderBoard : MonoBehaviour
     private void OnClick()
     {
         //Debug.LogWarning(PlayGameServices.isSignedIn());
-        MySocial.ShowingConcreteLeaderboardUI();
+        MySocialFacade.ShowLeaderboard();
     }
 }

@@ -18,7 +18,7 @@ public class ScoreResults : MonoBehaviour
 
         GPGManager.loadScoresSucceededEvent += FillTable;
 
-        MySocial.LoadScoresForLeaderboard(true);
+        MySocialFacade.LoadScoresForLeaderboard(true);
         //MySocial.ShowingConcreteLeaderboardUI();//todo повесить на отдельную кнопку эту функцию
 
         //Invoke("FillTest",1.5f);
@@ -47,7 +47,7 @@ public class ScoreResults : MonoBehaviour
 
         int index = 0;
         //int yPos = 0;
-        int visibleScores = (MySocial.MaxVisibleScores > 0) ? MySocial.MaxVisibleScores : int.MaxValue;
+        int visibleScores = (MySocialFacade.MaxVisibleScores > 0) ? MySocialFacade.MaxVisibleScores : int.MaxValue;
 
         foreach (var score in scores.Take(visibleScores))
         {
@@ -86,7 +86,7 @@ public class ScoreResults : MonoBehaviour
 
 
         var sprite = line.GetSafeComponent<UISprite>();
-        if (MySocial.GetLocalPlayerInfo() != null && score.playerId == MySocial.GetLocalPlayerInfo().playerId)
+        if (MySocialFacade.GetLocalPlayerInfo() != null && score.playerId == MySocialFacade.GetLocalPlayerInfo().playerId)
             sprite.spriteName = "06_line_red";
         else
             sprite.spriteName = "05_line";

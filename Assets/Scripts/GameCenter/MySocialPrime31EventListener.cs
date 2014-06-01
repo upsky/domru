@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class MySocialEventListener : MonoSingleton<MySocialEventListener>
+public class MySocialPrime31EventListener : MonoSingleton<MySocialPrime31EventListener>
 {
 
 #if UNITY_IPHONE || UNITY_ANDROID
