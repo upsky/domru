@@ -10,7 +10,7 @@ public class MySocialNative : MonoSingleton<MySocialNative>
 {
     public static int MaxVisibleScores { get; private set; }
 
-    private const string _leaderboardID = "CgkIuaqBk6sCEAIQEQ";
+    private const string _leaderboardID = "com.omenra.domru.main";
 
     public static void SubmitScore(long score)
     {
