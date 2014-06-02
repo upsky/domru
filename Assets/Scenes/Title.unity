@@ -30172,9 +30172,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 892401069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67709aa29d0f7ea4eb0b0063a7baf1b5, type: 3}
+  m_Script: {fileID: 11500000, guid: 20617450b07aae643aab56fbc10d4925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentPlugin: 1
 --- !u!4 &892401071
 Transform:
   m_ObjectHideFlags: 0
