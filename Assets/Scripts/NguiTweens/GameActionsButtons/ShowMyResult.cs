@@ -9,9 +9,9 @@ public class ShowMyResult : MonoBehaviour
 
     private void OnClick()
     { 
-        MySocialFacade.LoadScoresForLeaderboard(true);
+        MySocialMain.Instance.LoadScoresForLeaderboard(true);
         //test only
         //var sr = FindObjectOfType<ScoreResults>();
-        //sr.FillTable(sr.CreateTestItems(30));
+        //sr.FillTable(sr.CreateTestItems(5));
     }
 }

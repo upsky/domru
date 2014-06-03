@@ -148,7 +148,7 @@ public class MainSceneManager : RequiredMonoSingleton<MainSceneManager>
     {        
         var prevTotalScore = PlayerPrefs.GetInt("totalScore");
         PlayerPrefs.SetInt("totalScore", prevTotalScore + currentScore);//здесь, чтобы сохранить до начала перетекания
-        MySocialFacade.SubmitScore(prevTotalScore + currentScore);
+        MySocialMain.Instance.SubmitScore(prevTotalScore + currentScore);
 
         yield return new WaitForSeconds(1f);//пауза перед началом перетекания счета
         

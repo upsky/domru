@@ -4,15 +4,14 @@ using System.Linq;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SocialPlatforms;
-using UnityEngine.SocialPlatforms.GameCenter;
 
-public class MySocialNative : MonoSingleton<MySocialNative>
+public class MySocialNative : MonoSingleton<MySocialNative>, IMySocial
 {
-    public static int MaxVisibleScores { get; private set; }
+    public int MaxVisibleScores { get; private set; }
 
     private const string _leaderboardID = "com.omenra.domru.main";
 
-    public static void SubmitScore(long score)
+    public void SubmitScore(long score)
     {
 #if UNITY_IPHONE
         Social.ReportScore(score, _leaderboardID, SubmitScoreCallback);
@@ -21,22 +20,43 @@ public class MySocialNative : MonoSingleton<MySocialNative>
 
     private static ILeaderboard _activeLeaderboard;
 
-    public static void LoadScoresForLeaderboard(bool aroundMyRankResults, int count = 0)
+    private void Start()
+    {
+        Debug.LogWarning("<color=green>SocialNative Start</color>");
+#if UNITY_IPHONE
+        //if (!Social.localUser.authenticated)
+        //    Authenticate();
+
+        _activeLeaderboard = Social.CreateLeaderboard();
+        _activeLeaderboard.id = _leaderboardID;
+        //GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
+#endif
+    }
+
+    public void Authenticate()
+    {
+#if UNITY_IPHONE
+        if (!Social.localUser.authenticated)
+            Social.localUser.Authenticate(AuthenticateCallback);
+#endif
+    }
+
+
+    public void LoadScoresForLeaderboard(bool aroundMyRankResults, int count = 0)
     {
         MaxVisibleScores = (count > 0) ? count : int.MaxValue;
 #if UNITY_IPHONE
         //PlayGameServices.loadScoresForLeaderboard(_leaderboardID, GPGLeaderboardTimeScope.AllTime, false, aroundMyRankreuslts);
-        Social.LoadScores(_leaderboardID,LoadScoresCallback);
-
+        //Social.LoadScores(_leaderboardID,LoadScoresCallback);
         //todo другой вариант LoadScores с указанием range
-        //_activeLeaderboard.range = new Range(0, count);//http://docs.unity3d.com/ScriptReference/Social.CreateLeaderboard.html
-        //Social.Active.LoadScores(_activeLeaderboard, LoadScoresWithRangeCallback); //http://docs.unity3d.com/ScriptReference/Social.Active.html, 
+        _activeLeaderboard.range = new Range(1, count);//http://docs.unity3d.com/ScriptReference/Social.CreateLeaderboard.html
+        Social.Active.LoadScores(_activeLeaderboard, LoadScoresWithRangeCallback); //http://docs.unity3d.com/ScriptReference/Social.Active.html, 
 
         Debug.LogWarning("call LoadScoresForLeaderboard");
 #endif
     }
 
-    public static void ShowLeaderboard()
+    public void ShowLeaderboard()
     {
 #if UNITY_IPHONE
         Social.ShowLeaderboardUI();
@@ -44,27 +64,7 @@ public class MySocialNative : MonoSingleton<MySocialNative>
 #endif
     }
 
-    private void Start()
-    {
-        Debug.LogWarning("<color=green>SocialNative Start</color>");
-#if UNITY_IPHONE
-        if (!Social.localUser.authenticated)
-            Authenticate();
-
-        //_activeLeaderboard = Social.CreateLeaderboard();
-
-        //GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
-#endif
-    }
-
-    public static void Authenticate()
-    {
-#if UNITY_IPHONE
-        Social.localUser.Authenticate(AuthenticateCallback);
-#endif
-    }
-
-    public static GPGPlayerInfo GetLocalPlayerInfo()
+    public GPGPlayerInfo GetLocalPlayerInfo()
     {
         var playerInfo = new GPGPlayerInfo {name = Social.localUser.userName, playerId = Social.localUser.id};
         Debug.LogWarning("<color=green>GetLocalPlayerInfo=true</color>");
@@ -72,15 +72,15 @@ public class MySocialNative : MonoSingleton<MySocialNative>
     }
 
 
-    private static List<GPGScore> _lastLoadedScores=new List<GPGScore>();
+    private List<GPGScore> _lastLoadedScores=new List<GPGScore>();
 
-    private static void LoadScoresWithRangeCallback(bool success)
+    private void LoadScoresWithRangeCallback(bool success)
     {
         Debug.LogWarning("<color=green>LoadScoresWithRange=" + success + "</color>");
         LoadScoresCallback(_activeLeaderboard.scores);
     }
 
-    private static void LoadScoresCallback(IScore[] scores)
+    private void LoadScoresCallback(IScore[] scores)
     {
         _lastLoadedScores.Clear();
         string[] usersIds= scores.Select(s => s.userID).ToArray();
@@ -93,7 +93,7 @@ public class MySocialNative : MonoSingleton<MySocialNative>
         Debug.LogWarning("<color=green>LoadScores=true, scoresCount=" + scores.Length + "</color>");
     }
 
-    private static void LoadUsersCallback(IUserProfile[] users)
+    private void LoadUsersCallback(IUserProfile[] users)
     {
         for (int i = 0; i < users.Count(); i++)
         {
@@ -121,16 +121,15 @@ public class MySocialNative : MonoSingleton<MySocialNative>
 
 
 
-    private static void AuthenticateCallback(bool success)
+    private void AuthenticateCallback(bool success)
     {
         Debug.LogWarning("<color=green>Authenticate=" + success + "</color>");
     }
 
-    private static void SubmitScoreCallback(bool success)
+    private void SubmitScoreCallback(bool success)
     {
         Debug.LogWarning("<color=green>SubmitScore=" + success + "</color>");
     }
-
 
 }
 

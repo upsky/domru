@@ -9,7 +9,7 @@ public class ShowTop10 : MonoBehaviour
 
     private void OnClick()
     {
-        MySocialFacade.LoadScoresForLeaderboard(false, 10);
+        MySocialMain.Instance.LoadScoresForLeaderboard(false, 10);
 
 
         //var sr = FindObjectOfType<ScoreResults>();

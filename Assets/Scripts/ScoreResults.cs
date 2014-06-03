@@ -19,7 +19,7 @@ public class ScoreResults : MonoBehaviour
         GPGManager.loadScoresSucceededEvent += FillTable;
         ScoresNativeManager.loadScoresSucceededEvent += FillTable;
 
-        MySocialFacade.LoadScoresForLeaderboard(true);
+        MySocialMain.Instance.LoadScoresForLeaderboard(true);
 
         //Invoke("FillTest",1.5f);
 
@@ -28,7 +28,7 @@ public class ScoreResults : MonoBehaviour
 
     void FillTest()
     {
-        FillTable(CreateTestItems(30));
+        FillTable(CreateTestItems(1));
     }
 
 
@@ -47,7 +47,7 @@ public class ScoreResults : MonoBehaviour
 
         int index = 0;
         //int yPos = 0;
-        int visibleScores = (MySocialFacade.MaxVisibleScores > 0) ? MySocialFacade.MaxVisibleScores : int.MaxValue;
+        int visibleScores = (MySocialMain.Instance.MaxVisibleScores > 0) ? MySocialMain.Instance.MaxVisibleScores : int.MaxValue;
 
         foreach (var score in scores.Take(visibleScores))
         {
@@ -86,7 +86,7 @@ public class ScoreResults : MonoBehaviour
 
 
         var sprite = line.GetSafeComponent<UISprite>();
-        if (MySocialFacade.GetLocalPlayerInfo() != null && score.playerId == MySocialFacade.GetLocalPlayerInfo().playerId)
+        if (MySocialMain.Instance.GetLocalPlayerInfo() != null && score.playerId == MySocialMain.Instance.GetLocalPlayerInfo().playerId)
             sprite.spriteName = "06_line_red";
         else
             sprite.spriteName = "05_line";

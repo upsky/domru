@@ -1,22 +1,37 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using System.Collections;
-using UnityEngine.SocialPlatforms;
+﻿using UnityEngine;
 
-public class MySocialPrime31 : MonoSingleton<MySocialPrime31>
+public class MySocialPrime31 : MonoSingleton<MySocialPrime31>, IMySocial
 {
     private const string _leaderboardID = "CgkIuaqBk6sCEAIQEQ";
 
-    public static int MaxVisibleScores { get; private set; }
+    public int MaxVisibleScores { get; private set; }
 
-    public static void SubmitScore(long score)
+    void Start()
+    {
+        //string s = MySocialPrime31EventListener.Instance.name;
+        //Init();
+        //Authenticate();
+        //Invoke("Authenticate",3f);
+    }
+
+    public void Authenticate()
+    {
+#if UNITY_IPHONE || UNITY_ANDROID
+        Init();
+        PlayGameServices.setAchievementToastSettings(GPGToastPlacement.Center, 50);
+        PlayGameServices.authenticate();
+        Debug.LogWarning("MySocial authenticate");
+#endif
+    }
+
+    public void SubmitScore(long score)
     {
 #if UNITY_IPHONE || UNITY_ANDROID
         PlayGameServices.submitScore(_leaderboardID, score);
 #endif
     }
 
-    public static void LoadScoresForLeaderboard(bool aroundMyRankResults, int count = 0)
+    public void LoadScoresForLeaderboard(bool aroundMyRankResults, int count = 0)
     {
         MaxVisibleScores = (count > 0) ? count : int.MaxValue;
 #if UNITY_IPHONE || UNITY_ANDROID
@@ -25,61 +40,16 @@ public class MySocialPrime31 : MonoSingleton<MySocialPrime31>
 #endif
     }
 
-    public static string ShowLeaderboard()
+    public void ShowLeaderboard()
     {
-        string ret = "ShowLeaderboardUI";
 #if UNITY_IPHONE || UNITY_ANDROID
         // show leaderboard UI
         PlayGameServices.showLeaderboard(_leaderboardID, GPGLeaderboardTimeScope.AllTime);
 #endif
-        return ret;
     }
 
-
-
-#if UNITY_IPHONE || UNITY_ANDROID
-
-
-
-    //private string text = "123";
-    // Use this for initialization
-    void Start()
+    public GPGPlayerInfo GetLocalPlayerInfo()
     {
-        string s = MySocialPrime31EventListener.Instance.name;
-        Init();
-        Authenticate();
-        //Invoke("Authenticate",3f);
-    }
-
-    public static void Authenticate()
-    {
-        PlayGameServices.setAchievementToastSettings(GPGToastPlacement.Center, 50);
-        PlayGameServices.authenticate();
-        Debug.LogWarning("MySocial authenticate");
-    }
-
-
-
-
-    private static string Init()
-    {
-        PlayGameServices.enableDebugLog(true);
-#if UNITY_IPHONE
-        // we always want to call init as soon as possible after launch. Be sure to pass your own clientId to init on iOS!
-        // This call is not required on Android.
-        //PlayGameServices.init("80302069049-5lm6co43b05m3im6usj6c8ccpg7q7570.apps.googleusercontent.com", false);//только для IOS.  Надо вставить clientID
-        //PlayGameServices.init("5lm6co43b05m3im6usj6c8ccpg7q7570.apps.googleusercontent.com", false);
-        PlayGameServices.init("80302069049.apps.googleusercontent.com", false); //так должно быть судя по этому скрину,  https://developers.google.com/games/services/images/consoleLocationOfClientId2.png
-#endif
-        //GPGManager.loadScoresSucceededEvent += Instance.loadScoresSucceededEvent;
-
-        return "inited";
-    }
-
-
-    public static GPGPlayerInfo GetLocalPlayerInfo()
-    {
-
         var playerInfo = PlayGameServices.getLocalPlayerInfo();
         Prime31.Utils.logObject(playerInfo);
 
@@ -89,14 +59,25 @@ public class MySocialPrime31 : MonoSingleton<MySocialPrime31>
         return playerInfo;
     }
 
+    private void Init()
+    {
+        string s = MySocialPrime31EventListener.Instance.name;
+        PlayGameServices.enableDebugLog(true);
+#if UNITY_IPHONE
+        // we always want to call init as soon as possible after launch. Be sure to pass your own clientId to init on iOS!
+        // This call is not required on Android.
+        //PlayGameServices.init("80302069049-5lm6co43b05m3im6usj6c8ccpg7q7570.apps.googleusercontent.com", false);//только для IOS.  Надо вставить clientID
+        //PlayGameServices.init("5lm6co43b05m3im6usj6c8ccpg7q7570.apps.googleusercontent.com", false);
+        PlayGameServices.init("80302069049.apps.googleusercontent.com", false); //так должно быть судя по этому скрину,  https://developers.google.com/games/services/images/consoleLocationOfClientId2.png
+#endif
+        //GPGManager.loadScoresSucceededEvent += Instance.loadScoresSucceededEvent;
+    }
+
+
 
     //private static void EventsSubscibe()
     //{
-
     //    GPGManager.authenticationFailedEvent
-
-
     //}
 
-#endif
 }
