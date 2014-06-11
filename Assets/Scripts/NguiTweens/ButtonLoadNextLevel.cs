@@ -19,9 +19,9 @@ public class ButtonLoadNextLevel : MonoBehaviour
         {
             int level = int.Parse(Application.loadedLevelName.Remove(0, 4));
 
-            if (level == 9) //то грузить себя снова
+            if (level == 9)
             {
-                Application.LoadLevel(Consts.SceneNames.Room9.ToString());
+                Application.LoadLevel(Consts.SceneNames.Level1.ToString());
             }
             else
             {

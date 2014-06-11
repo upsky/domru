@@ -6,8 +6,12 @@ using System.Linq;
 
 public class AstarMovementController : MonoBehaviour, IPathFinderMovement
 {
-    [SerializeField]
+    [SerializeField, ReadOnlyInInspector]
     private float _speed = 1f;
+
+    private float _rndMinSpeed = 1.4f;
+    private float _rndMaxSpeed = 1.9f;
+
 
     private Seeker _seeker;
     private Vector3[] _vectorPath;
@@ -22,13 +26,24 @@ public class AstarMovementController : MonoBehaviour, IPathFinderMovement
     /// </summary>
     private float NextWaypointDistance
     {
-        get { return Time.fixedDeltaTime * _speed* 1.01f; }
+        get { return Time.fixedDeltaTime * _speed * 1.01f; }
     }
 
     // Use this for initialization
     private void Awake()
     {
-        _seeker = GetComponent<Seeker>();        
+        _seeker = GetComponent<Seeker>();
+        if (Application.loadedLevelName.Contains("Room"))
+        {
+            int roomNumber = int.Parse(Application.loadedLevelName.Remove(0, 4));
+            _speed = 0.9f + roomNumber * 0.1f;
+        }
+        else
+        {
+            _speed = UnityEngine.Random.Range(_rndMinSpeed, _rndMaxSpeed);
+            Debug.Log(_speed);
+        }
+        Debug.Log(_speed);
     }
 
     private void FixedUpdate()
